@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
-import { Search, Package, Clock, CheckCircle2, Truck, Check, AlertCircle, ArrowLeft } from 'lucide-react';
+import { Search, Package, Clock, CheckCircle2, Truck, Check, AlertCircle, Phone, QrCode } from 'lucide-react';
 import { api } from '../services/api.js';
 import { formatPrice } from '../components/ProductCard.js';
 import { SEO } from '../components/SEO.js';
@@ -50,8 +50,8 @@ export const OrderLookupPage: React.FC = () => {
 
   const steps = [
     { key: 'PENDING', label: 'Chờ xác nhận', desc: 'Đơn hàng vừa được tạo' },
-    { key: 'PROCESSING', label: 'Đang xử lý', desc: 'Đang đóng gói và kiểm hàng' },
-    { key: 'SHIPPED', label: 'Đang giao hàng', desc: 'Đã bàn giao cho đơn vị vận chuyển' },
+    { key: 'PROCESSING', label: 'Đang đóng gói', desc: 'Kiểm tra máy & dán cường lực' },
+    { key: 'SHIPPED', label: 'Đang vận chuyển', desc: 'Bàn giao cho đơn vị vận chuyển' },
     { key: 'DELIVERED', label: 'Đã nhận hàng', desc: 'Giao hàng thành công' },
   ];
 
@@ -67,7 +67,7 @@ export const OrderLookupPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-slate-50 py-10">
-      <SEO title="Tra Cứu Đơn Hàng — PhoneStore" description="Kiểm tra tiến độ vận chuyển và chi tiết đơn hàng của bạn." />
+      <SEO title="Tra Cứu Đơn Hàng — Tấn Đạt Smartphone" description="Kiểm tra tiến độ đơn hàng tại Tấn Đạt Smartphone." />
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-xl mx-auto mb-8">
@@ -75,7 +75,7 @@ export const OrderLookupPage: React.FC = () => {
             Tra cứu hành trình đơn hàng
           </h1>
           <p className="text-sm text-slate-500 mt-2">
-            Nhập Mã đơn hàng được gửi trong tin nhắn/email để kiểm tra tình trạng giao nhận.
+            Nhập Mã đơn hàng được cấp khi hoàn tất đặt mua tại <b>Tấn Đạt Smartphone</b>.
           </p>
         </div>
 
@@ -88,7 +88,7 @@ export const OrderLookupPage: React.FC = () => {
             <input
               type="text"
               required
-              placeholder="Nhập mã đơn hàng (vd: cld8...)"
+              placeholder="Nhập mã đơn hàng (vd: cmte...)"
               value={orderId}
               onChange={(e) => setOrderId(e.target.value)}
               className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm outline-none focus:border-blue-500 focus:bg-white transition-all font-medium"
@@ -129,7 +129,7 @@ export const OrderLookupPage: React.FC = () => {
                 >
                   <Package className="w-3.5 h-3.5" />
                   {order.status === 'PENDING' && 'Chờ xác nhận'}
-                  {order.status === 'PROCESSING' && 'Đang xử lý'}
+                  {order.status === 'PROCESSING' && 'Đang đóng gói'}
                   {order.status === 'SHIPPED' && 'Đang vận chuyển'}
                   {order.status === 'DELIVERED' && 'Đã giao thành công'}
                   {order.status === 'CANCELLED' && 'Đã hủy đơn'}
@@ -177,6 +177,30 @@ export const OrderLookupPage: React.FC = () => {
               </div>
             )}
 
+            {/* Banking QR Code if chosen Banking */}
+            {order.paymentMethod === 'BANKING' && order.status === 'PENDING' && (
+              <div className="p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl border border-blue-200 flex flex-col sm:flex-row items-center gap-6">
+                <img
+                  src={`https://img.vietqr.io/image/MB-0935677775-compact2.png?amount=${order.total}&addInfo=TANDAT%20${order.id.slice(-6)}&accountName=TAN%20DAT%20SMARTPHONE`}
+                  alt="Mã QR Chuyển Khoản Tấn Đạt"
+                  className="w-40 h-40 rounded-xl bg-white p-2 border border-slate-200 shadow-sm shrink-0"
+                />
+                <div className="space-y-1.5 text-xs text-slate-700 text-center sm:text-left">
+                  <div className="inline-flex items-center gap-1 text-blue-700 font-bold text-sm">
+                    <QrCode className="w-4 h-4" />
+                    <span>Quét mã VietQR thanh toán tự động</span>
+                  </div>
+                  <p>Ngân hàng: <b className="text-slate-900">MB Bank</b></p>
+                  <p>Số tài khoản: <b className="text-blue-600 font-mono text-sm">0935677775</b></p>
+                  <p>Tên tài khoản: <b className="text-slate-900 uppercase">TẤN ĐẠT SMARTPHONE</b></p>
+                  <p>Số tiền: <b className="text-red-600 font-bold text-sm">{formatPrice(order.total)}</b></p>
+                  <p className="text-[11px] text-slate-500">
+                    Nội dung chuyển khoản: <b className="font-mono text-slate-800">TANDAT {order.id.slice(-6)}</b>
+                  </p>
+                </div>
+              </div>
+            )}
+
             {/* Customer & Shipping Information */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-50 p-6 rounded-2xl border border-slate-100 text-sm">
               <div className="space-y-1">
@@ -191,18 +215,22 @@ export const OrderLookupPage: React.FC = () => {
 
               <div className="space-y-1">
                 <h4 className="font-bold text-slate-800 text-xs uppercase tracking-wider text-slate-400 mb-2">
-                  Thanh toán & Ghi chú
+                  Thanh toán & Hỗ trợ
                 </h4>
                 <p className="text-slate-700">
-                  Phương thức: <b className="text-slate-900">{order.paymentMethod === 'COD' ? 'Thanh toán tiền mặt khi nhận hàng (COD)' : 'Chuyển khoản QR'}</b>
+                  Phương thức: <b className="text-slate-900">{order.paymentMethod === 'COD' ? 'Tiền mặt khi nhận (COD)' : 'Chuyển khoản VietQR'}</b>
                 </p>
                 {order.note && <p className="text-slate-600 italic">Ghi chú: "{order.note}"</p>}
+                <div className="pt-2 text-xs text-blue-600 font-semibold flex items-center gap-1.5">
+                  <Phone className="w-3.5 h-3.5" />
+                  <span>Hotline hỗ trợ đơn: 093 567 7775</span>
+                </div>
               </div>
             </div>
 
             {/* Items table */}
             <div>
-              <h4 className="font-bold text-slate-800 mb-4">Danh sách sản phẩm trong đơn</h4>
+              <h4 className="font-bold text-slate-800 mb-4">Sản phẩm trong đơn hàng</h4>
               <div className="divide-y divide-slate-100 border border-slate-100 rounded-2xl overflow-hidden">
                 {order.items?.map((item: any) => (
                   <div key={item.id} className="p-4 flex items-center gap-4 bg-white">
@@ -241,7 +269,7 @@ export const OrderLookupPage: React.FC = () => {
             <AlertCircle className="w-12 h-12 text-slate-300 mx-auto" />
             <h3 className="text-lg font-bold text-slate-800">Không tìm thấy đơn hàng</h3>
             <p className="text-sm text-slate-500 max-w-sm mx-auto">
-              Vui lòng kiểm tra lại chính xác Mã đơn hàng hoặc liên hệ hotline <b className="text-blue-600">1900 6868</b> để được hỗ trợ.
+              Vui lòng kiểm tra lại Mã đơn hàng hoặc liên hệ Hotline Tấn Đạt <b className="text-blue-600">093 567 7775</b> để được hỗ trợ nhanh nhất.
             </p>
           </div>
         ) : null}

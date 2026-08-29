@@ -10,6 +10,7 @@ import {
   ShieldCheck,
   Smartphone,
   ChevronRight,
+  Settings,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext.js';
 
@@ -64,6 +65,7 @@ export const AdminLayout: React.FC = () => {
     { label: 'Quản lý Sản phẩm', path: '/admin/products', icon: Package },
     { label: 'Quản lý Đơn hàng', path: '/admin/orders', icon: ShoppingBag },
     { label: 'Quản lý Tin tức & Blog', path: '/admin/blog', icon: FileText },
+    { label: 'Cài đặt Cửa hàng', path: '/admin/settings', icon: Settings },
   ];
 
   return (
@@ -73,12 +75,12 @@ export const AdminLayout: React.FC = () => {
         {/* Logo */}
         <div className="p-6 border-b border-slate-800 flex items-center justify-between">
           <Link to="/admin" className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center text-white font-bold shadow-md shadow-blue-500/20">
-              <Smartphone className="w-5 h-5" />
+            <div className="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center text-white font-black text-xs shadow-md">
+              TĐ
             </div>
             <div>
-              <span className="text-lg font-black text-white tracking-tight">PhoneStore</span>
-              <span className="block text-[10px] uppercase font-bold text-blue-400 tracking-wider">
+              <span className="text-base font-black text-white tracking-tight">TẤN ĐẠT</span>
+              <span className="block text-[10px] uppercase font-bold text-amber-400 tracking-wider">
                 Admin Center
               </span>
             </div>
@@ -119,7 +121,7 @@ export const AdminLayout: React.FC = () => {
           >
             <div className="flex items-center gap-2">
               <Home className="w-4 h-4 text-blue-400" />
-              <span>Xem cửa hàng</span>
+              <span>Xem cửa hàng Tấn Đạt</span>
             </div>
             <ChevronRight className="w-4 h-4 text-slate-500" />
           </Link>

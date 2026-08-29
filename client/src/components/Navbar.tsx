@@ -9,7 +9,9 @@ import {
   ShieldCheck,
   Menu,
   X,
-  FileText,
+  Phone,
+  MapPin,
+  Wrench,
   Package,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext.js';
@@ -33,35 +35,58 @@ export const Navbar: React.FC = () => {
   };
 
   const navLinks = [
-    { name: 'Tất cả sản phẩm', path: '/dien-thoai' },
+    { name: 'Trang chủ', path: '/' },
+    { name: 'Điện thoại', path: '/dien-thoai' },
     { name: 'iPhone', path: '/dien-thoai?brand=Apple' },
     { name: 'Samsung', path: '/dien-thoai?brand=Samsung' },
     { name: 'Xiaomi', path: '/dien-thoai?brand=Xiaomi' },
     { name: 'OPPO', path: '/dien-thoai?brand=OPPO' },
+    { name: 'Sửa Chữa & Ép Kính', path: '/dich-vu-sua-chua', highlight: true },
     { name: 'Tin Công Nghệ', path: '/blog' },
     { name: 'Tra cứu đơn hàng', path: '/tra-cuu-don-hang' },
   ];
 
   return (
-    <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-xs">
-      {/* Top banner */}
-      <div className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white text-xs py-1.5 px-4 text-center font-medium">
-        ⚡ Siêu hội mua sắm 2026: Giảm đến 5.000.000đ khi thu cũ đổi mới • Trả góp 0% lãi suất
+    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-xs">
+      {/* Top Banner with Store Credentials */}
+      <div className="bg-gradient-to-r from-blue-700 via-blue-600 to-indigo-700 text-white text-xs py-2 px-4">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 font-medium">
+          <div className="flex items-center gap-4 text-[11px] sm:text-xs">
+            <span className="flex items-center gap-1">
+              <MapPin className="w-3.5 h-3.5 text-blue-200 shrink-0" />
+              <span>Chợ Phong Xuân, Phong Điền, TP. Huế</span>
+            </span>
+            <span className="hidden md:inline text-blue-200">|</span>
+            <span className="hidden md:inline">Uy Tín • Chất Lượng • Giá Tốt • Bảo Hành Dài Hạn</span>
+          </div>
+
+          <div className="flex items-center gap-3">
+            <a
+              href="tel:0935677775"
+              className="flex items-center gap-1.5 font-bold hover:text-amber-300 transition-colors bg-white/10 px-2.5 py-0.5 rounded-full"
+            >
+              <Phone className="w-3.5 h-3.5 text-amber-300 animate-bounce" />
+              <span>Hotline: 093 567 7775</span>
+            </a>
+          </div>
+        </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20 gap-4">
-          {/* Logo */}
-          <Link to="/" className="flex items-center gap-2.5 shrink-0 group">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-md shadow-blue-500/20 group-hover:scale-105 transition-transform">
-              <Smartphone className="w-5 h-5" />
+          {/* Brand Logo TĐ TẤN ĐẠT SMARTPHONE */}
+          <Link to="/" className="flex items-center gap-3 shrink-0 group">
+            <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-blue-700 to-blue-500 flex flex-col items-center justify-center text-white shadow-md shadow-blue-600/30 group-hover:scale-105 transition-transform border border-blue-400/40">
+              <span className="text-xs font-black tracking-tighter leading-none text-amber-300">TĐ</span>
+              <Smartphone className="w-4 h-4 text-white" />
             </div>
             <div>
-              <span className="text-xl sm:text-2xl font-black bg-gradient-to-r from-blue-700 to-indigo-700 bg-clip-text text-transparent tracking-tight">
-                PhoneStore
-              </span>
-              <span className="hidden sm:inline-block ml-1.5 text-[10px] uppercase font-bold tracking-widest text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded">
-                Official
+              <div className="text-lg sm:text-2xl font-black tracking-tight flex items-baseline gap-1">
+                <span className="text-slate-900">TẤN ĐẠT</span>
+                <span className="text-blue-600 text-sm sm:text-base font-extrabold uppercase">SMARTPHONE</span>
+              </div>
+              <span className="text-[10px] text-slate-500 font-semibold block -mt-1 tracking-tight">
+                MUA BÁN • SỬA CHỮA • ÉP KÍNH
               </span>
             </div>
           </Link>
@@ -73,10 +98,10 @@ export const Navbar: React.FC = () => {
           >
             <input
               type="text"
-              placeholder="Bạn muốn tìm điện thoại gì? (vd: iPhone 16, S25...)"
+              placeholder="Tìm kiếm điện thoại, giá tốt tại Tấn Đạt..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 bg-slate-100/80 hover:bg-slate-100 focus:bg-white text-sm rounded-full border border-transparent focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all outline-none"
+              className="w-full pl-10 pr-4 py-2.5 bg-slate-100/90 hover:bg-slate-100 focus:bg-white text-sm rounded-full border border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all outline-none"
             />
             <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
           </form>
@@ -86,12 +111,12 @@ export const Navbar: React.FC = () => {
             {/* Cart Button */}
             <Link
               to="/gio-hang"
-              className="relative p-2.5 text-slate-700 hover:text-blue-600 hover:bg-blue-50/70 rounded-full transition-all"
+              className="relative p-2.5 text-slate-700 hover:text-blue-600 hover:bg-blue-50 rounded-full transition-all"
               title="Giỏ hàng"
             >
               <ShoppingCart className="w-6 h-6" />
               {totalItems > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 bg-gradient-to-r from-red-500 to-rose-600 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center shadow-xs animate-pulse">
+                <span className="absolute -top-0.5 -right-0.5 bg-red-600 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center shadow-xs animate-pulse">
                   {totalItems > 99 ? '99+' : totalItems}
                 </span>
               )}
@@ -163,7 +188,7 @@ export const Navbar: React.FC = () => {
             ) : (
               <Link
                 to="/login"
-                className="flex items-center gap-1.5 text-xs sm:text-sm font-semibold bg-blue-600 hover:bg-blue-700 text-white px-3.5 py-2 sm:px-4 sm:py-2.5 rounded-full shadow-sm hover:shadow transition-all"
+                className="flex items-center gap-1.5 text-xs sm:text-sm font-bold bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-full shadow-sm transition-all"
               >
                 <UserIcon className="w-4 h-4" />
                 <span>Đăng nhập</span>
@@ -188,8 +213,10 @@ export const Navbar: React.FC = () => {
               <Link
                 key={link.name}
                 to={link.path}
-                className={`px-4 py-2 rounded-xl transition-all whitespace-nowrap ${
-                  isActive
+                className={`px-3.5 py-1.5 rounded-xl transition-all whitespace-nowrap ${
+                  link.highlight
+                    ? 'bg-amber-50 text-amber-800 border border-amber-200 hover:bg-amber-100 font-bold'
+                    : isActive
                     ? 'bg-blue-600 text-white shadow-xs'
                     : 'text-slate-600 hover:text-blue-600 hover:bg-slate-100/70'
                 }`}
@@ -207,7 +234,7 @@ export const Navbar: React.FC = () => {
           <form onSubmit={handleSearch} className="relative">
             <input
               type="text"
-              placeholder="Tìm kiếm sản phẩm..."
+              placeholder="Tìm kiếm điện thoại..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-10 pr-4 py-2.5 bg-slate-100 text-sm rounded-xl outline-none"
@@ -221,7 +248,11 @@ export const Navbar: React.FC = () => {
                 key={link.name}
                 to={link.path}
                 onClick={() => setMobileMenuOpen(false)}
-                className="block px-3 py-2.5 rounded-lg text-sm font-semibold text-slate-700 hover:bg-blue-50 hover:text-blue-600"
+                className={`block px-3 py-2.5 rounded-lg text-sm font-semibold ${
+                  link.highlight
+                    ? 'bg-amber-50 text-amber-800 font-bold'
+                    : 'text-slate-700 hover:bg-blue-50 hover:text-blue-600'
+                }`}
               >
                 {link.name}
               </Link>

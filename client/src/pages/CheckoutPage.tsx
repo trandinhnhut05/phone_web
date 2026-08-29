@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { ShieldCheck, Truck, CreditCard, Banknote, QrCode, CheckCircle2, ArrowLeft } from 'lucide-react';
+import { ShieldCheck, Truck, CreditCard, Banknote, QrCode, ArrowLeft, Smartphone } from 'lucide-react';
 import { useCart } from '../context/CartContext.js';
 import { useAuth } from '../context/AuthContext.js';
 import { api } from '../services/api.js';
@@ -59,7 +59,7 @@ export const CheckoutPage: React.FC = () => {
       const res = await api.createOrder(orderPayload);
       if (res.success && res.data) {
         clearCart();
-        toast.success('Đặt hàng thành công!');
+        toast.success('Đặt hàng thành công tại Tấn Đạt Smartphone!');
         navigate(`/tra-cuu-don-hang?id=${res.data.id}&phone=${customerPhone}`);
       }
     } catch (err: any) {
@@ -69,9 +69,11 @@ export const CheckoutPage: React.FC = () => {
     }
   };
 
+  const qrImageUrl = `https://img.vietqr.io/image/MB-0935677775-compact2.png?amount=${totalPrice}&addInfo=TANDAT%20${customerPhone || 'MUA%20HANG'}&accountName=TAN%20DAT%20SMARTPHONE`;
+
   return (
     <div className="min-h-screen bg-slate-50 py-10">
-      <SEO title="Thanh Toán Đơn Hàng — PhoneStore" description="Hoàn tất đơn hàng với phương thức thanh toán an toàn, linh hoạt." />
+      <SEO title="Thanh Toán Đơn Hàng — Tấn Đạt Smartphone" description="Đặt hàng online uy tín, giao tận nơi hoặc nhận tại Chợ Phong Xuân, Phong Điền, TP. Huế." />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <Link
@@ -83,7 +85,7 @@ export const CheckoutPage: React.FC = () => {
         </Link>
 
         <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mb-8">
-          Thông tin đặt hàng & thanh toán
+          Thông tin đặt hàng tại Tấn Đạt Smartphone
         </h1>
 
         <form onSubmit={handleSubmitOrder}>
@@ -94,7 +96,7 @@ export const CheckoutPage: React.FC = () => {
               <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-xs space-y-4">
                 <div className="flex items-center gap-2 pb-4 border-b border-slate-100 font-bold text-slate-800 text-lg">
                   <Truck className="w-5 h-5 text-blue-600" />
-                  <span>1. Địa chỉ nhận hàng</span>
+                  <span>1. Địa chỉ giao nhận hàng</span>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -129,11 +131,11 @@ export const CheckoutPage: React.FC = () => {
 
                 <div>
                   <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5">
-                    Email nhận thông báo đơn hàng
+                    Email nhận xác nhận đơn hàng
                   </label>
                   <input
                     type="email"
-                    placeholder="vd: email@domain.com (tùy chọn)"
+                    placeholder="email@example.com (tùy chọn)"
                     value={customerEmail}
                     onChange={(e) => setCustomerEmail(e.target.value)}
                     className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:border-blue-500 focus:bg-white transition-all"
@@ -142,12 +144,12 @@ export const CheckoutPage: React.FC = () => {
 
                 <div>
                   <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5">
-                    Địa chỉ chi tiết (Số nhà, Tên đường, Phường/Xã, Quận/Huyện, Tỉnh/TP) <span className="text-red-500">*</span>
+                    Địa chỉ nhận hàng chi tiết <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="text"
                     required
-                    placeholder="vd: Số 123 Đường Nguyễn Trãi, Phường Bến Thành, Quận 1, TP. HCM"
+                    placeholder="vd: Thôn Phong Thu, Xã Phong Xuân, Huyện Phong Điền, TP. Huế"
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
                     className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:border-blue-500 focus:bg-white transition-all"
@@ -156,11 +158,11 @@ export const CheckoutPage: React.FC = () => {
 
                 <div>
                   <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5">
-                    Ghi chú giao hàng
+                    Ghi chú (yêu cầu dán cường lực, giờ giao máy...)
                   </label>
                   <textarea
                     rows={2}
-                    placeholder="Giao trong giờ hành chính, gọi trước khi giao..."
+                    placeholder="vd: Gọi trước khi giao, dán sẵn cường lực và tặng ốp lưng..."
                     value={note}
                     onChange={(e) => setNote(e.target.value)}
                     className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:border-blue-500 focus:bg-white transition-all"
@@ -172,7 +174,7 @@ export const CheckoutPage: React.FC = () => {
               <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-xs space-y-4">
                 <div className="flex items-center gap-2 pb-4 border-b border-slate-100 font-bold text-slate-800 text-lg">
                   <CreditCard className="w-5 h-5 text-blue-600" />
-                  <span>2. Phương thức thanh toán</span>
+                  <span>2. Chọn phương thức thanh toán</span>
                 </div>
 
                 <div className="space-y-3">
@@ -199,37 +201,59 @@ export const CheckoutPage: React.FC = () => {
                         Thanh toán khi nhận hàng (COD)
                       </div>
                       <div className="text-xs text-slate-500">
-                        Đồng kiểm và thanh toán tiền mặt cho nhân viên giao hàng
+                        Kiểm tra máy và thanh toán tiền mặt cho nhân viên giao hàng
                       </div>
                     </div>
                   </label>
 
                   <label
                     onClick={() => setPaymentMethod('BANKING')}
-                    className={`flex items-center gap-4 p-4 rounded-2xl border-2 cursor-pointer transition-all ${
+                    className={`flex flex-col gap-3 p-4 rounded-2xl border-2 cursor-pointer transition-all ${
                       paymentMethod === 'BANKING'
                         ? 'border-blue-600 bg-blue-50/60 ring-2 ring-blue-500/20'
                         : 'border-slate-200 hover:border-slate-300 bg-white'
                     }`}
                   >
-                    <input
-                      type="radio"
-                      name="payment"
-                      checked={paymentMethod === 'BANKING'}
-                      onChange={() => setPaymentMethod('BANKING')}
-                      className="hidden"
-                    />
-                    <div className="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">
-                      <QrCode className="w-5 h-5" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="text-sm font-bold text-slate-900">
-                        Chuyển khoản Ngân hàng qua mã VietQR
+                    <div className="flex items-center gap-4">
+                      <input
+                        type="radio"
+                        name="payment"
+                        checked={paymentMethod === 'BANKING'}
+                        onChange={() => setPaymentMethod('BANKING')}
+                        className="hidden"
+                      />
+                      <div className="w-10 h-10 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">
+                        <QrCode className="w-5 h-5" />
                       </div>
-                      <div className="text-xs text-slate-500">
-                        Quét mã QR qua ứng dụng ngân hàng tự động xác nhận trong 30 giây
+                      <div className="flex-1">
+                        <div className="text-sm font-bold text-slate-900">
+                          Chuyển khoản Ngân hàng (Quét mã VietQR)
+                        </div>
+                        <div className="text-xs text-slate-500">
+                          Tự động điền số tiền và nội dung chuyển khoản cho Tấn Đạt Smartphone
+                        </div>
                       </div>
                     </div>
+
+                    {/* QR Code Preview */}
+                    {paymentMethod === 'BANKING' && (
+                      <div className="mt-2 p-4 bg-white rounded-2xl border border-blue-200 flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
+                        <img
+                          src={qrImageUrl}
+                          alt="VietQR Tấn Đạt Smartphone"
+                          className="w-36 h-36 rounded-xl border border-slate-200 p-1 bg-white shrink-0 shadow-xs"
+                        />
+                        <div className="text-xs space-y-1 text-slate-700">
+                          <p className="font-bold text-slate-900 text-sm">MB Bank (Ngân hàng Quân Đội)</p>
+                          <p>Số tài khoản: <b className="text-blue-600 font-mono text-sm">0935677775</b></p>
+                          <p>Chủ tài khoản: <b className="text-slate-900 uppercase">TẤN ĐẠT SMARTPHONE</b></p>
+                          <p>Số tiền: <b className="text-red-600 font-bold">{formatPrice(totalPrice)}</b></p>
+                          <p className="text-[11px] text-slate-500 pt-1">
+                            * Bạn cũng có thể tạo đơn hàng trước, sau đó quét mã QR tại trang tra cứu đơn hàng.
+                          </p>
+                        </div>
+                      </div>
+                    )}
                   </label>
                 </div>
               </div>
@@ -270,8 +294,12 @@ export const CheckoutPage: React.FC = () => {
                     <span className="font-semibold text-slate-900">{formatPrice(totalPrice)}</span>
                   </div>
                   <div className="flex justify-between text-slate-600">
-                    <span>Phí vận chuyển</span>
-                    <span className="font-semibold text-emerald-600">Miễn phí</span>
+                    <span>Vận chuyển / Giao nhận</span>
+                    <span className="font-semibold text-emerald-600">Miễn phí toàn quốc</span>
+                  </div>
+                  <div className="flex justify-between text-slate-600">
+                    <span>Bảo hành kèm theo</span>
+                    <span className="font-semibold text-emerald-600">12 Tháng 1 đổi 1</span>
                   </div>
                   <div className="pt-3 border-t border-slate-100 flex justify-between items-baseline">
                     <span className="text-base font-bold text-slate-900">Tổng thanh toán</span>
@@ -284,12 +312,12 @@ export const CheckoutPage: React.FC = () => {
                   disabled={submitting}
                   className="w-full py-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-black rounded-2xl shadow-xl shadow-blue-600/30 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
                 >
-                  {submitting ? 'Đang xử lý đặt hàng...' : 'Xác nhận đặt hàng ngay'}
+                  {submitting ? 'Đang gửi đơn hàng...' : 'Xác nhận đặt mua ngay'}
                 </button>
 
                 <div className="flex items-center gap-2 text-xs text-slate-400 justify-center">
                   <ShieldCheck className="w-4 h-4 text-emerald-500" />
-                  <span>Cam kết bảo mật & quyền lợi người mua hàng</span>
+                  <span>Cam kết Uy Tín & Bảo Hành Dài Hạn</span>
                 </div>
               </div>
             </div>

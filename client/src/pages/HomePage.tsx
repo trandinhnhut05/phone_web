@@ -8,6 +8,10 @@ import {
   Truck,
   RotateCcw,
   Headphones,
+  Wrench,
+  Award,
+  Phone,
+  MapPin,
   CheckCircle2,
 } from 'lucide-react';
 import { api } from '../services/api.js';
@@ -40,23 +44,24 @@ export const HomePage: React.FC = () => {
   }, []);
 
   const brands = [
-    { name: 'Apple iPhone', slug: 'Apple', logo: '', color: 'from-slate-900 to-slate-800' },
+    { name: 'iPhone Chính Hãng', slug: 'Apple', logo: '', color: 'from-slate-900 to-slate-800' },
     { name: 'Samsung Galaxy', slug: 'Samsung', logo: 'SAMSUNG', color: 'from-blue-900 to-blue-800' },
-    { name: 'Xiaomi Flagship', slug: 'Xiaomi', logo: 'MI', color: 'from-orange-600 to-amber-600' },
-    { name: 'OPPO Series', slug: 'OPPO', logo: 'OPPO', color: 'from-emerald-700 to-teal-800' },
+    { name: 'Xiaomi Giá Tốt', slug: 'Xiaomi', logo: 'MI', color: 'from-orange-600 to-amber-600' },
+    { name: 'OPPO Camera Đẹp', slug: 'OPPO', logo: 'OPPO', color: 'from-emerald-700 to-teal-800' },
   ];
 
   const structuredData = {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
-    name: 'PhoneStore Vietnam',
+    name: 'Tấn Đạt Smartphone',
     image: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1200&q=80',
-    telephone: '19006868',
-    priceRange: '5000000VND - 50000000VND',
+    telephone: '0935677775',
+    priceRange: '2000000VND - 50000000VND',
     address: {
       '@type': 'PostalAddress',
-      streetAddress: '123 Đường Công Nghệ, Quận 1',
-      addressLocality: 'Hồ Chí Minh',
+      streetAddress: 'Chợ Phong Xuân',
+      addressLocality: 'Huyện Phong Điền',
+      addressRegion: 'Thừa Thiên Huế',
       addressCountry: 'VN',
     },
   };
@@ -64,63 +69,69 @@ export const HomePage: React.FC = () => {
   return (
     <div className="min-h-screen bg-slate-50">
       <SEO
-        title="PhoneStore — Hệ Thống Điện Thoại Chính Hãng Giá Tốt Nhất"
-        description="Mua điện thoại iPhone 16 Pro Max, Samsung Galaxy S25 Ultra, Xiaomi 15 Pro, OPPO Find X8 chính hãng 100%, bảo hành uy tín."
+        title="Tấn Đạt Smartphone — Mua Bán, Sửa Chữa & Ép Kính Chuyên Nghiệp (TP. Huế)"
+        description="Tấn Đạt Smartphone: Chuyên cung cấp iPhone, Samsung, Xiaomi, OPPO chính hãng. Dịch vụ sửa chữa, thay màn hình, ép kính lấy liền tại Chợ Phong Xuân, Phong Điền, TP. Huế. Hotline: 093 567 7775."
         schema={structuredData}
       />
 
       {/* Hero Banner Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 text-white py-12 md:py-20">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.25),rgba(255,255,255,0))]"></div>
+      <section className="relative overflow-hidden bg-gradient-to-br from-slate-950 via-blue-950 to-slate-900 text-white py-12 md:py-20">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(37,99,235,0.3),rgba(255,255,255,0))]"></div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-400/30 text-blue-300 text-xs font-semibold backdrop-blur-md">
-                <Sparkles className="w-3.5 h-3.5 text-blue-400" />
-                Siêu phẩm 2026 chính thức lên kệ
+              {/* Badge Tag */}
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/20 border border-blue-400/40 text-blue-300 text-xs font-bold backdrop-blur-md">
+                <Sparkles className="w-4 h-4 text-amber-300" />
+                <span>TẤN ĐẠT SMARTPHONE — CHỢ PHONG XUÂN, HUẾ</span>
               </div>
 
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight">
-                Đỉnh Cao Công Nghệ. <br />
-                <span className="bg-gradient-to-r from-blue-400 via-indigo-300 to-sky-400 bg-clip-text text-transparent">
-                  Trải Nghiệm Đột Phá.
+              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight">
+                MUA BÁN • SỬA CHỮA <br />
+                <span className="bg-gradient-to-r from-amber-300 via-blue-300 to-sky-300 bg-clip-text text-transparent">
+                  ÉP KÍNH SMARTPHONE
                 </span>
               </h1>
 
-              <p className="text-base sm:text-lg text-slate-300 max-w-xl mx-auto lg:mx-0 leading-relaxed font-normal">
-                Sở hữu ngay các dòng flagship đình đám với mức giá ưu đãi độc quyền. Cam kết 100% hàng chính hãng, đổi trả trong 30 ngày.
+              <p className="text-sm sm:text-lg text-slate-300 max-w-xl mx-auto lg:mx-0 leading-relaxed font-normal">
+                Điểm đến tin cậy tại Thừa Thiên Huế. Cam kết <b>Uy Tín • Chất Lượng • Giá Tốt • Bảo Hành Dài Hạn</b> cho mọi khách hàng.
               </p>
 
               <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-2">
                 <Link
                   to="/dien-thoai"
-                  className="px-7 py-3.5 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-2xl shadow-lg shadow-blue-600/30 hover:shadow-blue-600/50 hover:scale-105 transition-all duration-200 flex items-center gap-2"
+                  className="px-7 py-3.5 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-2xl shadow-lg shadow-blue-600/30 hover:scale-105 transition-all duration-200 flex items-center gap-2"
                 >
-                  Khám phá ngay
+                  Xem mẫu điện thoại mới
                   <ArrowRight className="w-4 h-4" />
                 </Link>
                 <Link
-                  to="/dien-thoai?brand=Apple"
-                  className="px-7 py-3.5 bg-slate-800/80 hover:bg-slate-800 text-slate-200 hover:text-white font-semibold rounded-2xl border border-slate-700 backdrop-blur-md hover:scale-105 transition-all duration-200"
+                  to="/dich-vu-sua-chua"
+                  className="px-7 py-3.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black rounded-2xl shadow-lg shadow-amber-500/20 hover:scale-105 transition-all duration-200 flex items-center gap-2"
                 >
-                  iPhone Series
+                  <Wrench className="w-4 h-4 text-slate-950" />
+                  Dịch vụ ép kính & sửa chữa
                 </Link>
               </div>
 
-              {/* Badges list */}
-              <div className="grid grid-cols-3 gap-4 pt-6 border-t border-slate-800/80 max-w-md mx-auto lg:mx-0">
-                <div>
-                  <div className="text-xl font-extrabold text-blue-400">100%</div>
-                  <div className="text-xs text-slate-400">Chính hãng VNA</div>
+              {/* 4 Core commitments from signboard */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-6 border-t border-slate-800/80 max-w-lg mx-auto lg:mx-0 text-left">
+                <div className="p-2.5 rounded-xl bg-white/5 border border-white/10">
+                  <div className="text-xs font-black text-blue-300 uppercase">UY TÍN</div>
+                  <div className="text-[11px] text-slate-400">Hàng đầu khu vực</div>
                 </div>
-                <div>
-                  <div className="text-xl font-extrabold text-indigo-400">2H</div>
-                  <div className="text-xs text-slate-400">Giao siêu tốc</div>
+                <div className="p-2.5 rounded-xl bg-white/5 border border-white/10">
+                  <div className="text-xs font-black text-amber-300 uppercase">CHẤT LƯỢNG</div>
+                  <div className="text-[11px] text-slate-400">Máy nguyên bản</div>
                 </div>
-                <div>
-                  <div className="text-xl font-extrabold text-emerald-400">0%</div>
-                  <div className="text-xs text-slate-400">Trả góp lãi suất</div>
+                <div className="p-2.5 rounded-xl bg-white/5 border border-white/10">
+                  <div className="text-xs font-black text-emerald-300 uppercase">GIÁ TỐT</div>
+                  <div className="text-[11px] text-slate-400">Nhiều ưu đãi</div>
+                </div>
+                <div className="p-2.5 rounded-xl bg-white/5 border border-white/10">
+                  <div className="text-xs font-black text-purple-300 uppercase">BẢO HÀNH</div>
+                  <div className="text-[11px] text-slate-400">Dài hạn chu đáo</div>
                 </div>
               </div>
             </div>
@@ -128,25 +139,40 @@ export const HomePage: React.FC = () => {
             {/* Hero Image Showcase */}
             <div className="lg:col-span-5 relative">
               <div className="relative mx-auto max-w-sm lg:max-w-none">
-                <div className="absolute -inset-4 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-3xl blur-2xl opacity-40 animate-pulse"></div>
-                <div className="relative rounded-3xl overflow-hidden border border-slate-700/80 shadow-2xl bg-slate-800/50 backdrop-blur-sm p-4">
+                <div className="absolute -inset-4 bg-gradient-to-r from-blue-600 via-amber-500 to-indigo-600 rounded-3xl blur-2xl opacity-30 animate-pulse"></div>
+                <div className="relative rounded-3xl overflow-hidden border border-slate-700/80 shadow-2xl bg-slate-900/80 backdrop-blur-md p-5 space-y-4">
+                  <div className="flex items-center justify-between pb-3 border-b border-slate-800">
+                    <div className="flex items-center gap-2">
+                      <div className="w-8 h-8 rounded-xl bg-blue-600 text-white font-black text-xs flex items-center justify-center">
+                        TĐ
+                      </div>
+                      <div>
+                        <div className="text-xs font-bold text-white">TẤN ĐẠT SMARTPHONE</div>
+                        <div className="text-[10px] text-slate-400">Chợ Phong Xuân, Phong Điền, Huế</div>
+                      </div>
+                    </div>
+                    <span className="text-[11px] font-bold text-emerald-400 bg-emerald-500/10 px-2.5 py-1 rounded-full border border-emerald-500/20">
+                      Đang mở cửa
+                    </span>
+                  </div>
+
                   <img
                     src="https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=800&q=80"
-                    alt="iPhone 16 Pro Max Banner"
-                    className="w-full h-80 object-cover rounded-2xl"
+                    alt="iPhone flagship showcase"
+                    className="w-full h-56 object-cover rounded-2xl"
                   />
-                  <div className="p-4 flex items-center justify-between">
-                    <div>
-                      <span className="text-xs text-blue-400 font-bold uppercase tracking-wider">Hot Pick</span>
-                      <h4 className="text-lg font-bold text-white">iPhone 16 Pro Max</h4>
-                      <p className="text-sm font-semibold text-slate-300">Từ 34.990.000₫</p>
+
+                  <div className="p-2 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-amber-400 font-bold uppercase">Hỗ trợ tư vấn 24/7</span>
+                      <span className="text-xs text-slate-300 font-bold">093 567 7775</span>
                     </div>
-                    <Link
-                      to="/dien-thoai/iphone-16-pro-max-256gb"
-                      className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-xl transition-colors"
+                    <a
+                      href="tel:0935677775"
+                      className="w-full py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold rounded-xl text-center block text-sm transition-all"
                     >
-                      Xem ngay
-                    </Link>
+                      📞 Gọi Hotline Nhận Báo Giá Ngay
+                    </a>
                   </div>
                 </div>
               </div>
@@ -171,23 +197,23 @@ export const HomePage: React.FC = () => {
                 <h4 className="font-bold text-slate-800 group-hover:text-blue-600 transition-colors text-sm sm:text-base">
                   {brand.name}
                 </h4>
-                <span className="text-xs text-slate-400">Xem tất cả →</span>
+                <span className="text-xs text-slate-400">Xem ngay →</span>
               </div>
             </Link>
           ))}
         </div>
       </section>
 
-      {/* Featured Products / Flash Sale */}
+      {/* Featured Products / Hot Sales */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <div>
             <div className="inline-flex items-center gap-1.5 text-xs font-bold uppercase text-red-600 bg-red-50 px-3 py-1 rounded-full mb-2">
               <Flame className="w-4 h-4 text-red-500 fill-red-500" />
-              Sản phẩm bán chạy nhất
+              Sản phẩm bán chạy nhất tại Tấn Đạt Smartphone
             </div>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-              Điện Thoại Nổi Bật 2026
+              Smartphone Giá Tốt & Bảo Hành Dài Hạn
             </h2>
           </div>
 
@@ -223,15 +249,74 @@ export const HomePage: React.FC = () => {
         )}
       </section>
 
+      {/* Repair & Glass Replacement Highlight Banner */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+        <div className="bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 rounded-3xl p-8 sm:p-12 text-white relative overflow-hidden shadow-xl">
+          <div className="absolute right-0 top-0 bottom-0 w-1/2 opacity-10 bg-[radial-gradient(circle_at_center,white,transparent)]"></div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+            <div className="lg:col-span-8 space-y-4">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-400/20 text-amber-300 text-xs font-bold border border-amber-400/30">
+                <Wrench className="w-3.5 h-3.5" />
+                <span>DỊCH VỤ CHUYÊN NGHIỆP TẠI TP. HUẾ</span>
+              </div>
+              <h2 className="text-2xl sm:text-4xl font-black tracking-tight">
+                Ép Kính & Sửa Chữa Smartphone Lấy Liền
+              </h2>
+              <p className="text-sm sm:text-base text-slate-300 leading-relaxed max-w-2xl">
+                Cửa hàng Tấn Đạt trang bị hệ thống máy móc ép kính chân không công nghệ cao, thay màn hình, thay pin, sửa chữa mainboard với linh kiện chính hãng và bảo hành chu đáo.
+              </p>
+              <div className="flex flex-wrap gap-4 pt-2">
+                <Link
+                  to="/dich-vu-sua-chua"
+                  className="px-6 py-3 bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold rounded-xl text-sm transition-all"
+                >
+                  Xem Bảng Giá Sửa Chữa
+                </Link>
+                <a
+                  href="tel:0935677775"
+                  className="px-6 py-3 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl text-sm border border-white/20 transition-all flex items-center gap-2"
+                >
+                  <Phone className="w-4 h-4 text-amber-300" />
+                  Gọi 093 567 7775 (Tư Vấn Miễn Phí)
+                </a>
+              </div>
+            </div>
+
+            <div className="lg:col-span-4 bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/10 space-y-3">
+              <h4 className="font-bold text-amber-300 text-sm">Cam Kết Dịch Vụ</h4>
+              <ul className="space-y-2 text-xs text-slate-200">
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <span>Trực tiếp theo dõi quá trình sửa chữa</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <span>Lấy máy ngay sau 30 - 60 phút</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <span>Bảo hành bọt keo, bụi màn hình vĩnh viễn</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <span>Giá cả công khai, không phát sinh chi phí</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Services & Guarantees */}
       <section className="bg-white py-16 border-y border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
-              Tại sao hàng ngàn khách hàng chọn PhoneStore?
+              Tại Sao Chọn Tấn Đạt Smartphone?
             </h2>
             <p className="text-sm text-slate-500 mt-2">
-              Chúng tôi luôn đặt quyền lợi và sự hài lòng của khách hàng lên vị trí hàng đầu.
+              Chợ Phong Xuân, Phong Điền, TP. Huế — Nơi mang đến sự an tâm tuyệt đối cho chiếc điện thoại của bạn.
             </p>
           </div>
 
@@ -240,29 +325,29 @@ export const HomePage: React.FC = () => {
               <div className="w-12 h-12 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center mb-4">
                 <ShieldCheck className="w-6 h-6" />
               </div>
-              <h3 className="text-lg font-bold text-slate-900 mb-2">Chính Hãng 100%</h3>
+              <h3 className="text-lg font-bold text-slate-900 mb-2">Uy Tín & Chất Lượng</h3>
               <p className="text-sm text-slate-600 leading-relaxed">
-                Tất cả máy mới đều nguyên seal, phân phối chính ngạch tại Việt Nam với chế độ bảo hành 12 tháng tại các trung tâm ủy quyền toàn quốc.
+                Tất cả máy bán ra đều được kiểm tra kỹ thuật nghiêm ngặt 32 bước, cam kết máy nguyên zin, không bán hàng kém chất lượng.
+              </p>
+            </div>
+
+            <div className="p-6 rounded-2xl bg-slate-50 border border-slate-100 hover:border-blue-200 transition-all">
+              <div className="w-12 h-12 rounded-xl bg-amber-100 text-amber-700 flex items-center justify-center mb-4">
+                <Award className="w-6 h-6" />
+              </div>
+              <h3 className="text-lg font-bold text-slate-900 mb-2">Giá Tốt & Bảo Hành Dài Hạn</h3>
+              <p className="text-sm text-slate-600 leading-relaxed">
+                Mức giá cạnh tranh nhất khu vực Phong Điền - Huế. Chế độ bảo hành 1 đổi 1 và hỗ trợ phần mềm trọn đời.
               </p>
             </div>
 
             <div className="p-6 rounded-2xl bg-slate-50 border border-slate-100 hover:border-blue-200 transition-all">
               <div className="w-12 h-12 rounded-xl bg-indigo-100 text-indigo-600 flex items-center justify-center mb-4">
-                <Truck className="w-6 h-6" />
+                <Wrench className="w-6 h-6" />
               </div>
-              <h3 className="text-lg font-bold text-slate-900 mb-2">Giao Hàng & Đồng Kiểm</h3>
+              <h3 className="text-lg font-bold text-slate-900 mb-2">Sửa Chữa Chuyên Nghiệp</h3>
               <p className="text-sm text-slate-600 leading-relaxed">
-                Miễn phí giao hàng cho đơn từ 2.000.000₫. Khách hàng được kiểm tra ngoại quan máy và phụ kiện trước khi thanh toán.
-              </p>
-            </div>
-
-            <div className="p-6 rounded-2xl bg-slate-50 border border-slate-100 hover:border-blue-200 transition-all">
-              <div className="w-12 h-12 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center mb-4">
-                <Headphones className="w-6 h-6" />
-              </div>
-              <h3 className="text-lg font-bold text-slate-900 mb-2">Hỗ Trợ Kỹ Thuật Trọn Đời</h3>
-              <p className="text-sm text-slate-600 leading-relaxed">
-                Đội ngũ chuyên viên hỗ trợ cài đặt ứng dụng, chuyển dữ liệu từ máy cũ sang máy mới hoàn toàn miễn phí tại cửa hàng hoặc từ xa.
+                Đội ngũ thợ tay nghề cao, ép kính smartphone bằng công nghệ hiện đại lấy liền, thay thế linh kiện minh bạch.
               </p>
             </div>
           </div>
@@ -275,9 +360,9 @@ export const HomePage: React.FC = () => {
           <div className="flex items-center justify-between mb-8">
             <div>
               <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-                Tin Tức & Đánh Giá Công Nghệ
+                Mẹo Hay & Tư Vấn Công Nghệ
               </h2>
-              <p className="text-sm text-slate-500 mt-1">Cập nhật xu hướng và mẹo sử dụng điện thoại mới nhất</p>
+              <p className="text-sm text-slate-500 mt-1">Kinh nghiệm sử dụng và chọn mua smartphone từ Tấn Đạt</p>
             </div>
             <Link
               to="/blog"
