@@ -1,6 +1,7 @@
 import React from 'react';
-import { ShieldCheck, RotateCcw, Award, CheckCircle2, Phone, HelpCircle } from 'lucide-react';
+import { ShieldCheck, RotateCcw, Award, CheckCircle2, Phone } from 'lucide-react';
 import { SEO } from '../components/SEO.js';
+import { TanDatLogo } from '../components/Logo.js';
 
 export const WarrantyPolicyPage: React.FC = () => {
   return (
@@ -12,8 +13,10 @@ export const WarrantyPolicyPage: React.FC = () => {
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         <div className="text-center space-y-3">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold border border-emerald-200">
-            <ShieldCheck className="w-4 h-4 text-emerald-600" />
+          <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-emerald-50 text-emerald-700 text-xs font-bold border border-emerald-200">
+            <div className="w-5 h-5 rounded-full bg-white p-0.5 flex items-center justify-center">
+              <TanDatLogo className="w-4 h-4" />
+            </div>
             <span>BẢO HÀNH DÀI HẠN — AN TÂM TUYỆT ĐỐI</span>
           </div>
           <h1 className="text-3xl sm:text-4xl font-black text-slate-900">

@@ -5,18 +5,15 @@ import {
   ArrowRight,
   Flame,
   ShieldCheck,
-  Truck,
-  RotateCcw,
-  Headphones,
-  Wrench,
   Award,
   Phone,
-  MapPin,
+  Wrench,
   CheckCircle2,
 } from 'lucide-react';
 import { api } from '../services/api.js';
 import { ProductCard, ProductType } from '../components/ProductCard.js';
 import { SEO } from '../components/SEO.js';
+import { TanDatLogo } from '../components/Logo.js';
 
 export const HomePage: React.FC = () => {
   const [featuredProducts, setFeaturedProducts] = useState<ProductType[]>([]);
@@ -54,7 +51,7 @@ export const HomePage: React.FC = () => {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
     name: 'Tấn Đạt Smartphone',
-    image: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=1200&q=80',
+    image: '/logo.svg',
     telephone: '0935677775',
     priceRange: '2000000VND - 50000000VND',
     address: {
@@ -71,6 +68,7 @@ export const HomePage: React.FC = () => {
       <SEO
         title="Tấn Đạt Smartphone — Mua Bán, Sửa Chữa & Ép Kính Chuyên Nghiệp (TP. Huế)"
         description="Tấn Đạt Smartphone: Chuyên cung cấp iPhone, Samsung, Xiaomi, OPPO chính hãng. Dịch vụ sửa chữa, thay màn hình, ép kính lấy liền tại Chợ Phong Xuân, Phong Điền, TP. Huế. Hotline: 093 567 7775."
+        image="/logo.svg"
         schema={structuredData}
       />
 
@@ -82,8 +80,10 @@ export const HomePage: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
               {/* Badge Tag */}
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/20 border border-blue-400/40 text-blue-300 text-xs font-bold backdrop-blur-md">
-                <Sparkles className="w-4 h-4 text-amber-300" />
+              <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-blue-500/20 border border-blue-400/40 text-blue-300 text-xs font-bold backdrop-blur-md">
+                <div className="w-5 h-5 rounded-full bg-white p-0.5 flex items-center justify-center">
+                  <TanDatLogo className="w-4 h-4" />
+                </div>
                 <span>TẤN ĐẠT SMARTPHONE — CHỢ PHONG XUÂN, HUẾ</span>
               </div>
 
@@ -115,7 +115,7 @@ export const HomePage: React.FC = () => {
                 </Link>
               </div>
 
-              {/* 4 Core commitments from signboard */}
+              {/* 4 Core commitments */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-6 border-t border-slate-800/80 max-w-lg mx-auto lg:mx-0 text-left">
                 <div className="p-2.5 rounded-xl bg-white/5 border border-white/10">
                   <div className="text-xs font-black text-blue-300 uppercase">UY TÍN</div>
@@ -136,15 +136,15 @@ export const HomePage: React.FC = () => {
               </div>
             </div>
 
-            {/* Hero Image Showcase */}
+            {/* Hero Image Showcase with Official Logo */}
             <div className="lg:col-span-5 relative">
               <div className="relative mx-auto max-w-sm lg:max-w-none">
                 <div className="absolute -inset-4 bg-gradient-to-r from-blue-600 via-amber-500 to-indigo-600 rounded-3xl blur-2xl opacity-30 animate-pulse"></div>
                 <div className="relative rounded-3xl overflow-hidden border border-slate-700/80 shadow-2xl bg-slate-900/80 backdrop-blur-md p-5 space-y-4">
                   <div className="flex items-center justify-between pb-3 border-b border-slate-800">
-                    <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 rounded-xl bg-blue-600 text-white font-black text-xs flex items-center justify-center">
-                        TĐ
+                    <div className="flex items-center gap-2.5">
+                      <div className="w-10 h-10 rounded-xl bg-white p-1 flex items-center justify-center shrink-0">
+                        <TanDatLogo className="w-8 h-8" />
                       </div>
                       <div>
                         <div className="text-xs font-bold text-white">TẤN ĐẠT SMARTPHONE</div>
@@ -204,7 +204,7 @@ export const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* Featured Products / Hot Sales */}
+      {/* Featured Products */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <div>
@@ -284,7 +284,15 @@ export const HomePage: React.FC = () => {
             </div>
 
             <div className="lg:col-span-4 bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/10 space-y-3">
-              <h4 className="font-bold text-amber-300 text-sm">Cam Kết Dịch Vụ</h4>
+              <div className="flex items-center gap-3 pb-2 border-b border-white/10">
+                <div className="w-10 h-10 rounded-xl bg-white p-1 flex items-center justify-center shrink-0">
+                  <TanDatLogo className="w-8 h-8" />
+                </div>
+                <div>
+                  <h4 className="font-bold text-amber-300 text-sm">TẤN ĐẠT SMARTPHONE</h4>
+                  <p className="text-[11px] text-slate-300">Cam Kết Chất Lượng</p>
+                </div>
+              </div>
               <ul className="space-y-2 text-xs text-slate-200">
                 <li className="flex items-center gap-2">
                   <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />

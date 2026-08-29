@@ -1,6 +1,7 @@
 import React from 'react';
-import { Wrench, Phone, MessageCircle, ShieldCheck, Clock, CheckCircle2, Award, Smartphone, Cpu, BatteryCharging } from 'lucide-react';
+import { Wrench, Phone, MessageCircle, ShieldCheck, Clock, CheckCircle2, Smartphone, Cpu, BatteryCharging } from 'lucide-react';
 import { SEO } from '../components/SEO.js';
+import { TanDatLogo } from '../components/Logo.js';
 
 export const RepairServicesPage: React.FC = () => {
   const services = [
@@ -44,8 +45,10 @@ export const RepairServicesPage: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         {/* Header */}
         <div className="text-center max-w-3xl mx-auto space-y-4">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-50 text-blue-700 text-xs font-bold border border-blue-200">
-            <Wrench className="w-4 h-4 text-blue-600" />
+          <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-blue-50 text-blue-700 text-xs font-bold border border-blue-200">
+            <div className="w-5 h-5 rounded-full bg-white p-0.5 flex items-center justify-center">
+              <TanDatLogo className="w-4 h-4" />
+            </div>
             <span>TẤN ĐẠT SMARTPHONE — CHUYÊN GIA SỬA CHỮA</span>
           </div>
           <h1 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight">
