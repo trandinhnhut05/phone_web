@@ -1,4 +1,5 @@
-const API_BASE = import.meta.env.VITE_API_URL ? `${import.meta.env.VITE_API_URL}/api` : '/api';
+const envUrl = typeof import.meta !== 'undefined' && (import.meta as any).env ? (import.meta as any).env.VITE_API_URL : '';
+const API_BASE = envUrl ? `${envUrl}/api` : '/api';
 
 const getHeaders = (isJson = true) => {
   const headers: Record<string, string> = {};
