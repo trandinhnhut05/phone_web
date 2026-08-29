@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import {
-  Smartphone,
   Search,
   ShoppingCart,
   User as UserIcon,
@@ -11,11 +10,11 @@ import {
   X,
   Phone,
   MapPin,
-  Wrench,
   Package,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext.js';
 import { useCart } from '../context/CartContext.js';
+import { TanDatLogo } from './Logo.js';
 
 export const Navbar: React.FC = () => {
   const { user, isAdmin, logout } = useAuth();
@@ -75,10 +74,9 @@ export const Navbar: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 sm:h-20 gap-4">
           {/* Brand Logo TĐ TẤN ĐẠT SMARTPHONE */}
-          <Link to="/" className="flex items-center gap-3 shrink-0 group">
-            <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-blue-700 to-blue-500 flex flex-col items-center justify-center text-white shadow-md shadow-blue-600/30 group-hover:scale-105 transition-transform border border-blue-400/40">
-              <span className="text-xs font-black tracking-tighter leading-none text-amber-300">TĐ</span>
-              <Smartphone className="w-4 h-4 text-white" />
+          <Link to="/" className="flex items-center gap-2.5 shrink-0 group">
+            <div className="w-12 h-12 rounded-2xl bg-blue-50/80 p-1 flex items-center justify-center border border-blue-200 shadow-xs group-hover:scale-105 transition-transform">
+              <TanDatLogo className="w-10 h-10" />
             </div>
             <div>
               <div className="text-lg sm:text-2xl font-black tracking-tight flex items-baseline gap-1">
@@ -98,7 +96,7 @@ export const Navbar: React.FC = () => {
           >
             <input
               type="text"
-              placeholder="Tìm kiếm điện thoại, giá tốt tại Tấn Đạt..."
+              placeholder="Tìm kiếm điện thoại tại Tấn Đạt..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-10 pr-4 py-2.5 bg-slate-100/90 hover:bg-slate-100 focus:bg-white text-sm rounded-full border border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all outline-none"

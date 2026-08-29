@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
-import { Smartphone, Lock, Mail, User as UserIcon, Phone, ShieldCheck, ArrowRight } from 'lucide-react';
+import { Lock, Mail, User as UserIcon, Phone, ShieldCheck, ArrowRight } from 'lucide-react';
 import { useAuth } from '../context/AuthContext.js';
 import { api } from '../services/api.js';
 import { SEO } from '../components/SEO.js';
+import { TanDatLogo } from '../components/Logo.js';
 import toast from 'react-hot-toast';
 
 export const LoginPage: React.FC = () => {
@@ -51,7 +52,7 @@ export const LoginPage: React.FC = () => {
     setIsRegister(false);
     setEmail('admin@phoneweb.com');
     setPassword('admin123');
-    toast.success('Đã điền thông tin tài khoản Admin mẫu!');
+    toast.success('Đã điền thông tin tài khoản Admin!');
   };
 
   const handleFillDemoCustomer = () => {
@@ -63,20 +64,25 @@ export const LoginPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 py-16 flex items-center justify-center px-4 sm:px-6">
-      <SEO title={isRegister ? 'Đăng Ký Tài Khoản' : 'Đăng Nhập — PhoneStore'} />
+      <SEO title={isRegister ? 'Đăng Ký Tài Khoản' : 'Đăng Nhập — Tấn Đạt Smartphone'} />
 
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
-          <Link to="/" className="inline-flex items-center gap-2.5">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-lg shadow-blue-500/30">
-              <Smartphone className="w-6 h-6" />
+          <Link to="/" className="inline-flex flex-col items-center gap-2">
+            <div className="w-16 h-16 rounded-3xl bg-white p-2 flex items-center justify-center shadow-xl shadow-blue-500/20">
+              <TanDatLogo className="w-12 h-12" />
             </div>
-            <span className="text-3xl font-black text-white tracking-tight">
-              PhoneStore
-            </span>
+            <div className="mt-1">
+              <span className="text-2xl font-black text-white tracking-tight">
+                TẤN ĐẠT SMARTPHONE
+              </span>
+              <span className="block text-[11px] text-blue-400 font-bold uppercase tracking-wider">
+                Chợ Phong Xuân, Phong Điền, TP. Huế
+              </span>
+            </div>
           </Link>
-          <p className="text-sm text-slate-400 mt-2">
-            {isRegister ? 'Tạo tài khoản mới để nhận ưu đãi thành viên' : 'Đăng nhập vào hệ thống quản lý & mua hàng'}
+          <p className="text-xs text-slate-400 mt-2">
+            {isRegister ? 'Tạo tài khoản mới để theo dõi đơn hàng & tích điểm' : 'Đăng nhập vào hệ thống quản lý & mua hàng'}
           </p>
         </div>
 
@@ -84,7 +90,7 @@ export const LoginPage: React.FC = () => {
         <div className="bg-slate-800/60 backdrop-blur-md p-4 rounded-2xl border border-slate-700/60 mb-6 space-y-2">
           <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
             <ShieldCheck className="w-3.5 h-3.5 text-blue-400" />
-            <span>Tài khoản mẫu thử nghiệm (Quick Demo):</span>
+            <span>Tài khoản thử nghiệm nhanh (1-Click):</span>
           </div>
           <div className="grid grid-cols-2 gap-2">
             <button
@@ -159,7 +165,7 @@ export const LoginPage: React.FC = () => {
                   <div className="relative">
                     <input
                       type="tel"
-                      placeholder="0988888888"
+                      placeholder="0935677775"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
                       className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:border-blue-500 focus:bg-white"
@@ -213,7 +219,7 @@ export const LoginPage: React.FC = () => {
                 'Đang xử lý...'
               ) : (
                 <>
-                  <span>{isRegister ? 'Đăng ký ngay' : 'Đăng nhập'}</span>
+                  <span>{isRegister ? 'Đăng ký tài khoản' : 'Đăng nhập'}</span>
                   <ArrowRight className="w-4 h-4" />
                 </>
               )}

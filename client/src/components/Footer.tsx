@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Smartphone, Phone, Mail, MapPin, ShieldCheck, Truck, RotateCcw, Award, Wrench, MessageCircle } from 'lucide-react';
+import { Phone, Mail, MapPin, ShieldCheck, Award, RotateCcw, Wrench, MessageCircle } from 'lucide-react';
+import { TanDatLogo } from './Logo.js';
 
 export const Footer: React.FC = () => {
   return (
@@ -53,9 +54,8 @@ export const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-5 gap-8 py-12">
           <div className="md:col-span-2 space-y-4">
             <Link to="/" className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-blue-600 to-blue-500 flex flex-col items-center justify-center text-white font-black text-xs shadow-md">
-                <span className="text-[10px] text-amber-300">TĐ</span>
-                <Smartphone className="w-3.5 h-3.5" />
+              <div className="w-12 h-12 rounded-2xl bg-white p-1 flex items-center justify-center shadow-md shrink-0">
+                <TanDatLogo className="w-10 h-10" />
               </div>
               <div>
                 <span className="text-xl font-black text-white tracking-tight">

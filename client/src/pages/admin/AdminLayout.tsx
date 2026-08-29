@@ -8,11 +8,11 @@ import {
   Home,
   LogOut,
   ShieldCheck,
-  Smartphone,
   ChevronRight,
   Settings,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext.js';
+import { TanDatLogo } from '../../components/Logo.js';
 
 export const AdminLayout: React.FC = () => {
   const { user, isAdmin, logout, loading } = useAuth();
@@ -75,8 +75,8 @@ export const AdminLayout: React.FC = () => {
         {/* Logo */}
         <div className="p-6 border-b border-slate-800 flex items-center justify-between">
           <Link to="/admin" className="flex items-center gap-2.5">
-            <div className="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center text-white font-black text-xs shadow-md">
-              TĐ
+            <div className="w-10 h-10 rounded-2xl bg-white p-1 flex items-center justify-center shadow-md shrink-0">
+              <TanDatLogo className="w-8 h-8" />
             </div>
             <div>
               <span className="text-base font-black text-white tracking-tight">TẤN ĐẠT</span>
