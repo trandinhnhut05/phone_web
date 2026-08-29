@@ -1,16 +1,17 @@
 <svg viewBox="0 0 1000 1000" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- Smartphone Frame with Notch -->
-  <g stroke="#005bf8" stroke-width="32" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M260 260V180C260 120 300 80 360 80H395C405 80 415 88 420 108C425 128 440 140 460 140H540C560 140 575 128 580 108C585 88 595 80 605 80H640C700 80 740 120 740 180V260" />
-    <path d="M740 740V820C740 880 700 920 640 920H360C300 920 260 880 260 820V740" />
-    <line x1="450" y1="860" x2="550" y2="860" stroke-width="28" stroke-linecap="round" />
-    <line x1="475" y1="95" x2="525" y2="95" stroke-width="16" stroke-linecap="round" />
+  <!-- 1. Smartphone Frame Outline -->
+  <g stroke="#005bf8" stroke-width="40" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M260 260 V 170 C 260 110, 305 70, 370 70 H 400 C 412 70, 420 78, 426 95 C 434 118, 452 132, 478 132 H 522 C 548 132, 566 118, 574 95 C 580 78, 588 70, 600 70 H 630 C 695 70, 740 110, 740 170 V 260" />
+    <path d="M740 730 V 830 C 740 890, 695 930, 630 930 H 370 C 305 930, 260 890, 260 830 V 730" />
+    <line x1="472" y1="88" x2="528" y2="88" stroke-width="18" stroke-linecap="round" />
+    <line x1="440" y1="872" x2="560" y2="872" stroke-width="32" stroke-linecap="round" />
   </g>
 
-  <!-- Monogram T & Đ -->
+  <!-- 2. Bold TD Monogram Glyph -->
   <g fill="#005bf8">
-    <path d="M110 350L620 260L540 360L335 360L160 740L35 740L210 360L110 360Z" />
-    <path d="M570 260C740 260 890 350 890 530C890 690 750 740 600 740H415L515 540H600C675 540 740 515 740 455C740 375 660 360 570 360L645 260Z" />
-    <path d="M400 560L460 440H600L570 500H700L680 560H540L450 740H310L400 560Z" />
+    <path d="M 160 260 L 635 260 L 560 355 L 330 355 L 175 740 L 60 740 L 215 355 L 100 355 Z" />
+    <path d="M 645 260 C 790 260, 900 370, 900 520 C 900 680, 780 740, 620 740 L 405 740 L 442 645 H 620 C 710 645, 785 610, 785 520 C 785 415, 710 355, 620 355 H 570 L 645 260 Z" />
+    <path d="M 390 500 H 720 V 560 H 510 L 435 740 H 350 L 425 560 H 390 V 500 Z" />
+    <path d="M 525 425 H 620 C 665 425, 710 445, 710 490 H 495 L 525 425 Z" />
   </g>
 </svg>
