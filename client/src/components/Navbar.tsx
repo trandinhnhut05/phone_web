@@ -11,14 +11,18 @@ import {
   Phone,
   MapPin,
   Package,
+  Heart,
+  ArrowLeftRight,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext.js';
 import { useCart } from '../context/CartContext.js';
+import { useWishlist } from '../context/WishlistContext.js';
 import { TanDatLogo } from './Logo.js';
 
 export const Navbar: React.FC = () => {
   const { user, isAdmin, logout } = useAuth();
   const { totalItems } = useCart();
+  const { totalFavorites } = useWishlist();
   const navigate = useNavigate();
   const location = useLocation();
   const [searchQuery, setSearchQuery] = useState('');
@@ -40,6 +44,7 @@ export const Navbar: React.FC = () => {
     { name: 'Samsung', path: '/dien-thoai?brand=Samsung' },
     { name: 'Xiaomi', path: '/dien-thoai?brand=Xiaomi' },
     { name: 'OPPO', path: '/dien-thoai?brand=OPPO' },
+    { name: 'So sánh cấu hình', path: '/so-sanh' },
     { name: 'Sửa Chữa & Ép Kính', path: '/dich-vu-sua-chua', highlight: true },
     { name: 'Tin Công Nghệ', path: '/blog' },
     { name: 'Tra cứu đơn hàng', path: '/tra-cuu-don-hang' },
@@ -75,7 +80,7 @@ export const Navbar: React.FC = () => {
         <div className="flex items-center justify-between h-16 sm:h-20 gap-4">
           {/* Brand Logo TĐ TẤN ĐẠT SMARTPHONE */}
           <Link to="/" className="flex items-center gap-2.5 shrink-0 group">
-            <div className="w-12 h-12 rounded-2xl bg-blue-50/80 p-1 flex items-center justify-center border border-blue-200 shadow-xs group-hover:scale-105 transition-transform">
+            <div className="w-12 h-12 rounded-2xl bg-white p-1 flex items-center justify-center border border-slate-200 shadow-xs group-hover:scale-105 transition-transform">
               <TanDatLogo className="w-10 h-10" />
             </div>
             <div>
@@ -105,16 +110,30 @@ export const Navbar: React.FC = () => {
           </form>
 
           {/* Right Action Icons */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
+            {/* Wishlist Button */}
+            <Link
+              to="/yeu-thich"
+              className="relative p-2.5 text-slate-700 hover:text-rose-600 hover:bg-rose-50 rounded-full transition-all"
+              title="Danh sách yêu thích"
+            >
+              <Heart className="w-5 h-5 sm:w-6 sm:h-6" />
+              {totalFavorites > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 bg-rose-600 text-white text-[10px] sm:text-xs font-bold w-4 h-4 sm:w-5 sm:h-5 rounded-full flex items-center justify-center shadow-xs">
+                  {totalFavorites}
+                </span>
+              )}
+            </Link>
+
             {/* Cart Button */}
             <Link
               to="/gio-hang"
               className="relative p-2.5 text-slate-700 hover:text-blue-600 hover:bg-blue-50 rounded-full transition-all"
               title="Giỏ hàng"
             >
-              <ShoppingCart className="w-6 h-6" />
+              <ShoppingCart className="w-5 h-5 sm:w-6 sm:h-6" />
               {totalItems > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 bg-red-600 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center shadow-xs animate-pulse">
+                <span className="absolute -top-0.5 -right-0.5 bg-red-600 text-white text-[10px] sm:text-xs font-bold w-4 h-4 sm:w-5 sm:h-5 rounded-full flex items-center justify-center shadow-xs animate-pulse">
                   {totalItems > 99 ? '99+' : totalItems}
                 </span>
               )}
@@ -170,6 +189,15 @@ export const Navbar: React.FC = () => {
                       Đơn hàng của tôi
                     </Link>
 
+                    <Link
+                      to="/yeu-thich"
+                      onClick={() => setUserDropdownOpen(false)}
+                      className="flex items-center gap-2 px-4 py-2.5 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                    >
+                      <Heart className="w-4 h-4 text-rose-500" />
+                      Sản phẩm yêu thích
+                    </Link>
+
                     <button
                       onClick={() => {
                         logout();
@@ -186,7 +214,7 @@ export const Navbar: React.FC = () => {
             ) : (
               <Link
                 to="/login"
-                className="flex items-center gap-1.5 text-xs sm:text-sm font-bold bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-full shadow-sm transition-all"
+                className="flex items-center gap-1.5 text-xs sm:text-sm font-bold bg-blue-600 hover:bg-blue-700 text-white px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-full shadow-sm transition-all"
               >
                 <UserIcon className="w-4 h-4" />
                 <span>Đăng nhập</span>
@@ -211,7 +239,7 @@ export const Navbar: React.FC = () => {
               <Link
                 key={link.name}
                 to={link.path}
-                className={`px-3.5 py-1.5 rounded-xl transition-all whitespace-nowrap ${
+                className={`px-3 py-1.5 rounded-xl transition-all whitespace-nowrap ${
                   link.highlight
                     ? 'bg-amber-50 text-amber-800 border border-amber-200 hover:bg-amber-100 font-bold'
                     : isActive

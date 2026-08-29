@@ -4,6 +4,7 @@ import { Toaster } from 'react-hot-toast';
 import { HelmetProvider } from 'react-helmet-async';
 import { AuthProvider } from './context/AuthContext.js';
 import { CartProvider } from './context/CartContext.js';
+import { WishlistProvider } from './context/WishlistContext.js';
 
 import { Navbar } from './components/Navbar.js';
 import { Footer } from './components/Footer.js';
@@ -19,6 +20,8 @@ import { BlogListPage } from './pages/BlogListPage.js';
 import { BlogDetailPage } from './pages/BlogDetailPage.js';
 import { RepairServicesPage } from './pages/RepairServicesPage.js';
 import { WarrantyPolicyPage } from './pages/WarrantyPolicyPage.js';
+import { ComparePage } from './pages/ComparePage.js';
+import { WishlistPage } from './pages/WishlistPage.js';
 import { LoginPage } from './pages/LoginPage.js';
 
 import { AdminLayout } from './pages/admin/AdminLayout.js';
@@ -64,49 +67,53 @@ export function App() {
     <HelmetProvider>
       <AuthProvider>
         <CartProvider>
-          <BrowserRouter>
-            <Toaster
-              position="top-right"
-              toastOptions={{
-                duration: 3000,
-                style: {
-                  borderRadius: '16px',
-                  background: '#0f172a',
-                  color: '#fff',
-                  fontSize: '13px',
-                  fontWeight: 600,
-                },
-              }}
-            />
-            <Routes>
-              {/* Customer Routes */}
-              <Route element={<CustomerLayout />}>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/dien-thoai" element={<ProductsPage />} />
-                <Route path="/dien-thoai/:slug" element={<ProductDetailPage />} />
-                <Route path="/gio-hang" element={<CartPage />} />
-                <Route path="/thanh-toan" element={<CheckoutPage />} />
-                <Route path="/tra-cuu-don-hang" element={<OrderLookupPage />} />
-                <Route path="/dich-vu-sua-chua" element={<RepairServicesPage />} />
-                <Route path="/chinh-sach-bao-hanh" element={<WarrantyPolicyPage />} />
-                <Route path="/blog" element={<BlogListPage />} />
-                <Route path="/blog/:slug" element={<BlogDetailPage />} />
-                <Route path="*" element={<NotFoundPage />} />
-              </Route>
+          <WishlistProvider>
+            <BrowserRouter>
+              <Toaster
+                position="top-right"
+                toastOptions={{
+                  duration: 3000,
+                  style: {
+                    borderRadius: '16px',
+                    background: '#0f172a',
+                    color: '#fff',
+                    fontSize: '13px',
+                    fontWeight: 600,
+                  },
+                }}
+              />
+              <Routes>
+                {/* Customer Routes */}
+                <Route element={<CustomerLayout />}>
+                  <Route path="/" element={<HomePage />} />
+                  <Route path="/dien-thoai" element={<ProductsPage />} />
+                  <Route path="/dien-thoai/:slug" element={<ProductDetailPage />} />
+                  <Route path="/so-sanh" element={<ComparePage />} />
+                  <Route path="/yeu-thich" element={<WishlistPage />} />
+                  <Route path="/gio-hang" element={<CartPage />} />
+                  <Route path="/thanh-toan" element={<CheckoutPage />} />
+                  <Route path="/tra-cuu-don-hang" element={<OrderLookupPage />} />
+                  <Route path="/dich-vu-sua-chua" element={<RepairServicesPage />} />
+                  <Route path="/chinh-sach-bao-hanh" element={<WarrantyPolicyPage />} />
+                  <Route path="/blog" element={<BlogListPage />} />
+                  <Route path="/blog/:slug" element={<BlogDetailPage />} />
+                  <Route path="*" element={<NotFoundPage />} />
+                </Route>
 
-              {/* Standalone Auth */}
-              <Route path="/login" element={<LoginPage />} />
+                {/* Standalone Auth */}
+                <Route path="/login" element={<LoginPage />} />
 
-              {/* Admin Routes */}
-              <Route path="/admin" element={<AdminLayout />}>
-                <Route index element={<AdminDashboardPage />} />
-                <Route path="products" element={<AdminProductsPage />} />
-                <Route path="orders" element={<AdminOrdersPage />} />
-                <Route path="blog" element={<AdminBlogPage />} />
-                <Route path="settings" element={<AdminSettingsPage />} />
-              </Route>
-            </Routes>
-          </BrowserRouter>
+                {/* Admin Routes */}
+                <Route path="/admin" element={<AdminLayout />}>
+                  <Route index element={<AdminDashboardPage />} />
+                  <Route path="products" element={<AdminProductsPage />} />
+                  <Route path="orders" element={<AdminOrdersPage />} />
+                  <Route path="blog" element={<AdminBlogPage />} />
+                  <Route path="settings" element={<AdminSettingsPage />} />
+                </Route>
+              </Routes>
+            </BrowserRouter>
+          </WishlistProvider>
         </CartProvider>
       </AuthProvider>
     </HelmetProvider>

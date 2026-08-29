@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { ShieldCheck, Truck, CreditCard, Banknote, QrCode, ArrowLeft, Smartphone } from 'lucide-react';
+import { ShieldCheck, Truck, CreditCard, Banknote, QrCode, ArrowLeft, Tag, Check } from 'lucide-react';
 import { useCart } from '../context/CartContext.js';
 import { useAuth } from '../context/AuthContext.js';
 import { api } from '../services/api.js';
@@ -21,6 +21,11 @@ export const CheckoutPage: React.FC = () => {
   const [paymentMethod, setPaymentMethod] = useState('COD');
   const [submitting, setSubmitting] = useState(false);
 
+  // Voucher states
+  const [couponCode, setCouponCode] = useState('');
+  const [appliedCoupon, setAppliedCoupon] = useState<any | null>(null);
+  const [validatingCoupon, setValidatingCoupon] = useState(false);
+
   if (items.length === 0) {
     return (
       <div className="min-h-screen bg-slate-50 py-20 text-center">
@@ -32,6 +37,29 @@ export const CheckoutPage: React.FC = () => {
       </div>
     );
   }
+
+  const discountAmount = appliedCoupon ? appliedCoupon.discount : 0;
+  const finalTotal = Math.max(0, totalPrice - discountAmount);
+
+  const handleApplyCoupon = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!couponCode.trim()) return;
+
+    setValidatingCoupon(true);
+    try {
+      const res = await api.applyCoupon(couponCode.trim(), totalPrice);
+      if (res.success && res.data) {
+        setAppliedCoupon(res.data);
+        toast.success(res.message || 'Áp dụng mã giảm giá thành công!');
+      } else {
+        toast.error(res.message || 'Mã giảm giá không hợp lệ');
+      }
+    } catch (err: any) {
+      toast.error(err.message || 'Không thể áp dụng mã giảm giá');
+    } finally {
+      setValidatingCoupon(false);
+    }
+  };
 
   const handleSubmitOrder = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -50,6 +78,8 @@ export const CheckoutPage: React.FC = () => {
         address: address.trim(),
         note: note.trim() || null,
         paymentMethod,
+        discount: discountAmount,
+        couponCode: appliedCoupon?.code || null,
         items: items.map((item) => ({
           productId: item.id,
           qty: item.qty,
@@ -69,7 +99,7 @@ export const CheckoutPage: React.FC = () => {
     }
   };
 
-  const qrImageUrl = `https://img.vietqr.io/image/MB-0935677775-compact2.png?amount=${totalPrice}&addInfo=TANDAT%20${customerPhone || 'MUA%20HANG'}&accountName=TAN%20DAT%20SMARTPHONE`;
+  const qrImageUrl = `https://img.vietqr.io/image/MB-0935677775-compact2.png?amount=${finalTotal}&addInfo=TANDAT%20${customerPhone || 'MUA%20HANG'}&accountName=TAN%20DAT%20SMARTPHONE`;
 
   return (
     <div className="min-h-screen bg-slate-50 py-10">
@@ -247,9 +277,9 @@ export const CheckoutPage: React.FC = () => {
                           <p className="font-bold text-slate-900 text-sm">MB Bank (Ngân hàng Quân Đội)</p>
                           <p>Số tài khoản: <b className="text-blue-600 font-mono text-sm">0935677775</b></p>
                           <p>Chủ tài khoản: <b className="text-slate-900 uppercase">TẤN ĐẠT SMARTPHONE</b></p>
-                          <p>Số tiền: <b className="text-red-600 font-bold">{formatPrice(totalPrice)}</b></p>
+                          <p>Số tiền thanh toán: <b className="text-red-600 font-bold">{formatPrice(finalTotal)}</b></p>
                           <p className="text-[11px] text-slate-500 pt-1">
-                            * Bạn cũng có thể tạo đơn hàng trước, sau đó quét mã QR tại trang tra cứu đơn hàng.
+                            * Hệ thống sẽ tự động xác nhận đơn hàng ngay khi nhận được thanh toán.
                           </p>
                         </div>
                       </div>
@@ -259,7 +289,7 @@ export const CheckoutPage: React.FC = () => {
               </div>
             </div>
 
-            {/* Right Summary */}
+            {/* Right Summary & Coupons */}
             <div className="lg:col-span-5 space-y-6">
               <div className="bg-white rounded-3xl p-6 border border-slate-200 shadow-xs space-y-6 sticky top-24">
                 <h3 className="text-lg font-bold text-slate-900 pb-4 border-b border-slate-100">
@@ -288,11 +318,63 @@ export const CheckoutPage: React.FC = () => {
                   ))}
                 </div>
 
-                <div className="space-y-2.5 pt-4 border-t border-slate-100 text-sm">
+                {/* Coupon Code Section */}
+                <div className="p-3.5 bg-slate-50 rounded-2xl border border-slate-200 space-y-2">
+                  <div className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
+                    <Tag className="w-3.5 h-3.5 text-blue-600" />
+                    <span>Mã giảm giá / Voucher</span>
+                  </div>
+
+                  {appliedCoupon ? (
+                    <div className="p-2.5 bg-emerald-50 border border-emerald-200 rounded-xl flex items-center justify-between text-xs">
+                      <div>
+                        <span className="font-bold text-emerald-800">Mã: {appliedCoupon.code}</span>
+                        <p className="text-[11px] text-emerald-600">Giảm: -{formatPrice(appliedCoupon.discount)}</p>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setAppliedCoupon(null);
+                          setCouponCode('');
+                        }}
+                        className="text-[11px] text-red-500 font-bold hover:underline"
+                      >
+                        Hủy mã
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        placeholder="vd: TANDAT200, TANDAT500"
+                        value={couponCode}
+                        onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
+                        className="flex-1 px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs uppercase font-bold outline-none focus:border-blue-500"
+                      />
+                      <button
+                        type="button"
+                        onClick={handleApplyCoupon}
+                        disabled={validatingCoupon || !couponCode.trim()}
+                        className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold transition-all disabled:opacity-50"
+                      >
+                        {validatingCoupon ? 'Kiểm tra...' : 'Áp dụng'}
+                      </button>
+                    </div>
+                  )}
+                  <p className="text-[10px] text-slate-400">Gợi ý mã: <b>TANDAT200</b>, <b>TANDAT500</b>, <b>FREESHIP</b></p>
+                </div>
+
+                <div className="space-y-2.5 pt-2 border-t border-slate-100 text-sm">
                   <div className="flex justify-between text-slate-600">
                     <span>Tạm tính</span>
                     <span className="font-semibold text-slate-900">{formatPrice(totalPrice)}</span>
                   </div>
+                  {discountAmount > 0 && (
+                    <div className="flex justify-between text-emerald-600 font-semibold">
+                      <span>Giảm giá Voucher</span>
+                      <span>-{formatPrice(discountAmount)}</span>
+                    </div>
+                  )}
                   <div className="flex justify-between text-slate-600">
                     <span>Vận chuyển / Giao nhận</span>
                     <span className="font-semibold text-emerald-600">Miễn phí toàn quốc</span>
@@ -303,7 +385,7 @@ export const CheckoutPage: React.FC = () => {
                   </div>
                   <div className="pt-3 border-t border-slate-100 flex justify-between items-baseline">
                     <span className="text-base font-bold text-slate-900">Tổng thanh toán</span>
-                    <span className="text-2xl font-black text-blue-600">{formatPrice(totalPrice)}</span>
+                    <span className="text-2xl font-black text-blue-600">{formatPrice(finalTotal)}</span>
                   </div>
                 </div>
 

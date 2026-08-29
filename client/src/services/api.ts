@@ -1,89 +1,213 @@
 const API_BASE = '/api';
 
-export async function apiRequest<T = any>(
-  endpoint: string,
-  options: RequestInit = {}
-): Promise<T> {
-  const token = localStorage.getItem('phone_web_token');
-
-  const headers: HeadersInit = {
-    'Content-Type': 'application/json',
-    ...(options.headers || {}),
-  };
-
+const getHeaders = (isJson = true) => {
+  const headers: Record<string, string> = {};
+  if (isJson) {
+    headers['Content-Type'] = 'application/json';
+  }
+  const token = localStorage.getItem('token');
   if (token) {
-    (headers as any)['Authorization'] = `Bearer ${token}`;
+    headers['Authorization'] = `Bearer ${token}`;
   }
-
-  // If body is FormData, delete Content-Type to let browser set boundary
-  if (options.body instanceof FormData) {
-    delete (headers as any)['Content-Type'];
-  }
-
-  const response = await fetch(`${API_BASE}${endpoint}`, {
-    ...options,
-    headers,
-  });
-
-  const data = await response.json();
-
-  if (!response.ok) {
-    throw new Error(data.message || 'Đã xảy ra lỗi kết nối');
-  }
-
-  return data;
-}
+  return headers;
+};
 
 export const api = {
   // Auth
-  login: (data: any) => apiRequest('/auth/login', { method: 'POST', body: JSON.stringify(data) }),
-  register: (data: any) => apiRequest('/auth/register', { method: 'POST', body: JSON.stringify(data) }),
-  getMe: () => apiRequest('/auth/me'),
-  logout: () => apiRequest('/auth/logout', { method: 'POST' }),
+  login: async (credentials: any) => {
+    const res = await fetch(`${API_BASE}/auth/login`, {
+      method: 'POST',
+      headers: getHeaders(),
+      body: JSON.stringify(credentials),
+    });
+    return res.json();
+  },
+
+  register: async (data: any) => {
+    const res = await fetch(`${API_BASE}/auth/register`, {
+      method: 'POST',
+      headers: getHeaders(),
+      body: JSON.stringify(data),
+    });
+    return res.json();
+  },
+
+  getMe: async () => {
+    const res = await fetch(`${API_BASE}/auth/me`, {
+      headers: getHeaders(),
+    });
+    return res.json();
+  },
 
   // Products
-  getProducts: (params: Record<string, string> = {}) => {
-    const query = new URLSearchParams(params).toString();
-    return apiRequest(`/products?${query}`);
+  getProducts: async (params?: Record<string, string>) => {
+    const searchParams = new URLSearchParams(params);
+    const res = await fetch(`${API_BASE}/products?${searchParams.toString()}`);
+    return res.json();
   },
-  getProductBySlug: (slug: string) => apiRequest(`/products/${slug}`),
-  getProductById: (id: string) => apiRequest(`/products/id/${id}`),
-  createProduct: (data: any) => apiRequest('/products', { method: 'POST', body: JSON.stringify(data) }),
-  updateProduct: (id: string, data: any) => apiRequest(`/products/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
-  deleteProduct: (id: string) => apiRequest(`/products/${id}`, { method: 'DELETE' }),
 
-  // Categories
-  getCategories: () => apiRequest('/categories'),
-  createCategory: (data: any) => apiRequest('/categories', { method: 'POST', body: JSON.stringify(data) }),
-  updateCategory: (id: string, data: any) => apiRequest(`/categories/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
-  deleteCategory: (id: string) => apiRequest(`/categories/${id}`, { method: 'DELETE' }),
+  getTopProducts: async (limit: number = 5) => {
+    const res = await fetch(`${API_BASE}/products?limit=${limit}&sort=popular`);
+    return res.json();
+  },
+
+  getProductBySlug: async (slug: string) => {
+    const res = await fetch(`${API_BASE}/products/${slug}`);
+    return res.json();
+  },
+
+  getProductById: async (id: string) => {
+    const res = await fetch(`${API_BASE}/products/id/${id}`);
+    return res.json();
+  },
+
+  createReview: async (productId: string, data: { userName: string; userPhone?: string; rating: number; comment: string }) => {
+    const res = await fetch(`${API_BASE}/products/${productId}/reviews`, {
+      method: 'POST',
+      headers: getHeaders(),
+      body: JSON.stringify(data),
+    });
+    return res.json();
+  },
+
+  createProduct: async (data: any) => {
+    const res = await fetch(`${API_BASE}/products`, {
+      method: 'POST',
+      headers: getHeaders(),
+      body: JSON.stringify(data),
+    });
+    return res.json();
+  },
+
+  updateProduct: async (id: string, data: any) => {
+    const res = await fetch(`${API_BASE}/products/${id}`, {
+      method: 'PUT',
+      headers: getHeaders(),
+      body: JSON.stringify(data),
+    });
+    return res.json();
+  },
+
+  deleteProduct: async (id: string) => {
+    const res = await fetch(`${API_BASE}/products/${id}`, {
+      method: 'DELETE',
+      headers: getHeaders(),
+    });
+    return res.json();
+  },
+
+  // Coupons
+  applyCoupon: async (code: string, orderTotal: number) => {
+    const res = await fetch(`${API_BASE}/coupons/apply`, {
+      method: 'POST',
+      headers: getHeaders(),
+      body: JSON.stringify({ code, orderTotal }),
+    });
+    return res.json();
+  },
 
   // Orders
-  createOrder: (data: any) => apiRequest('/orders', { method: 'POST', body: JSON.stringify(data) }),
-  getOrders: (params: Record<string, string> = {}) => {
-    const query = new URLSearchParams(params).toString();
-    return apiRequest(`/orders?${query}`);
+  createOrder: async (data: any) => {
+    const res = await fetch(`${API_BASE}/orders`, {
+      method: 'POST',
+      headers: getHeaders(),
+      body: JSON.stringify(data),
+    });
+    return res.json();
   },
-  getOrderById: (id: string) => apiRequest(`/orders/${id}`),
-  updateOrderStatus: (id: string, status: string) =>
-    apiRequest(`/orders/${id}/status`, { method: 'PUT', body: JSON.stringify({ status }) }),
+
+  getOrders: async (params?: Record<string, string>) => {
+    const searchParams = new URLSearchParams(params);
+    const res = await fetch(`${API_BASE}/orders?${searchParams.toString()}`, {
+      headers: getHeaders(),
+    });
+    return res.json();
+  },
+
+  getOrderById: async (id: string) => {
+    const res = await fetch(`${API_BASE}/orders/${id}`);
+    return res.json();
+  },
+
+  updateOrderStatus: async (id: string, status: string) => {
+    const res = await fetch(`${API_BASE}/orders/${id}/status`, {
+      method: 'PATCH',
+      headers: getHeaders(),
+      body: JSON.stringify({ status }),
+    });
+    return res.json();
+  },
+
+  // Categories
+  getCategories: async () => {
+    const res = await fetch(`${API_BASE}/categories`);
+    return res.json();
+  },
 
   // Blog
-  getBlogPosts: (params: Record<string, string> = {}) => {
-    const query = new URLSearchParams(params).toString();
-    return apiRequest(`/blog-posts?${query}`);
+  getBlogPosts: async (params?: Record<string, string>) => {
+    const searchParams = new URLSearchParams(params);
+    const res = await fetch(`${API_BASE}/blog?${searchParams.toString()}`);
+    return res.json();
   },
-  getBlogPostBySlug: (slug: string) => apiRequest(`/blog-posts/${slug}`),
-  createBlogPost: (data: any) => apiRequest('/blog-posts', { method: 'POST', body: JSON.stringify(data) }),
-  updateBlogPost: (id: string, data: any) => apiRequest(`/blog-posts/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
-  deleteBlogPost: (id: string) => apiRequest(`/blog-posts/${id}`, { method: 'DELETE' }),
-  incrementBlogView: (id: string) => apiRequest(`/blog-posts/${id}/view`, { method: 'POST' }),
 
-  // Dashboard
-  getDashboardStats: () => apiRequest('/dashboard/stats'),
-  getTopProducts: () => apiRequest('/dashboard/top-products'),
+  getBlogPostBySlug: async (slug: string) => {
+    const res = await fetch(`${API_BASE}/blog/${slug}`);
+    return res.json();
+  },
 
-  // Upload
-  uploadImage: (formData: FormData) =>
-    apiRequest('/upload', { method: 'POST', body: formData }),
+  incrementBlogView: async (slug: string) => {
+    return { success: true };
+  },
+
+  createBlogPost: async (data: any) => {
+    const res = await fetch(`${API_BASE}/blog`, {
+      method: 'POST',
+      headers: getHeaders(),
+      body: JSON.stringify(data),
+    });
+    return res.json();
+  },
+
+  updateBlogPost: async (id: string, data: any) => {
+    const res = await fetch(`${API_BASE}/blog/${id}`, {
+      method: 'PUT',
+      headers: getHeaders(),
+      body: JSON.stringify(data),
+    });
+    return res.json();
+  },
+
+  deleteBlogPost: async (id: string) => {
+    const res = await fetch(`${API_BASE}/blog/${id}`, {
+      method: 'DELETE',
+      headers: getHeaders(),
+    });
+    return res.json();
+  },
+
+  // Dashboard Stats
+  getDashboardStats: async () => {
+    const res = await fetch(`${API_BASE}/dashboard/stats`, {
+      headers: getHeaders(),
+    });
+    return res.json();
+  },
+
+  // Image Upload
+  uploadImage: async (fileOrFormData: File | FormData) => {
+    let body: FormData;
+    if (fileOrFormData instanceof FormData) {
+      body = fileOrFormData;
+    } else {
+      body = new FormData();
+      body.append('image', fileOrFormData);
+    }
+    const res = await fetch(`${API_BASE}/uploads`, {
+      method: 'POST',
+      headers: getHeaders(false),
+      body,
+    });
+    return res.json();
+  },
 };

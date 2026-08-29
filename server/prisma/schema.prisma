@@ -21,15 +21,16 @@ enum OrderStatus {
 }
 
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
+  id        String    @id @default(cuid())
+  email     String    @unique
   password  String
   name      String
   phone     String?
-  role      Role     @default(USER)
+  role      Role      @default(USER)
   orders    Order[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  reviews   Review[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
 
 model Category {
@@ -48,21 +49,55 @@ model Product {
   brand       String
   price       Float
   oldPrice    Float?
-  storage     String?     // e.g. "128GB", "256GB"
-  ram         String?     // e.g. "8GB", "12GB"
+  storage     String?     // e.g. "128GB", "256GB", "512GB", "1TB"
+  ram         String?     // e.g. "8GB", "12GB", "16GB"
   stock       Int         @default(0)
   sold        Int         @default(0)
   images      String[]    // Array of image URLs
   colors      String[]    // Array of color names / hex
   description String?     @db.Text
+  highlights  String[]    // Bullet points of outstanding features
+  specs       Json?       // Detailed tech specs (Screen, Chip, Camera, Battery, Connectivity, etc.)
+  inBox       String[]    // Included accessories in box
+  warranty    String?     @default("12 Tháng chính hãng, 1 đổi 1 trong 30 ngày")
   categoryId  String?
   category    Category?   @relation(fields: [categoryId], references: [id], onDelete: SetNull)
   orderItems  OrderItem[]
+  reviews     Review[]
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
 
   @@index([brand])
   @@index([slug])
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  userName  String
+  userPhone String?
+  rating    Int      @default(5) // 1 to 5 stars
+  comment   String   @db.Text
+  verified  Boolean  @default(true) // Đã mua hàng tại Tấn Đạt Smartphone
+  createdAt DateTime @default(now())
+
+  @@index([productId])
+}
+
+model Coupon {
+  id          String    @id @default(cuid())
+  code        String    @unique
+  discount    Float     // Fixed amount (e.g., 200000) or percent (e.g., 10)
+  type        String    @default("FIXED") // FIXED or PERCENT
+  minOrder    Float?    @default(0)
+  maxDiscount Float?
+  description String?
+  expiryDate  DateTime?
+  active      Boolean   @default(true)
+  createdAt   DateTime  @default(now())
 }
 
 model Order {
@@ -73,9 +108,11 @@ model Order {
   customerPhone String
   customerEmail String?
   address       String
-  paymentMethod String      @default("COD") // COD, BANKING, MOMO, etc.
+  paymentMethod String      @default("COD") // COD, BANKING, MOMO
   status        OrderStatus @default(PENDING)
   total         Float
+  discount      Float       @default(0)
+  couponCode    String?
   note          String?
   items         OrderItem[]
   createdAt     DateTime    @default(now())

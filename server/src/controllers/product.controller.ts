@@ -57,6 +57,7 @@ export const getProducts = async (req: Request, res: Response): Promise<void> =>
         where,
         include: {
           category: { select: { id: true, name: true, slug: true } },
+          reviews: { select: { rating: true } },
         },
         orderBy,
         skip,
@@ -88,6 +89,9 @@ export const getProductBySlug = async (req: Request, res: Response): Promise<voi
       where: { slug },
       include: {
         category: true,
+        reviews: {
+          orderBy: { createdAt: 'desc' },
+        },
       },
     });
 
@@ -104,6 +108,9 @@ export const getProductBySlug = async (req: Request, res: Response): Promise<voi
       },
       take: 4,
       orderBy: { sold: 'desc' },
+      include: {
+        reviews: { select: { rating: true } },
+      },
     });
 
     res.json({
@@ -122,7 +129,10 @@ export const getProductById = async (req: Request, res: Response): Promise<void>
 
     const product = await prisma.product.findUnique({
       where: { id },
-      include: { category: true },
+      include: {
+        category: true,
+        reviews: { orderBy: { createdAt: 'desc' } },
+      },
     });
 
     if (!product) {
@@ -133,6 +143,37 @@ export const getProductById = async (req: Request, res: Response): Promise<void>
     res.json({ success: true, data: product });
   } catch (error: any) {
     res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+export const createReview = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const productId = req.params.id as string;
+    const { userName, userPhone, rating, comment } = req.body;
+
+    if (!userName || !rating || !comment) {
+      res.status(400).json({ success: false, message: 'Vui lòng điền Họ tên, số sao đánh giá và nội dung nhận xét' });
+      return;
+    }
+
+    const review = await prisma.review.create({
+      data: {
+        productId,
+        userName: userName.trim(),
+        userPhone: userPhone ? userPhone.trim() : null,
+        rating: Math.min(5, Math.max(1, parseInt(rating))),
+        comment: comment.trim(),
+        verified: true,
+      },
+    });
+
+    res.status(201).json({
+      success: true,
+      message: 'Cảm ơn bạn đã gửi đánh giá cho Tấn Đạt Smartphone!',
+      data: review,
+    });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: error.message || 'Lỗi gửi đánh giá' });
   }
 };
 
@@ -149,6 +190,10 @@ export const createProduct = async (req: Request, res: Response): Promise<void> 
       images = [],
       colors = [],
       description,
+      highlights = [],
+      specs = {},
+      inBox = [],
+      warranty,
       categoryId,
     } = req.body;
 
@@ -172,6 +217,10 @@ export const createProduct = async (req: Request, res: Response): Promise<void> 
         images: Array.isArray(images) ? images : [images],
         colors: Array.isArray(colors) ? colors : [colors],
         description,
+        highlights: Array.isArray(highlights) ? highlights : [],
+        specs: specs || {},
+        inBox: Array.isArray(inBox) ? inBox : [],
+        warranty: warranty || '12 Tháng chính hãng, 1 đổi 1 trong 30 ngày',
         categoryId: categoryId || null,
       },
       include: { category: true },
@@ -201,6 +250,10 @@ export const updateProduct = async (req: Request, res: Response): Promise<void> 
       images,
       colors,
       description,
+      highlights,
+      specs,
+      inBox,
+      warranty,
       categoryId,
     } = req.body;
 
@@ -226,6 +279,10 @@ export const updateProduct = async (req: Request, res: Response): Promise<void> 
     if (images !== undefined) updateData.images = Array.isArray(images) ? images : [images];
     if (colors !== undefined) updateData.colors = Array.isArray(colors) ? colors : [colors];
     if (description !== undefined) updateData.description = description;
+    if (highlights !== undefined) updateData.highlights = Array.isArray(highlights) ? highlights : [];
+    if (specs !== undefined) updateData.specs = specs;
+    if (inBox !== undefined) updateData.inBox = Array.isArray(inBox) ? inBox : [];
+    if (warranty !== undefined) updateData.warranty = warranty;
     if (categoryId !== undefined) updateData.categoryId = categoryId || null;
 
     const updated = await prisma.product.update({

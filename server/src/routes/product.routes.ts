@@ -6,18 +6,21 @@ import {
   createProduct,
   updateProduct,
   deleteProduct,
+  createReview,
 } from '../controllers/product.controller.js';
-import { verifyToken, requireAdmin } from '../middlewares/auth.middleware.js';
+import { requireAuth, requireAdmin } from '../middleware/auth.js';
 
 const router = Router();
 
+// Public routes
 router.get('/', getProducts);
-router.get('/id/:id', getProductById);
 router.get('/:slug', getProductBySlug);
+router.get('/id/:id', getProductById);
+router.post('/:id/reviews', createReview);
 
 // Admin-only routes
-router.post('/', verifyToken, requireAdmin, createProduct);
-router.put('/:id', verifyToken, requireAdmin, updateProduct);
-router.delete('/:id', verifyToken, requireAdmin, deleteProduct);
+router.post('/', requireAuth, requireAdmin, createProduct);
+router.put('/:id', requireAuth, requireAdmin, updateProduct);
+router.delete('/:id', requireAuth, requireAdmin, deleteProduct);
 
 export default router;

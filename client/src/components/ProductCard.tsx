@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ShoppingCart, Star, Check } from 'lucide-react';
+import { Star, ShoppingCart, Heart, ShieldCheck } from 'lucide-react';
 import { useCart } from '../context/CartContext.js';
+import { useWishlist } from '../context/WishlistContext.js';
+import toast from 'react-hot-toast';
 
 export interface ProductType {
   id: string;
@@ -17,6 +19,11 @@ export interface ProductType {
   images: string[];
   colors: string[];
   description?: string | null;
+  highlights?: string[];
+  specs?: any;
+  inBox?: string[];
+  warranty?: string | null;
+  reviews?: { rating: number }[];
 }
 
 export const formatPrice = (price: number): string => {
@@ -28,18 +35,14 @@ export const formatPrice = (price: number): string => {
 
 export const ProductCard: React.FC<{ product: ProductType }> = ({ product }) => {
   const { addToCart } = useCart();
+  const { isInWishlist, toggleWishlist } = useWishlist();
 
   const discountPercent =
     product.oldPrice && product.oldPrice > product.price
       ? Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100)
       : null;
 
-  const defaultImage =
-    product.images && product.images.length > 0
-      ? product.images[0]
-      : 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=600&q=80';
-
-  const handleQuickAdd = (e: React.MouseEvent) => {
+  const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     addToCart({
@@ -47,96 +50,115 @@ export const ProductCard: React.FC<{ product: ProductType }> = ({ product }) => 
       name: product.name,
       slug: product.slug,
       price: product.price,
-      image: defaultImage,
+      image: product.images[0] || 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=600&q=80',
+      color: product.colors[0] || 'Mặc định',
       storage: product.storage || undefined,
-      color: product.colors?.[0] || undefined,
-      stock: product.stock,
+    });
+    toast.success(`Đã thêm ${product.name} vào giỏ hàng!`);
+  };
+
+  const handleWishlist = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    toggleWishlist({
+      id: product.id,
+      name: product.name,
+      slug: product.slug,
+      brand: product.brand,
+      price: product.price,
+      oldPrice: product.oldPrice,
+      image: product.images[0] || '',
     });
   };
 
+  const isFavorite = isInWishlist(product.id);
+
+  // Compute average rating
+  const avgRating = product.reviews && product.reviews.length > 0
+    ? (product.reviews.reduce((acc, r) => acc + r.rating, 0) / product.reviews.length).toFixed(1)
+    : '5.0';
+
   return (
-    <div className="group relative bg-white rounded-2xl p-4 border border-slate-100 shadow-xs hover:shadow-xl hover:border-blue-200/80 transition-all duration-300 flex flex-col justify-between">
-      {/* Discount & Brand Tags */}
-      <div className="flex items-center justify-between gap-2 mb-2">
-        <span className="text-[11px] font-extrabold uppercase px-2.5 py-1 rounded-full bg-slate-100 text-slate-700">
-          {product.brand}
-        </span>
-        {discountPercent ? (
-          <span className="text-[11px] font-bold px-2 py-0.5 rounded-full bg-red-50 text-red-600 border border-red-200">
-            Giảm {discountPercent}%
-          </span>
-        ) : (
-          <span className="text-[11px] font-medium text-emerald-600 flex items-center gap-1">
-            <Check className="w-3 h-3" /> Còn hàng
-          </span>
-        )}
-      </div>
-
-      {/* Product Image */}
-      <Link
-        to={`/dien-thoai/${product.slug}`}
-        className="block aspect-square w-full rounded-xl overflow-hidden bg-slate-50 relative my-2"
-      >
-        <img
-          src={defaultImage}
-          alt={product.name}
-          className="w-full h-full object-cover object-center group-hover:scale-108 transition-transform duration-500"
-          loading="lazy"
-        />
-      </Link>
-
-      {/* Specs Chips */}
-      <div className="flex flex-wrap gap-1.5 my-2">
-        {product.storage && (
-          <span className="text-[11px] font-medium px-2 py-0.5 bg-blue-50 text-blue-700 rounded-md">
-            {product.storage}
-          </span>
-        )}
-        {product.ram && (
-          <span className="text-[11px] font-medium px-2 py-0.5 bg-slate-100 text-slate-600 rounded-md">
-            RAM {product.ram}
-          </span>
-        )}
-      </div>
-
-      {/* Product Title */}
-      <Link to={`/dien-thoai/${product.slug}`}>
-        <h3 className="text-sm font-bold text-slate-800 line-clamp-2 hover:text-blue-600 transition-colors min-h-[40px]">
-          {product.name}
-        </h3>
-      </Link>
-
-      {/* Colors preview */}
-      {product.colors && product.colors.length > 0 && (
-        <div className="flex items-center gap-1.5 my-2">
-          <span className="text-[11px] text-slate-400">Màu:</span>
-          <span className="text-[11px] text-slate-600 font-medium truncate">
-            {product.colors.join(', ')}
-          </span>
-        </div>
-      )}
-
-      {/* Pricing & Cart Action */}
-      <div className="pt-3 border-t border-slate-100 flex items-center justify-between gap-2 mt-auto">
-        <div>
-          <div className="text-base font-extrabold text-blue-600">
-            {formatPrice(product.price)}
-          </div>
-          {product.oldPrice && product.oldPrice > product.price && (
-            <div className="text-xs text-slate-400 line-through">
-              {formatPrice(product.oldPrice)}
-            </div>
+    <div className="group relative bg-white rounded-3xl p-4 border border-slate-200/80 shadow-xs hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between">
+      {/* Top Badges & Wishlist */}
+      <div className="flex items-center justify-between gap-1 mb-2 z-10">
+        <div className="flex flex-wrap gap-1">
+          {discountPercent && (
+            <span className="text-[10px] sm:text-xs font-black bg-red-600 text-white px-2 py-0.5 rounded-lg shadow-xs">
+              -{discountPercent}%
+            </span>
+          )}
+          {product.storage && (
+            <span className="text-[10px] font-bold bg-slate-100 text-slate-700 px-2 py-0.5 rounded-lg border border-slate-200">
+              {product.storage}
+            </span>
           )}
         </div>
 
         <button
-          onClick={handleQuickAdd}
-          disabled={product.stock <= 0}
-          className="p-2.5 bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white rounded-xl transition-all disabled:opacity-40 disabled:hover:bg-blue-50 disabled:hover:text-blue-600"
-          title={product.stock > 0 ? 'Thêm nhanh vào giỏ' : 'Hết hàng'}
+          type="button"
+          onClick={handleWishlist}
+          aria-label="Thêm vào yêu thích"
+          className={`p-2 rounded-full transition-all ${
+            isFavorite
+              ? 'bg-rose-50 text-rose-600 shadow-xs'
+              : 'text-slate-400 hover:text-rose-500 hover:bg-rose-50'
+          }`}
         >
-          <ShoppingCart className="w-4 h-4" />
+          <Heart className={`w-4 h-4 ${isFavorite ? 'fill-rose-600' : ''}`} />
         </button>
+      </div>
+
+      {/* Product Image Link */}
+      <Link to={`/dien-thoai/${product.slug}`} className="block relative overflow-hidden rounded-2xl bg-slate-50 aspect-square mb-3">
+        <img
+          src={product.images[0] || 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=600&q=80'}
+          alt={product.name}
+          className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-500"
+          loading="lazy"
+        />
+      </Link>
+
+      {/* Brand & Title */}
+      <div className="flex-1 flex flex-col justify-between">
+        <div>
+          <div className="flex items-center justify-between text-[11px] text-slate-400 mb-1 font-semibold uppercase tracking-wider">
+            <span>{product.brand}</span>
+            <div className="flex items-center gap-1 text-amber-500 font-bold">
+              <Star className="w-3 h-3 fill-amber-400" />
+              <span>{avgRating}</span>
+            </div>
+          </div>
+
+          <Link
+            to={`/dien-thoai/${product.slug}`}
+            className="text-xs sm:text-sm font-bold text-slate-900 line-clamp-2 group-hover:text-blue-600 transition-colors leading-snug"
+          >
+            {product.name}
+          </Link>
+        </div>
+
+        {/* Price & Add to Cart */}
+        <div className="mt-3 pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+          <div>
+            <div className="text-sm sm:text-base font-black text-blue-600">
+              {formatPrice(product.price)}
+            </div>
+            {product.oldPrice && product.oldPrice > product.price && (
+              <div className="text-[11px] text-slate-400 line-through">
+                {formatPrice(product.oldPrice)}
+              </div>
+            )}
+          </div>
+
+          <button
+            onClick={handleAddToCart}
+            className="p-2.5 rounded-2xl bg-blue-50 text-blue-600 hover:bg-blue-600 hover:text-white transition-all shadow-xs shrink-0"
+            title="Thêm vào giỏ"
+          >
+            <ShoppingCart className="w-4 h-4" />
+          </button>
+        </div>
       </div>
     </div>
   );

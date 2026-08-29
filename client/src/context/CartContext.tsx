@@ -10,7 +10,7 @@ export interface CartItem {
   color?: string;
   storage?: string;
   qty: number;
-  stock: number;
+  stock?: number;
 }
 
 interface CartContextType {
@@ -40,6 +40,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [items]);
 
   const addToCart = (product: Omit<CartItem, 'qty'>, qty: number = 1) => {
+    const availableStock = product.stock ?? 99;
     setItems((prev) => {
       const existingIndex = prev.findIndex(
         (i) => i.id === product.id && i.color === product.color
@@ -48,20 +49,20 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (existingIndex > -1) {
         const newItems = [...prev];
         const newQty = newItems[existingIndex].qty + qty;
-        if (newQty > product.stock) {
-          toast.error(`Số lượng trong kho chỉ còn ${product.stock} sản phẩm`);
+        if (newQty > availableStock) {
+          toast.error(`Số lượng trong kho chỉ còn ${availableStock} sản phẩm`);
           return prev;
         }
         newItems[existingIndex].qty = newQty;
         toast.success(`Đã cập nhật số lượng "${product.name}" trong giỏ hàng!`);
         return newItems;
       } else {
-        if (qty > product.stock) {
-          toast.error(`Số lượng trong kho chỉ còn ${product.stock} sản phẩm`);
+        if (qty > availableStock) {
+          toast.error(`Số lượng trong kho chỉ còn ${availableStock} sản phẩm`);
           return prev;
         }
         toast.success(`Đã thêm "${product.name}" vào giỏ hàng!`);
-        return [...prev, { ...product, qty }];
+        return [...prev, { ...product, qty, stock: availableStock }];
       }
     });
   };
@@ -80,8 +81,9 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setItems((prev) =>
       prev.map((item) => {
         if (item.id === id && item.color === color) {
-          if (qty > item.stock) {
-            toast.error(`Kho chỉ còn ${item.stock} sản phẩm`);
+          const maxStock = item.stock ?? 99;
+          if (qty > maxStock) {
+            toast.error(`Kho chỉ còn ${maxStock} sản phẩm`);
             return item;
           }
           return { ...item, qty };
