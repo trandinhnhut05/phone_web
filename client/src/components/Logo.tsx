@@ -3,55 +3,32 @@ import React from 'react';
 export const TanDatLogo: React.FC<{ className?: string }> = ({ className = 'w-10 h-10' }) => {
   return (
     <svg
-      viewBox="0 0 200 200"
+      viewBox="0 0 1000 1000"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={className}
     >
-      {/* Smartphone Outline in Background */}
-      <rect
-        x="42"
-        y="14"
-        width="116"
-        height="172"
-        rx="26"
-        stroke="#0256c4"
-        strokeWidth="6"
-        strokeLinecap="round"
-      />
-      {/* Top Notch / Speaker */}
-      <path
-        d="M80 24H120"
-        stroke="#0256c4"
-        strokeWidth="6"
-        strokeLinecap="round"
-      />
-      {/* Bottom Bar */}
-      <path
-        d="M84 176H116"
-        stroke="#0256c4"
-        strokeWidth="6"
-        strokeLinecap="round"
-      />
+      {/* Smartphone Frame with Notch and Rounded Corners */}
+      <g stroke="#005bf8" strokeWidth="32" strokeLinecap="round" strokeLinejoin="round">
+        {/* Phone Body Outline */}
+        <path d="M260 260V180C260 120 300 80 360 80H395C405 80 415 88 420 108C425 128 440 140 460 140H540C560 140 575 128 580 108C585 88 595 80 605 80H640C700 80 740 120 740 180V260" />
+        <path d="M740 740V820C740 880 700 920 640 920H360C300 920 260 880 260 820V740" />
+        {/* Bottom Speaker / Home Indicator */}
+        <line x1="450" y1="860" x2="550" y2="860" strokeWidth="28" strokeLinecap="round" />
+        {/* Top Speaker in Notch */}
+        <line x1="475" y1="95" x2="525" y2="95" strokeWidth="16" strokeLinecap="round" />
+      </g>
 
-      {/* Stylized TĐ Monogram Foreground */}
-      <g fill="#0256c4">
-        {/* Letter T: Top bar & Slanted Leg */}
-        <path
-          d="M24 64L136 54L128 72L86 76L48 152H24L64 72L24 74V64Z"
-        />
-        {/* Letter Đ: Outer curve & Inner loop */}
-        <path
-          d="M82 64C134 50 182 82 182 118C182 148 148 158 116 158H76L82 142H116C138 142 162 134 162 116C162 94 126 72 88 80L82 64Z"
-        />
-        {/* Letter Đ: Middle Crossbar */}
-        <path
-          d="M78 104H144L140 120H74L78 104Z"
-        />
-        {/* Middle Slanted Stem connection */}
-        <path
-          d="M72 152L106 82H124L90 152H72Z"
-        />
+      {/* Monogram T & Đ */}
+      <g fill="#005bf8">
+        {/* Letter T: Top slanted bar + Slanted down leg */}
+        <path d="M110 350L620 260L540 360L335 360L160 740L35 740L210 360L110 360Z" />
+
+        {/* Letter Đ: Bold D Loop with horizontal crossbar and parallel diagonal cut */}
+        <path d="M570 260C740 260 890 350 890 530C890 690 750 740 600 740H415L515 540H600C675 540 740 515 740 455C740 375 660 360 570 360L645 260Z" />
+
+        {/* Letter Đ: Inner Cutout & Diagonal Crossbar */}
+        <path d="M400 560L460 440H600L570 500H700L680 560H540L450 740H310L400 560Z" />
       </g>
     </svg>
   );
