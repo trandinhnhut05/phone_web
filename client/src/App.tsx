@@ -24,6 +24,9 @@ import { BlogListPage } from './pages/BlogListPage.js';
 import { BlogDetailPage } from './pages/BlogDetailPage.js';
 import { RepairServicesPage } from './pages/RepairServicesPage.js';
 import { WarrantyPolicyPage } from './pages/WarrantyPolicyPage.js';
+import { ReturnPolicyPage } from './pages/ReturnPolicyPage.js';
+import { PrivacyPolicyPage } from './pages/PrivacyPolicyPage.js';
+import { PaymentPolicyPage } from './pages/PaymentPolicyPage.js';
 import { ComparePage } from './pages/ComparePage.js';
 import { WishlistPage } from './pages/WishlistPage.js';
 import { LoginPage } from './pages/LoginPage.js';
@@ -103,6 +106,9 @@ export function App() {
                   <Route path="/tra-cuu-don-hang" element={<OrderLookupPage />} />
                   <Route path="/dich-vu-sua-chua" element={<RepairServicesPage />} />
                   <Route path="/chinh-sach-bao-hanh" element={<WarrantyPolicyPage />} />
+                  <Route path="/chinh-sach-doi-tra" element={<ReturnPolicyPage />} />
+                  <Route path="/chinh-sach-bao-mat" element={<PrivacyPolicyPage />} />
+                  <Route path="/hinh-thuc-thanh-toan" element={<PaymentPolicyPage />} />
                   <Route path="/blog" element={<BlogListPage />} />
                   <Route path="/blog/:slug" element={<BlogDetailPage />} />
                   <Route path="*" element={<NotFoundPage />} />

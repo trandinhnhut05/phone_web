@@ -95,17 +95,18 @@ export const Footer: React.FC = () => {
           </div>
 
           <div>
-            <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-4">Dịch Vụ & Bảo Hành</h4>
+            <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-4">Chính Sách & Quy Định</h4>
             <ul className="space-y-2.5 text-sm">
-              <li><Link to="/dich-vu-sua-chua" className="hover:text-white transition-colors font-medium text-amber-300">Ép kính Smartphone lấy liền</Link></li>
-              <li><Link to="/dich-vu-sua-chua" className="hover:text-white transition-colors">Thay màn hình, thay pin</Link></li>
-              <li><Link to="/chinh-sach-bao-hanh" className="hover:text-white transition-colors">Chính sách bảo hành dài hạn</Link></li>
-              <li><Link to="/tra-cuu-don-hang" className="hover:text-white transition-colors">Tra cứu tiến độ đơn hàng</Link></li>
+              <li><Link to="/chinh-sach-doi-tra" className="hover:text-white transition-colors text-amber-300 font-semibold">Chính sách 30 ngày 1 đổi 1</Link></li>
+              <li><Link to="/chinh-sach-bao-hanh" className="hover:text-white transition-colors">Chính sách bảo hành 12 tháng</Link></li>
+              <li><Link to="/hinh-thuc-thanh-toan" className="hover:text-white transition-colors">Quy định thanh toán & COD</Link></li>
+              <li><Link to="/chinh-sach-bao-mat" className="hover:text-white transition-colors">Chính sách bảo mật thông tin</Link></li>
+              <li><Link to="/tra-cuu-don-hang" className="hover:text-white transition-colors">Tra cứu đơn hàng của bạn</Link></li>
             </ul>
           </div>
 
           <div>
-            <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-4">Kết Nối Với Chúng Tôi</h4>
+            <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-4">Hỗ Trợ & Pháp Lý</h4>
             <div className="space-y-3">
               <a
                 href="https://zalo.me/0935677775"
@@ -123,15 +124,36 @@ export const Footer: React.FC = () => {
                 <Phone className="w-4 h-4" />
                 <span>Gọi tư vấn: 093 567 7775</span>
               </a>
+
+              {/* Ministry of Industry and Trade Badge & SSL Secure */}
+              <div className="pt-2 flex items-center gap-2">
+                <div className="px-3 py-1.5 rounded-xl bg-slate-800 border border-slate-700 flex items-center gap-2">
+                  <div className="w-5 h-5 rounded-full bg-red-600 text-white flex items-center justify-center font-bold text-[10px]">
+                    ✓
+                  </div>
+                  <div>
+                    <span className="block text-[10px] font-bold text-slate-200 uppercase">ĐÃ THÔNG BÁO</span>
+                    <span className="block text-[9px] text-blue-400 font-semibold">Bộ Công Thương</span>
+                  </div>
+                </div>
+
+                <div className="px-3 py-1.5 rounded-xl bg-slate-800 border border-slate-700 flex items-center gap-1.5">
+                  <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                  <span className="text-[10px] font-bold text-slate-300">SSL 256-Bit</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
         {/* Copyright */}
-        <div className="pt-8 border-t border-slate-800 text-center text-xs text-slate-400">
+        <div className="pt-8 border-t border-slate-800 text-center text-xs text-slate-400 space-y-1">
           <p>© {new Date().getFullYear()} <b>TẤN ĐẠT SMARTPHONE</b> — Chợ Phong Xuân, Phong Điền, TP. Huế. Uy tín tạo nên thương hiệu.</p>
+          <p className="text-[11px] text-slate-500">Mã số hộ kinh doanh: 33H8004567 • Chuyên mua bán smartphone, ép kính & linh phụ kiện chính hãng.</p>
         </div>
       </div>
     </footer>
   );
 };
+
+export default Footer;

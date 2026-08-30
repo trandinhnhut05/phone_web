@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { prisma } from '../prisma.js';
 import { AuthRequest } from '../middlewares/auth.middleware.js';
+import { notificationService } from '../services/notification.service.js';
 
 export const createOrder = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
@@ -88,6 +89,19 @@ export const createOrder = async (req: AuthRequest, res: Response): Promise<void
       }
 
       return newOrder;
+    });
+
+    // Send notifications in background (Telegram Bot & Email)
+    notificationService.notifyNewOrder({
+      id: order.id,
+      customerName: order.customerName,
+      customerPhone: order.customerPhone,
+      customerEmail: order.customerEmail,
+      address: order.address,
+      total: order.total,
+      paymentMethod: order.paymentMethod,
+      items: order.items,
+      note: order.note,
     });
 
     res.status(201).json({

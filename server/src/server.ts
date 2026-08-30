@@ -5,6 +5,8 @@ import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
+import rateLimit from 'express-rate-limit';
+
 import authRoutes from './routes/auth.routes.js';
 import productRoutes from './routes/product.routes.js';
 import categoryRoutes from './routes/category.routes.js';
@@ -28,8 +30,32 @@ app.use(cors({ origin: '*', credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Global Rate Limiting
+const globalLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 300, // Limit each IP to 300 requests per windowMs
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { success: false, message: 'Bạn gửi quá nhiều yêu cầu, vui lòng thử lại sau 15 phút' },
+});
+
+// Stricter Auth & Order Limiter
+const strictLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 30, // Limit sensitive operations
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { success: false, message: 'Thao tác quá thường xuyên. Vui lòng đợi trong giây lát' },
+});
+
+app.use('/api', globalLimiter);
+app.use('/api/auth/login', strictLimiter);
+app.use('/api/auth/register', strictLimiter);
+app.use('/api/orders', strictLimiter);
+
 // Static uploads folder
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+
 
 // API Routes
 app.use('/api/auth', authRoutes);
