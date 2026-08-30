@@ -3,20 +3,23 @@ import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 
-// Configure Cloudinary if credentials exist
-const isCloudinaryConfigured = Boolean(
-  process.env.CLOUDINARY_CLOUD_NAME &&
-  process.env.CLOUDINARY_API_KEY &&
-  process.env.CLOUDINARY_API_SECRET
-);
-
-if (isCloudinaryConfigured) {
-  cloudinary.config({
-    cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUDINARY_API_KEY,
-    api_secret: process.env.CLOUDINARY_API_SECRET,
-  });
+// Function to get/refresh Cloudinary config
+function getCloudinary() {
+  if (
+    process.env.CLOUDINARY_CLOUD_NAME &&
+    process.env.CLOUDINARY_API_KEY &&
+    process.env.CLOUDINARY_API_SECRET
+  ) {
+    cloudinary.config({
+      cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+      api_key: process.env.CLOUDINARY_API_KEY,
+      api_secret: process.env.CLOUDINARY_API_SECRET,
+    });
+    return cloudinary;
+  }
+  return null;
 }
+
 
 // Local storage fallback setup
 const uploadsDir = path.join(process.cwd(), 'uploads');
@@ -48,9 +51,10 @@ export const uploadMiddleware = multer({
 });
 
 export async function processUploadedFile(file: Express.Multer.File, req: any): Promise<string> {
-  if (isCloudinaryConfigured) {
+  const cld = getCloudinary();
+  if (cld) {
     try {
-      const result = await cloudinary.uploader.upload(file.path, {
+      const result = await cld.uploader.upload(file.path, {
         folder: 'phone_web_products',
       });
       // Delete temporary local file after Cloudinary upload
