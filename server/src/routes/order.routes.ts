@@ -20,6 +20,7 @@ router.get('/my-orders', verifyToken, getMyOrders);
 router.get('/', verifyToken, requireAdmin, getOrders);
 router.get('/:id', getOrderById);
 router.put('/:id/status', verifyToken, requireAdmin, updateOrderStatus);
+router.patch('/:id/status', verifyToken, requireAdmin, updateOrderStatus);
 
 export default router;
 

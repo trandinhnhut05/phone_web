@@ -51,7 +51,7 @@ const strictLimiter = rateLimit({
 app.use('/api', globalLimiter);
 app.use('/api/auth/login', strictLimiter);
 app.use('/api/auth/register', strictLimiter);
-app.use('/api/orders', strictLimiter);
+app.post('/api/orders', strictLimiter);
 
 // Static uploads folder
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
