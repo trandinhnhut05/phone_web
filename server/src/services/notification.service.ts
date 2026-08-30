@@ -57,25 +57,102 @@ export const notificationService = {
     }
   },
 
-  // 2. Send Confirmation Email to Customer
-  sendOrderEmailCustomer: async (order: OrderNotificationData) => {
-    if (!order.customerEmail) return;
-
-    const smtpHost = process.env.SMTP_HOST;
-    const smtpPort = parseInt(process.env.SMTP_PORT || '587');
+  // 2. Send New Order Alert Email to Admin
+  sendOrderEmailAdmin: async (order: OrderNotificationData) => {
     const smtpUser = process.env.SMTP_USER;
     const smtpPass = process.env.SMTP_PASS;
+    const adminEmail = process.env.ADMIN_EMAIL || smtpUser;
 
-    if (!smtpHost || !smtpUser) {
-      console.log(`ℹ️ [EMAIL SERVICE] Đã mô phỏng gửi email xác nhận đơn hàng tới ${order.customerEmail}`);
+    if (!smtpUser || !smtpPass || !adminEmail) {
       return;
     }
 
     try {
       const transporter = nodemailer.createTransport({
-        host: smtpHost,
-        port: smtpPort,
-        secure: smtpPort === 465,
+        service: 'gmail',
+        auth: {
+          user: smtpUser,
+          pass: smtpPass,
+        },
+      });
+
+      const itemsHtml = order.items
+        .map(
+          (i) => `
+        <tr>
+          <td style="padding: 10px; border-bottom: 1px solid #e2e8f0; font-weight: 600;">${i.product?.name || 'Sản phẩm'}</td>
+          <td style="padding: 10px; border-bottom: 1px solid #e2e8f0; text-align: center;">${i.qty}</td>
+          <td style="padding: 10px; border-bottom: 1px solid #e2e8f0; text-align: right; font-weight: bold; color: #2563eb;">${(i.price * i.qty).toLocaleString('vi-VN')} đ</td>
+        </tr>`
+        )
+        .join('');
+
+      await transporter.sendMail({
+        from: `"Tấn Đạt Smartphone Hệ Thống" <${smtpUser}>`,
+        to: adminEmail,
+        subject: `🔔 [ĐƠN HÀNG MỚI] #${order.id.slice(0, 8).toUpperCase()} - ${order.customerName} (${order.total.toLocaleString('vi-VN')} đ)`,
+        html: `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 24px; border: 1px solid #cbd5e1; border-radius: 16px; background-color: #ffffff;">
+            <div style="background: linear-gradient(135deg, #1e3a8a, #2563eb); padding: 16px 20px; border-radius: 12px; color: white; margin-bottom: 20px;">
+              <h2 style="margin: 0; font-size: 20px;">🎉 CÓ ĐƠN HÀNG MỚI CẦN XỬ LÝ!</h2>
+              <p style="margin: 4px 0 0 0; font-size: 13px; opacity: 0.9;">Mã đơn: #${order.id.slice(0, 8).toUpperCase()}</p>
+            </div>
+
+            <div style="background-color: #f8fafc; padding: 16px; border-radius: 12px; margin-bottom: 20px; font-size: 14px; line-height: 1.6;">
+              <p style="margin: 4px 0;">👤 <b>Khách hàng:</b> ${order.customerName}</p>
+              <p style="margin: 4px 0;">📞 <b>Số điện thoại:</b> <a href="tel:${order.customerPhone}" style="color: #2563eb; font-weight: bold; font-size: 16px;">${order.customerPhone}</a></p>
+              ${order.customerEmail ? `<p style="margin: 4px 0;">✉️ <b>Email khách:</b> ${order.customerEmail}</p>` : ''}
+              <p style="margin: 4px 0;">📍 <b>Địa chỉ nhận hàng:</b> ${order.address}</p>
+              <p style="margin: 4px 0;">💳 <b>Hình thức:</b> <b>${order.paymentMethod === 'COD' ? 'Thanh toán khi nhận hàng (COD)' : order.paymentMethod}</b></p>
+              ${order.note ? `<p style="margin: 4px 0; color: #d97706;">📝 <b>Ghi chú:</b> <i>${order.note}</i></p>` : ''}
+            </div>
+
+            <h4 style="margin: 0 0 10px 0; font-size: 14px; text-transform: uppercase; color: #64748b;">Chi tiết sản phẩm đặt mua:</h4>
+            <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 14px;">
+              <thead>
+                <tr style="background: #f1f5f9; text-align: left;">
+                  <th style="padding: 10px;">Sản phẩm</th>
+                  <th style="padding: 10px; text-align: center;">SL</th>
+                  <th style="padding: 10px; text-align: right;">Thành tiền</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${itemsHtml}
+              </tbody>
+            </table>
+
+            <div style="padding: 12px; background: #eff6ff; border-radius: 10px; text-align: right; font-size: 18px; font-weight: bold; color: #1e40af; margin-bottom: 20px;">
+              TỔNG DOANH THU: <span style="color: #dc2626;">${order.total.toLocaleString('vi-VN')} đ</span>
+            </div>
+
+            <div style="text-align: center;">
+              <a href="http://localhost:5173/admin/orders" style="display: inline-block; padding: 12px 24px; background: #2563eb; color: #ffffff; text-decoration: none; font-weight: bold; border-radius: 10px; font-size: 14px;">
+                Mở Trang Quản Trị Đơn Hàng
+              </a>
+            </div>
+          </div>
+        `,
+      });
+      console.log(`✅ [EMAIL] Đã gửi email thông báo đơn hàng mới tới Quản trị viên: ${adminEmail}`);
+    } catch (err: any) {
+      console.error('❌ [EMAIL ADMIN ERROR] Lỗi gửi email thông báo đơn mới:', err.message);
+    }
+  },
+
+  // 3. Send Confirmation Email to Customer
+  sendOrderEmailCustomer: async (order: OrderNotificationData) => {
+    if (!order.customerEmail) return;
+
+    const smtpUser = process.env.SMTP_USER;
+    const smtpPass = process.env.SMTP_PASS;
+
+    if (!smtpUser || !smtpPass) {
+      return;
+    }
+
+    try {
+      const transporter = nodemailer.createTransport({
+        service: 'gmail',
         auth: {
           user: smtpUser,
           pass: smtpPass,
@@ -141,7 +218,11 @@ export const notificationService = {
     // Run in background without blocking API response
     Promise.allSettled([
       notificationService.notifyNewOrderTelegram(order),
+      notificationService.sendOrderEmailAdmin(order),
       notificationService.sendOrderEmailCustomer(order),
     ]);
   },
 };
+
+export default notificationService;
+
