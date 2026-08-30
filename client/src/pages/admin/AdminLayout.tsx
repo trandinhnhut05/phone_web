@@ -4,6 +4,7 @@ import {
   LayoutDashboard,
   Package,
   ShoppingBag,
+  Users,
   FileText,
   Home,
   LogOut,
@@ -64,6 +65,7 @@ export const AdminLayout: React.FC = () => {
     { label: 'Tổng quan (Dashboard)', path: '/admin', icon: LayoutDashboard, exact: true },
     { label: 'Quản lý Sản phẩm', path: '/admin/products', icon: Package },
     { label: 'Quản lý Đơn hàng', path: '/admin/orders', icon: ShoppingBag },
+    { label: 'Quản lý Tài khoản', path: '/admin/users', icon: Users },
     { label: 'Quản lý Tin tức & Blog', path: '/admin/blog', icon: FileText },
     { label: 'Cài đặt Cửa hàng', path: '/admin/settings', icon: Settings },
   ];

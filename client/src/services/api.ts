@@ -49,6 +49,33 @@ export const api = {
     return res.json();
   },
 
+  // Admin User Management
+  getUsers: async (params?: Record<string, string>) => {
+    const searchParams = new URLSearchParams(params);
+    const res = await fetch(`${API_BASE}/auth/users?${searchParams.toString()}`, {
+      headers: getHeaders(),
+    });
+    return res.json();
+  },
+
+  updateUserRole: async (id: string, role: 'USER' | 'ADMIN') => {
+    const res = await fetch(`${API_BASE}/auth/users/${id}/role`, {
+      method: 'PUT',
+      headers: getHeaders(),
+      body: JSON.stringify({ role }),
+    });
+    return res.json();
+  },
+
+  deleteUser: async (id: string) => {
+    const res = await fetch(`${API_BASE}/auth/users/${id}`, {
+      method: 'DELETE',
+      headers: getHeaders(),
+    });
+    return res.json();
+  },
+
+
 
   // Products
   getProducts: async (params?: Record<string, string>) => {

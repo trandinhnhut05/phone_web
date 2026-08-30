@@ -37,6 +37,7 @@ import { AdminLayout } from './pages/admin/AdminLayout.js';
 import { AdminDashboardPage } from './pages/admin/AdminDashboardPage.js';
 import { AdminProductsPage } from './pages/admin/AdminProductsPage.js';
 import { AdminOrdersPage } from './pages/admin/AdminOrdersPage.js';
+import { AdminUsersPage } from './pages/admin/AdminUsersPage.js';
 import { AdminBlogPage } from './pages/admin/AdminBlogPage.js';
 import { AdminSettingsPage } from './pages/admin/AdminSettingsPage.js';
 
@@ -132,6 +133,7 @@ export function App() {
                   <Route index element={<AdminDashboardPage />} />
                   <Route path="products" element={<AdminProductsPage />} />
                   <Route path="orders" element={<AdminOrdersPage />} />
+                  <Route path="users" element={<AdminUsersPage />} />
                   <Route path="blog" element={<AdminBlogPage />} />
                   <Route path="settings" element={<AdminSettingsPage />} />
                 </Route>
