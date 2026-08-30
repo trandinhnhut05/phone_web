@@ -173,17 +173,26 @@ export const Navbar: React.FC = () => {
                       <Link
                         to="/admin"
                         onClick={() => setUserDropdownOpen(false)}
-                        className="flex items-center gap-2 px-4 py-2.5 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                        className="flex items-center gap-2 px-4 py-2.5 text-sm font-bold text-indigo-600 bg-indigo-50/70 hover:bg-indigo-100 transition-colors"
                       >
-                        <ShieldCheck className="w-4 h-4 text-blue-600" />
+                        <ShieldCheck className="w-4 h-4 text-indigo-600" />
                         Trang Quản trị (Admin)
                       </Link>
                     )}
 
                     <Link
-                      to="/tra-cuu-don-hang"
+                      to="/tai-khoan"
                       onClick={() => setUserDropdownOpen(false)}
-                      className="flex items-center gap-2 px-4 py-2.5 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                      className="flex items-center gap-2 px-4 py-2.5 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-colors font-medium"
+                    >
+                      <UserIcon className="w-4 h-4 text-slate-500" />
+                      Tài khoản của tôi
+                    </Link>
+
+                    <Link
+                      to="/tai-khoan"
+                      onClick={() => setUserDropdownOpen(false)}
+                      className="flex items-center gap-2 px-4 py-2.5 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-colors font-medium"
                     >
                       <Package className="w-4 h-4 text-slate-500" />
                       Đơn hàng của tôi
@@ -192,7 +201,7 @@ export const Navbar: React.FC = () => {
                     <Link
                       to="/yeu-thich"
                       onClick={() => setUserDropdownOpen(false)}
-                      className="flex items-center gap-2 px-4 py-2.5 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                      className="flex items-center gap-2 px-4 py-2.5 text-sm text-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-colors font-medium"
                     >
                       <Heart className="w-4 h-4 text-rose-500" />
                       Sản phẩm yêu thích

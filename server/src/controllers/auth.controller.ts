@@ -124,6 +124,38 @@ export const getMe = async (req: AuthRequest, res: Response): Promise<void> => {
   }
 };
 
+export const updateProfile = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    if (!req.user) {
+      res.status(401).json({ success: false, message: 'Chưa đăng nhập' });
+      return;
+    }
+
+    const { name, phone, password } = req.body;
+    const updateData: any = {};
+    if (name) updateData.name = name.trim();
+    if (phone !== undefined) updateData.phone = phone ? phone.trim() : null;
+    if (password && password.trim().length >= 6) {
+      updateData.password = await bcrypt.hash(password.trim(), 10);
+    }
+
+    const updatedUser = await prisma.user.update({
+      where: { id: req.user.id },
+      data: updateData,
+      select: { id: true, email: true, name: true, role: true, phone: true, createdAt: true },
+    });
+
+    res.json({
+      success: true,
+      message: 'Cập nhật thông tin thành công',
+      user: updatedUser,
+    });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: error.message || 'Lỗi cập nhật' });
+  }
+};
+
 export const logout = async (_req: Request, res: Response): Promise<void> => {
   res.json({ success: true, message: 'Đăng xuất thành công' });
 };
+

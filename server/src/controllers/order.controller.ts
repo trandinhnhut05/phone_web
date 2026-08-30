@@ -198,3 +198,32 @@ export const updateOrderStatus = async (req: Request, res: Response): Promise<vo
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
+export const getMyOrders = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    if (!req.user) {
+      res.status(401).json({ success: false, message: 'Vui lòng đăng nhập' });
+      return;
+    }
+
+    const orders = await prisma.order.findMany({
+      where: {
+        OR: [
+          { userId: req.user.id },
+          ...(req.user.email ? [{ customerEmail: req.user.email }] : []),
+        ],
+      },
+      include: {
+        items: {
+          include: { product: true },
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    res.json({ success: true, data: orders });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+

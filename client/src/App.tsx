@@ -9,13 +9,17 @@ import { WishlistProvider } from './context/WishlistContext.js';
 import { Navbar } from './components/Navbar.js';
 import { Footer } from './components/Footer.js';
 import { FloatingContact } from './components/FloatingContact.js';
+import { AdminQuickBar } from './components/AdminQuickBar.js';
+import { AdminRoute } from './components/AdminRoute.js';
 
+// Customer Pages
 import { HomePage } from './pages/HomePage.js';
 import { ProductsPage } from './pages/ProductsPage.js';
 import { ProductDetailPage } from './pages/ProductDetailPage.js';
 import { CartPage } from './pages/CartPage.js';
 import { CheckoutPage } from './pages/CheckoutPage.js';
 import { OrderLookupPage } from './pages/OrderLookupPage.js';
+import { CustomerProfilePage } from './pages/CustomerProfilePage.js';
 import { BlogListPage } from './pages/BlogListPage.js';
 import { BlogDetailPage } from './pages/BlogDetailPage.js';
 import { RepairServicesPage } from './pages/RepairServicesPage.js';
@@ -24,6 +28,8 @@ import { ComparePage } from './pages/ComparePage.js';
 import { WishlistPage } from './pages/WishlistPage.js';
 import { LoginPage } from './pages/LoginPage.js';
 
+// Admin Pages
+import { AdminLoginPage } from './pages/admin/AdminLoginPage.js';
 import { AdminLayout } from './pages/admin/AdminLayout.js';
 import { AdminDashboardPage } from './pages/admin/AdminDashboardPage.js';
 import { AdminProductsPage } from './pages/admin/AdminProductsPage.js';
@@ -35,6 +41,7 @@ import { AdminSettingsPage } from './pages/admin/AdminSettingsPage.js';
 const CustomerLayout: React.FC = () => {
   return (
     <div className="flex flex-col min-h-screen">
+      <AdminQuickBar />
       <Navbar />
       <div className="flex-1">
         <Outlet />
@@ -83,7 +90,7 @@ export function App() {
                 }}
               />
               <Routes>
-                {/* Customer Routes */}
+                {/* 1. Customer Flow Routes */}
                 <Route element={<CustomerLayout />}>
                   <Route path="/" element={<HomePage />} />
                   <Route path="/dien-thoai" element={<ProductsPage />} />
@@ -92,6 +99,7 @@ export function App() {
                   <Route path="/yeu-thich" element={<WishlistPage />} />
                   <Route path="/gio-hang" element={<CartPage />} />
                   <Route path="/thanh-toan" element={<CheckoutPage />} />
+                  <Route path="/tai-khoan" element={<CustomerProfilePage />} />
                   <Route path="/tra-cuu-don-hang" element={<OrderLookupPage />} />
                   <Route path="/dich-vu-sua-chua" element={<RepairServicesPage />} />
                   <Route path="/chinh-sach-bao-hanh" element={<WarrantyPolicyPage />} />
@@ -100,11 +108,21 @@ export function App() {
                   <Route path="*" element={<NotFoundPage />} />
                 </Route>
 
-                {/* Standalone Auth */}
+                {/* 2. Customer Auth Route */}
                 <Route path="/login" element={<LoginPage />} />
 
-                {/* Admin Routes */}
-                <Route path="/admin" element={<AdminLayout />}>
+                {/* 3. Admin Auth Route */}
+                <Route path="/admin/login" element={<AdminLoginPage />} />
+
+                {/* 4. Protected Admin Flow Routes */}
+                <Route
+                  path="/admin"
+                  element={
+                    <AdminRoute>
+                      <AdminLayout />
+                    </AdminRoute>
+                  }
+                >
                   <Route index element={<AdminDashboardPage />} />
                   <Route path="products" element={<AdminProductsPage />} />
                   <Route path="orders" element={<AdminOrdersPage />} />
@@ -121,3 +139,4 @@ export function App() {
 }
 
 export default App;
+

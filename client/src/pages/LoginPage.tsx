@@ -1,6 +1,16 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
-import { Lock, Mail, User as UserIcon, Phone, ShieldCheck, ArrowRight } from 'lucide-react';
+import {
+  Lock,
+  Mail,
+  User as UserIcon,
+  Phone,
+  ArrowRight,
+  ShieldCheck,
+  ShoppingBag,
+  Heart,
+  Gift,
+} from 'lucide-react';
 import { useAuth } from '../context/AuthContext.js';
 import { api } from '../services/api.js';
 import { SEO } from '../components/SEO.js';
@@ -30,15 +40,25 @@ export const LoginPage: React.FC = () => {
         const res = await api.register({ email, password, name, phone });
         if (res.success && res.token && res.user) {
           login(res.token, res.user);
-          toast.success('Đăng ký tài khoản thành công!');
-          navigate(res.user.role === 'ADMIN' ? '/admin' : from, { replace: true });
+          toast.success('Đăng ký tài khoản khách hàng thành công!');
+          navigate(from, { replace: true });
+        } else {
+          toast.error(res.message || 'Đăng ký không thành công');
         }
       } else {
         const res = await api.login({ email, password });
         if (res.success && res.token && res.user) {
           login(res.token, res.user);
           toast.success(`Chào mừng trở lại, ${res.user.name}!`);
-          navigate(res.user.role === 'ADMIN' ? '/admin' : from, { replace: true });
+
+          // If user is Admin and logs in here, redirect to Admin or requested page
+          if (res.user.role === 'ADMIN') {
+            navigate('/admin', { replace: true });
+          } else {
+            navigate(from === '/login' ? '/tai-khoan' : from, { replace: true });
+          }
+        } else {
+          toast.error(res.message || 'Email hoặc mật khẩu không chính xác');
         }
       }
     } catch (err: any) {
@@ -48,78 +68,59 @@ export const LoginPage: React.FC = () => {
     }
   };
 
-  const handleFillDemoAdmin = () => {
-    setIsRegister(false);
-    setEmail('admin@phoneweb.com');
-    setPassword('admin123');
-    toast.success('Đã điền thông tin tài khoản Admin!');
-  };
-
-  const handleFillDemoCustomer = () => {
-    setIsRegister(false);
-    setEmail('khachhang@gmail.com');
-    setPassword('user123');
-    toast.success('Đã điền thông tin tài khoản Khách hàng mẫu!');
-  };
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 py-16 flex items-center justify-center px-4 sm:px-6">
-      <SEO title={isRegister ? 'Đăng Ký Tài Khoản' : 'Đăng Nhập — Tấn Đạt Smartphone'} />
+    <div className="min-h-screen bg-gradient-to-b from-blue-50/60 via-slate-50 to-slate-100 py-12 flex items-center justify-center px-4 sm:px-6">
+      <SEO title={isRegister ? 'Tạo Tài Khoản Mua Hàng — Tấn Đạt Smartphone' : 'Đăng Nhập Khách Hàng — Tấn Đạt Smartphone'} />
 
       <div className="max-w-md w-full">
-        <div className="text-center mb-8">
-          <Link to="/" className="inline-flex flex-col items-center gap-2">
-            <div className="w-16 h-16 rounded-3xl bg-white p-2 flex items-center justify-center shadow-xl shadow-blue-500/20">
+        {/* Brand Header */}
+        <div className="text-center mb-6">
+          <Link to="/" className="inline-flex flex-col items-center gap-2 group">
+            <div className="w-16 h-16 rounded-3xl bg-white p-2 flex items-center justify-center shadow-xl shadow-blue-500/10 border border-slate-200 group-hover:scale-105 transition-transform">
               <TanDatLogo className="w-12 h-12" />
             </div>
             <div className="mt-1">
-              <span className="text-2xl font-black text-white tracking-tight">
+              <span className="text-2xl font-black text-slate-900 tracking-tight">
                 TẤN ĐẠT SMARTPHONE
               </span>
-              <span className="block text-[11px] text-blue-400 font-bold uppercase tracking-wider">
-                Chợ Phong Xuân, Phong Điền, TP. Huế
+              <span className="block text-[11px] text-blue-600 font-bold uppercase tracking-wider">
+                Cổng Khách Hàng Thành Viên
               </span>
             </div>
           </Link>
-          <p className="text-xs text-slate-400 mt-2">
-            {isRegister ? 'Tạo tài khoản mới để theo dõi đơn hàng & tích điểm' : 'Đăng nhập vào hệ thống quản lý & mua hàng'}
+          <p className="text-xs text-slate-500 mt-2">
+            {isRegister
+              ? 'Tạo tài khoản để nhận ưu đãi thành viên, bảo hành & theo dõi đơn hàng'
+              : 'Đăng nhập để tra cứu lịch sử mua hàng, bảo hành & yêu thích'}
           </p>
         </div>
 
-        {/* Demo Fast Logins */}
-        <div className="bg-slate-800/60 backdrop-blur-md p-4 rounded-2xl border border-slate-700/60 mb-6 space-y-2">
-          <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-            <ShieldCheck className="w-3.5 h-3.5 text-blue-400" />
-            <span>Tài khoản thử nghiệm nhanh (1-Click):</span>
+        {/* Benefits bar */}
+        <div className="grid grid-cols-3 gap-2 mb-6">
+          <div className="bg-white/80 backdrop-blur-xs p-2.5 rounded-2xl border border-slate-200/80 text-center flex flex-col items-center justify-center gap-1 shadow-xs">
+            <ShoppingBag className="w-4 h-4 text-blue-600" />
+            <span className="text-[10px] font-bold text-slate-700">Đơn hàng tiện lợi</span>
           </div>
-          <div className="grid grid-cols-2 gap-2">
-            <button
-              type="button"
-              onClick={handleFillDemoAdmin}
-              className="px-3 py-2 bg-indigo-600/30 hover:bg-indigo-600/50 text-indigo-200 border border-indigo-500/40 rounded-xl text-xs font-bold transition-all text-left"
-            >
-              👑 Quản trị viên (Admin)
-            </button>
-            <button
-              type="button"
-              onClick={handleFillDemoCustomer}
-              className="px-3 py-2 bg-blue-600/30 hover:bg-blue-600/50 text-blue-200 border border-blue-500/40 rounded-xl text-xs font-bold transition-all text-left"
-            >
-              👤 Khách hàng (User)
-            </button>
+          <div className="bg-white/80 backdrop-blur-xs p-2.5 rounded-2xl border border-slate-200/80 text-center flex flex-col items-center justify-center gap-1 shadow-xs">
+            <Gift className="w-4 h-4 text-amber-500" />
+            <span className="text-[10px] font-bold text-slate-700">Tích điểm & Quà</span>
+          </div>
+          <div className="bg-white/80 backdrop-blur-xs p-2.5 rounded-2xl border border-slate-200/80 text-center flex flex-col items-center justify-center gap-1 shadow-xs">
+            <Heart className="w-4 h-4 text-rose-500" />
+            <span className="text-[10px] font-bold text-slate-700">Lưu sản phẩm thích</span>
           </div>
         </div>
 
         {/* Auth Box */}
-        <div className="bg-white rounded-3xl p-8 shadow-2xl border border-slate-100 space-y-6">
+        <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-xl border border-slate-100 space-y-6">
           {/* Tabs */}
           <div className="grid grid-cols-2 p-1 bg-slate-100 rounded-2xl">
             <button
               type="button"
               onClick={() => setIsRegister(false)}
-              className={`py-2.5 text-xs font-bold rounded-xl transition-all ${
+              className={`py-2.5 text-xs font-bold rounded-xl transition-all cursor-pointer ${
                 !isRegister
-                  ? 'bg-white text-slate-900 shadow-xs'
+                  ? 'bg-white text-blue-600 shadow-xs'
                   : 'text-slate-500 hover:text-slate-800'
               }`}
             >
@@ -128,13 +129,13 @@ export const LoginPage: React.FC = () => {
             <button
               type="button"
               onClick={() => setIsRegister(true)}
-              className={`py-2.5 text-xs font-bold rounded-xl transition-all ${
+              className={`py-2.5 text-xs font-bold rounded-xl transition-all cursor-pointer ${
                 isRegister
-                  ? 'bg-white text-slate-900 shadow-xs'
+                  ? 'bg-white text-blue-600 shadow-xs'
                   : 'text-slate-500 hover:text-slate-800'
               }`}
             >
-              Tạo tài khoản
+              Đăng ký tài khoản
             </button>
           </div>
 
@@ -152,7 +153,7 @@ export const LoginPage: React.FC = () => {
                       placeholder="Nguyễn Văn A"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:border-blue-500 focus:bg-white"
+                      className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:border-blue-500 focus:bg-white transition-all"
                     />
                     <UserIcon className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                   </div>
@@ -168,7 +169,7 @@ export const LoginPage: React.FC = () => {
                       placeholder="0935677775"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
-                      className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:border-blue-500 focus:bg-white"
+                      className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:border-blue-500 focus:bg-white transition-all"
                     />
                     <Phone className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                   </div>
@@ -184,10 +185,10 @@ export const LoginPage: React.FC = () => {
                 <input
                   type="email"
                   required
-                  placeholder="admin@phoneweb.com"
+                  placeholder="khachhang@gmail.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:border-blue-500 focus:bg-white"
+                  className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:border-blue-500 focus:bg-white transition-all"
                 />
                 <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
               </div>
@@ -204,7 +205,7 @@ export const LoginPage: React.FC = () => {
                   placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:border-blue-500 focus:bg-white"
+                  className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm outline-none focus:border-blue-500 focus:bg-white transition-all"
                 />
                 <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
               </div>
@@ -213,13 +214,13 @@ export const LoginPage: React.FC = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-lg shadow-blue-600/30 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+              className="w-full py-3.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-lg shadow-blue-600/30 transition-all flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
             >
               {loading ? (
                 'Đang xử lý...'
               ) : (
                 <>
-                  <span>{isRegister ? 'Đăng ký tài khoản' : 'Đăng nhập'}</span>
+                  <span>{isRegister ? 'Tạo tài khoản' : 'Đăng nhập'}</span>
                   <ArrowRight className="w-4 h-4" />
                 </>
               )}
@@ -230,3 +231,5 @@ export const LoginPage: React.FC = () => {
     </div>
   );
 };
+
+export default LoginPage;

@@ -6,7 +6,7 @@ const getHeaders = (isJson = true) => {
   if (isJson) {
     headers['Content-Type'] = 'application/json';
   }
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('phone_web_token') || localStorage.getItem('token');
   if (token) {
     headers['Authorization'] = `Bearer ${token}`;
   }
@@ -39,6 +39,16 @@ export const api = {
     });
     return res.json();
   },
+
+  updateProfile: async (data: any) => {
+    const res = await fetch(`${API_BASE}/auth/me`, {
+      method: 'PUT',
+      headers: getHeaders(),
+      body: JSON.stringify(data),
+    });
+    return res.json();
+  },
+
 
   // Products
   getProducts: async (params?: Record<string, string>) => {
@@ -127,6 +137,13 @@ export const api = {
 
   getOrderById: async (id: string) => {
     const res = await fetch(`${API_BASE}/orders/${id}`);
+    return res.json();
+  },
+
+  getMyOrders: async () => {
+    const res = await fetch(`${API_BASE}/orders/my-orders`, {
+      headers: getHeaders(),
+    });
     return res.json();
   },
 

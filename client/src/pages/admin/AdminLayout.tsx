@@ -43,10 +43,10 @@ export const AdminLayout: React.FC = () => {
           </p>
           <div className="pt-2 flex flex-col gap-2">
             <Link
-              to="/login"
+              to="/admin/login"
               className="py-3 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl transition-all"
             >
-              Đăng nhập tài khoản Admin
+              Đăng nhập Cổng Quản trị Admin
             </Link>
             <Link
               to="/"
@@ -134,10 +134,10 @@ export const AdminLayout: React.FC = () => {
             <button
               onClick={() => {
                 logout();
-                navigate('/login');
+                navigate('/admin/login');
               }}
-              title="Đăng xuất"
-              className="p-2 text-slate-400 hover:text-red-400 hover:bg-slate-800 rounded-xl transition-colors"
+              title="Đăng xuất Quản trị"
+              className="p-2 text-slate-400 hover:text-red-400 hover:bg-slate-800 rounded-xl transition-colors cursor-pointer"
             >
               <LogOut className="w-4 h-4" />
             </button>
