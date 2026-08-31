@@ -73,10 +73,15 @@ export const notificationService = {
 
     try {
       const transporter = nodemailer.createTransport({
-        service: 'gmail',
+        host: 'smtp.gmail.com',
+        port: 587,
+        secure: false,
         auth: {
           user: smtpUser,
           pass: smtpPass,
+        },
+        tls: {
+          rejectUnauthorized: false,
         },
       });
 
@@ -130,7 +135,7 @@ export const notificationService = {
             </div>
 
             <div style="text-align: center;">
-              <a href="http://localhost:5173/admin/orders" style="display: inline-block; padding: 12px 24px; background: #2563eb; color: #ffffff; text-decoration: none; font-weight: bold; border-radius: 10px; font-size: 14px;">
+              <a href="https://tandatsmartphone.com/admin/orders" style="display: inline-block; padding: 12px 24px; background: #2563eb; color: #ffffff; text-decoration: none; font-weight: bold; border-radius: 10px; font-size: 14px;">
                 Mở Trang Quản Trị Đơn Hàng
               </a>
             </div>
@@ -156,10 +161,15 @@ export const notificationService = {
 
     try {
       const transporter = nodemailer.createTransport({
-        service: 'gmail',
+        host: 'smtp.gmail.com',
+        port: 587,
+        secure: false,
         auth: {
           user: smtpUser,
           pass: smtpPass,
+        },
+        tls: {
+          rejectUnauthorized: false,
         },
       });
 
