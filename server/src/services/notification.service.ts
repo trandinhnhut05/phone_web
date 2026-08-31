@@ -63,12 +63,12 @@ export const notificationService = {
   // Helper to send email via Resend API (HTTPS REST API - never blocked on cloud)
   sendEmailViaResend: async (to: string | string[], subject: string, html: string) => {
     const apiKey = process.env.RESEND_API_KEY;
-    if (!apiKey) return false;
+    const recipients = Array.isArray(to) ? to : to.split(',').map((e) => e.trim()).filter(Boolean);
+    if (!apiKey) return { successful: [], failed: recipients };
 
     const fromAddress = process.env.RESEND_FROM || 'Tấn Đạt Smartphone <onboarding@resend.dev>';
-    const recipients = Array.isArray(to) ? to : to.split(',').map((e) => e.trim()).filter(Boolean);
-
-    let anySuccess = false;
+    const successful: string[] = [];
+    const failed: string[] = [];
 
     for (const recipient of recipients) {
       try {
@@ -106,16 +106,18 @@ export const notificationService = {
         const data: any = await response.json();
         if (response.ok) {
           console.log(`✅ [RESEND EMAIL] Đã gửi email thành công tới ${recipient}! ID:`, data.id);
-          anySuccess = true;
+          successful.push(recipient);
         } else {
           console.error(`❌ [RESEND ERROR] Không thể gửi tới ${recipient}:`, data.message || data);
+          failed.push(recipient);
         }
       } catch (err: any) {
         console.error(`❌ [RESEND EXCEPTION] Lỗi khi gửi email tới ${recipient}:`, err.message);
+        failed.push(recipient);
       }
     }
 
-    return anySuccess;
+    return { successful, failed };
   },
 
   // 2. Send New Order Alert Email to Admin
@@ -200,14 +202,16 @@ export const notificationService = {
       </div>
     `;
 
-    // 1. Try sending via Resend API first (works 100% on Render Cloud)
+    // 1. Try sending via Resend API
+    let recipientsToRetry: string[] = adminEmail.split(',').map((e: string) => e.trim()).filter(Boolean);
+
     if (resendKey) {
-      const resendSuccess = await notificationService.sendEmailViaResend(adminEmail, emailSubject, emailHtml);
-      if (resendSuccess) return;
+      const { failed } = await notificationService.sendEmailViaResend(recipientsToRetry, emailSubject, emailHtml);
+      recipientsToRetry = failed;
     }
 
-    // 2. Fallback to Nodemailer SMTP if configured
-    if (smtpUser && smtpPass) {
+    // 2. Fallback to Nodemailer SMTP for any failed recipients (e.g. non-verified emails in Resend sandbox)
+    if (recipientsToRetry.length > 0 && smtpUser && smtpPass) {
       try {
         const transporter = nodemailer.createTransport({
           host: 'smtp.gmail.com',
@@ -217,13 +221,15 @@ export const notificationService = {
           tls: { rejectUnauthorized: false },
         });
 
-        await transporter.sendMail({
-          from: `"Tấn Đạt Smartphone Hệ Thống" <${smtpUser}>`,
-          to: adminEmail,
-          subject: emailSubject,
-          html: emailHtml,
-        });
-        console.log(`✅ [SMTP EMAIL] Đã gửi email thông báo đơn hàng tới Quản trị viên: ${adminEmail}`);
+        for (const recipient of recipientsToRetry) {
+          await transporter.sendMail({
+            from: `"Tấn Đạt Smartphone Hệ Thống" <${smtpUser}>`,
+            to: recipient,
+            subject: emailSubject,
+            html: emailHtml,
+          });
+          console.log(`✅ [SMTP EMAIL] Đã gửi email thông báo đơn hàng tới Quản trị viên: ${recipient}`);
+        }
       } catch (err: any) {
         console.error('❌ [SMTP ERROR] Lỗi gửi email qua SMTP:', err.message);
       }
@@ -285,8 +291,8 @@ export const notificationService = {
 
     // 1. Try sending via Resend API first
     if (resendKey) {
-      const resendSuccess = await notificationService.sendEmailViaResend(order.customerEmail, emailSubject, emailHtml);
-      if (resendSuccess) return;
+      const { successful } = await notificationService.sendEmailViaResend(order.customerEmail, emailSubject, emailHtml);
+      if (successful.length > 0) return;
     }
 
     // 2. Fallback to SMTP
