@@ -72,6 +72,60 @@ app.get('/api/health', (req: Request, res: Response) => {
   res.json({ status: 'ok', time: new Date().toISOString(), store: 'Tấn Đạt Smartphone' });
 });
 
+// Test Email Endpoint
+app.get('/api/test-email', async (req: Request, res: Response) => {
+  const smtpUser = process.env.SMTP_USER;
+  const smtpPass = process.env.SMTP_PASS;
+  const adminEmail = process.env.ADMIN_EMAIL || smtpUser;
+
+  if (!smtpUser || !smtpPass || !adminEmail) {
+    res.status(400).json({
+      success: false,
+      message: 'Chưa cấu hình SMTP_USER, SMTP_PASS hoặc ADMIN_EMAIL trên server!',
+      config: { smtpUser: !!smtpUser, smtpPass: !!smtpPass, adminEmail },
+    });
+    return;
+  }
+
+  try {
+    const nodemailer = (await import('nodemailer')).default;
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: smtpUser,
+        pass: smtpPass,
+      },
+    });
+
+    const info = await transporter.sendMail({
+      from: `"Tấn Đạt Smartphone Hệ Thống" <${smtpUser}>`,
+      to: adminEmail,
+      subject: `🧪 [TEST THÔNG BÁO] Kiểm tra gửi email hệ thống Tấn Đạt Smartphone`,
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 500px; padding: 20px; border: 1px solid #3b82f6; border-radius: 12px;">
+          <h2 style="color: #2563eb; margin-top: 0;">✅ Hệ Thống Email Hoạt Động Tốt!</h2>
+          <p>Email này được gửi thử nghiệm từ máy chủ <b>Tấn Đạt Smartphone (tandatsmartphone.com)</b>.</p>
+          <p><b>Thời gian gửi:</b> ${new Date().toLocaleString('vi-VN')}</p>
+          <p><b>Người nhận:</b> ${adminEmail}</p>
+        </div>
+      `,
+    });
+
+    res.json({
+      success: true,
+      message: `Đã gửi email thử nghiệm thành công tới: ${adminEmail}`,
+      messageId: info.messageId,
+    });
+  } catch (error: any) {
+    console.error('Lỗi test email:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Lỗi khi gửi email qua Gmail SMTP',
+      error: error.message,
+    });
+  }
+});
+
 // Error handling middleware
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   console.error('Server error:', err);

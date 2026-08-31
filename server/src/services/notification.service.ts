@@ -67,6 +67,7 @@ export const notificationService = {
     const adminEmail = process.env.ADMIN_EMAIL || smtpUser;
 
     if (!smtpUser || !smtpPass || !adminEmail) {
+      console.log('ℹ️ [EMAIL] Chưa cấu hình SMTP_USER / SMTP_PASS / ADMIN_EMAIL. Bỏ qua gửi email admin.');
       return;
     }
 
