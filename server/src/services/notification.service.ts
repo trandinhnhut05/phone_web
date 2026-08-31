@@ -68,33 +68,54 @@ export const notificationService = {
     const fromAddress = process.env.RESEND_FROM || 'Tấn Đạt Smartphone <onboarding@resend.dev>';
     const recipients = Array.isArray(to) ? to : to.split(',').map((e) => e.trim()).filter(Boolean);
 
-    try {
-      const response = await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${apiKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          from: fromAddress,
-          to: recipients,
-          subject,
-          html,
-        }),
-      });
+    let anySuccess = false;
 
-      const data: any = await response.json();
-      if (!response.ok) {
-        console.error('❌ [RESEND ERROR] Resend API error:', data);
-        return false;
+    for (const recipient of recipients) {
+      try {
+        let response = await fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${apiKey}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            from: fromAddress,
+            to: [recipient],
+            subject,
+            html,
+          }),
+        });
+
+        // If custom domain is not yet verified, fallback to onboarding@resend.dev
+        if (!response.ok && fromAddress !== 'onboarding@resend.dev') {
+          response = await fetch('https://api.resend.com/emails', {
+            method: 'POST',
+            headers: {
+              Authorization: `Bearer ${apiKey}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              from: 'Tấn Đạt Smartphone <onboarding@resend.dev>',
+              to: [recipient],
+              subject,
+              html,
+            }),
+          });
+        }
+
+        const data: any = await response.json();
+        if (response.ok) {
+          console.log(`✅ [RESEND EMAIL] Đã gửi email thành công tới ${recipient}! ID:`, data.id);
+          anySuccess = true;
+        } else {
+          console.error(`❌ [RESEND ERROR] Không thể gửi tới ${recipient}:`, data.message || data);
+        }
+      } catch (err: any) {
+        console.error(`❌ [RESEND EXCEPTION] Lỗi khi gửi email tới ${recipient}:`, err.message);
       }
-
-      console.log('✅ [RESEND EMAIL] Đã gửi email thành công qua Resend API! ID:', data.id);
-      return true;
-    } catch (err: any) {
-      console.error('❌ [RESEND EXCEPTION] Lỗi gọi Resend API:', err.message);
-      return false;
     }
+
+    return anySuccess;
   },
 
   // 2. Send New Order Alert Email to Admin
