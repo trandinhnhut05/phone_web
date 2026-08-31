@@ -74,15 +74,72 @@ app.get('/api/health', (req: Request, res: Response) => {
 
 // Test Email Endpoint
 app.get('/api/test-email', async (req: Request, res: Response) => {
+  const resendKey = process.env.RESEND_API_KEY;
+  const adminEmail = process.env.ADMIN_EMAIL || process.env.SMTP_USER || 'nhut64463@gmail.com';
+
+  // 1. If Resend API Key is configured -> Send via Resend (HTTPS REST API)
+  if (resendKey) {
+    try {
+      const fromAddress = process.env.RESEND_FROM || 'Tấn Đạt Smartphone <onboarding@resend.dev>';
+      const recipients = adminEmail.split(',').map((e) => e.trim()).filter(Boolean);
+
+      const response = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${resendKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          from: fromAddress,
+          to: recipients,
+          subject: `🧪 [TEST THÔNG BÁO RESEND] Kiểm tra gửi email hệ thống Tấn Đạt Smartphone`,
+          html: `
+            <div style="font-family: Arial, sans-serif; max-width: 500px; padding: 20px; border: 1px solid #3b82f6; border-radius: 12px;">
+              <h2 style="color: #2563eb; margin-top: 0;">✅ Hệ Thống Email Hoạt Động Tốt!</h2>
+              <p>Email này được gửi thành công qua <b>Resend Cloud API</b> từ máy chủ <b>Tấn Đạt Smartphone (tandatsmartphone.com)</b>.</p>
+              <p><b>Thời gian gửi:</b> ${new Date().toLocaleString('vi-VN')}</p>
+              <p><b>Người nhận:</b> ${adminEmail}</p>
+            </div>
+          `,
+        }),
+      });
+
+      const data: any = await response.json();
+      if (response.ok) {
+        res.json({
+          success: true,
+          provider: 'Resend API (HTTPS)',
+          message: `Đã gửi email thử nghiệm thành công tới: ${adminEmail}`,
+          resendId: data.id,
+        });
+        return;
+      } else {
+        res.status(400).json({
+          success: false,
+          provider: 'Resend API',
+          message: data.message || 'Lỗi khi gọi Resend API',
+          details: data,
+        });
+        return;
+      }
+    } catch (err: any) {
+      res.status(500).json({
+        success: false,
+        message: 'Lỗi gọi Resend API',
+        error: err.message,
+      });
+      return;
+    }
+  }
+
+  // 2. Fallback to SMTP
   const smtpUser = process.env.SMTP_USER;
   const smtpPass = process.env.SMTP_PASS;
-  const adminEmail = process.env.ADMIN_EMAIL || smtpUser;
 
-  if (!smtpUser || !smtpPass || !adminEmail) {
+  if (!smtpUser || !smtpPass) {
     res.status(400).json({
       success: false,
-      message: 'Chưa cấu hình SMTP_USER, SMTP_PASS hoặc ADMIN_EMAIL trên server!',
-      config: { smtpUser: !!smtpUser, smtpPass: !!smtpPass, adminEmail },
+      message: 'Chưa cấu hình RESEND_API_KEY hoặc SMTP_USER/SMTP_PASS trên server!',
     });
     return;
   }
@@ -92,7 +149,7 @@ app.get('/api/test-email', async (req: Request, res: Response) => {
     const transporter = nodemailer.createTransport({
       host: 'smtp.gmail.com',
       port: 587,
-      secure: false, // TLS via STARTTLS (port 587 works seamlessly on Render)
+      secure: false,
       auth: {
         user: smtpUser,
         pass: smtpPass,
@@ -105,7 +162,7 @@ app.get('/api/test-email', async (req: Request, res: Response) => {
     const info = await transporter.sendMail({
       from: `"Tấn Đạt Smartphone Hệ Thống" <${smtpUser}>`,
       to: adminEmail,
-      subject: `🧪 [TEST THÔNG BÁO] Kiểm tra gửi email hệ thống Tấn Đạt Smartphone`,
+      subject: `🧪 [TEST THÔNG BÁO SMTP] Kiểm tra gửi email hệ thống Tấn Đạt Smartphone`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 500px; padding: 20px; border: 1px solid #3b82f6; border-radius: 12px;">
           <h2 style="color: #2563eb; margin-top: 0;">✅ Hệ Thống Email Hoạt Động Tốt!</h2>
@@ -118,6 +175,7 @@ app.get('/api/test-email', async (req: Request, res: Response) => {
 
     res.json({
       success: true,
+      provider: 'Nodemailer SMTP',
       message: `Đã gửi email thử nghiệm thành công tới: ${adminEmail}`,
       messageId: info.messageId,
     });
