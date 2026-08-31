@@ -82,46 +82,49 @@ app.get('/api/test-email', async (req: Request, res: Response) => {
     try {
       const fromAddress = process.env.RESEND_FROM || 'Tấn Đạt Smartphone <onboarding@resend.dev>';
       const recipients = adminEmail.split(',').map((e) => e.trim()).filter(Boolean);
+      const results: any[] = [];
 
-      const response = await fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${resendKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          from: fromAddress,
-          to: recipients,
-          subject: `🧪 [TEST THÔNG BÁO RESEND] Kiểm tra gửi email hệ thống Tấn Đạt Smartphone`,
-          html: `
-            <div style="font-family: Arial, sans-serif; max-width: 500px; padding: 20px; border: 1px solid #3b82f6; border-radius: 12px;">
-              <h2 style="color: #2563eb; margin-top: 0;">✅ Hệ Thống Email Hoạt Động Tốt!</h2>
-              <p>Email này được gửi thành công qua <b>Resend Cloud API</b> từ máy chủ <b>Tấn Đạt Smartphone (tandatsmartphone.com)</b>.</p>
-              <p><b>Thời gian gửi:</b> ${new Date().toLocaleString('vi-VN')}</p>
-              <p><b>Người nhận:</b> ${adminEmail}</p>
-            </div>
-          `,
-        }),
-      });
+      for (const recipient of recipients) {
+        try {
+          const response = await fetch('https://api.resend.com/emails', {
+            method: 'POST',
+            headers: {
+              Authorization: `Bearer ${resendKey}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              from: fromAddress,
+              to: [recipient],
+              subject: `🧪 [TEST THÔNG BÁO] Kiểm tra gửi email hệ thống Tấn Đạt Smartphone`,
+              html: `
+                <div style="font-family: Arial, sans-serif; max-width: 500px; padding: 20px; border: 1px solid #3b82f6; border-radius: 12px;">
+                  <h2 style="color: #2563eb; margin-top: 0;">✅ Hệ Thống Email Hoạt Động Tốt!</h2>
+                  <p>Email này được gửi thành công qua <b>Resend Cloud API</b> từ máy chủ <b>Tấn Đạt Smartphone (tandatsmartphone.com)</b>.</p>
+                  <p><b>Thời gian gửi:</b> ${new Date().toLocaleString('vi-VN')}</p>
+                  <p><b>Người nhận:</b> ${recipient}</p>
+                </div>
+              `,
+            }),
+          });
 
-      const data: any = await response.json();
-      if (response.ok) {
-        res.json({
-          success: true,
-          provider: 'Resend API (HTTPS)',
-          message: `Đã gửi email thử nghiệm thành công tới: ${adminEmail}`,
-          resendId: data.id,
-        });
-        return;
-      } else {
-        res.status(400).json({
-          success: false,
-          provider: 'Resend API',
-          message: data.message || 'Lỗi khi gọi Resend API',
-          details: data,
-        });
-        return;
+          const data: any = await response.json();
+          results.push({
+            recipient,
+            success: response.ok,
+            id: data.id || null,
+            message: data.message || (response.ok ? 'Thành công' : 'Chưa được xác thực trong sandbox'),
+          });
+        } catch (subErr: any) {
+          results.push({ recipient, success: false, error: subErr.message });
+        }
       }
+
+      res.json({
+        success: results.some((r) => r.success),
+        provider: 'Resend API (HTTPS)',
+        results,
+      });
+      return;
     } catch (err: any) {
       res.status(500).json({
         success: false,
