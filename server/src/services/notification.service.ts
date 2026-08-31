@@ -130,41 +130,51 @@ export const notificationService = {
       return;
     }
 
+    const clientUrl = process.env.CLIENT_URL || 'https://tandatsmartphone.com';
+    const orderTime = new Date().toLocaleString('vi-VN', { timeZone: 'Asia/Ho_Chi_Minh' });
+
     const itemsHtml = order.items
       .map(
         (i) => `
       <tr>
-        <td style="padding: 10px; border-bottom: 1px solid #e2e8f0; font-weight: 600;">${i.product?.name || 'Sản phẩm'}</td>
-        <td style="padding: 10px; border-bottom: 1px solid #e2e8f0; text-align: center;">${i.qty}</td>
-        <td style="padding: 10px; border-bottom: 1px solid #e2e8f0; text-align: right; font-weight: bold; color: #2563eb;">${(i.price * i.qty).toLocaleString('vi-VN')} đ</td>
+        <td style="padding: 12px 10px; border-bottom: 1px solid #e2e8f0; font-weight: 600; color: #1e293b;">${i.product?.name || 'Sản phẩm'}</td>
+        <td style="padding: 12px 10px; border-bottom: 1px solid #e2e8f0; text-align: center; color: #64748b; font-weight: bold;">x${i.qty}</td>
+        <td style="padding: 12px 10px; border-bottom: 1px solid #e2e8f0; text-align: right; font-weight: bold; color: #2563eb;">${(i.price * i.qty).toLocaleString('vi-VN')} đ</td>
       </tr>`
       )
       .join('');
 
     const emailSubject = `🔔 [ĐƠN HÀNG MỚI] #${order.id.slice(0, 8).toUpperCase()} - ${order.customerName} (${order.total.toLocaleString('vi-VN')} đ)`;
     const emailHtml = `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 24px; border: 1px solid #cbd5e1; border-radius: 16px; background-color: #ffffff;">
-        <div style="background: linear-gradient(135deg, #1e3a8a, #2563eb); padding: 16px 20px; border-radius: 12px; color: white; margin-bottom: 20px;">
-          <h2 style="margin: 0; font-size: 20px;">🎉 CÓ ĐƠN HÀNG MỚI CẦN XỬ LÝ!</h2>
-          <p style="margin: 4px 0 0 0; font-size: 13px; opacity: 0.9;">Mã đơn: #${order.id.slice(0, 8).toUpperCase()}</p>
+      <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 620px; margin: auto; padding: 24px; border: 1px solid #e2e8f0; border-radius: 18px; background-color: #ffffff; color: #334155;">
+        <!-- Header Banner -->
+        <div style="background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%); padding: 22px 24px; border-radius: 14px; color: #ffffff; margin-bottom: 24px; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);">
+          <div style="font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; opacity: 0.85; margin-bottom: 4px;">TẤN ĐẠT SMARTPHONE • THÔNG BÁO HỆ THỐNG</div>
+          <h2 style="margin: 0 0 6px 0; font-size: 22px; font-weight: 800; color: #ffffff;">🎉 BẠN CÓ ĐƠN HÀNG MỚI!</h2>
+          <p style="margin: 0; font-size: 13px; opacity: 0.9;">Mã đơn: <b style="background: rgba(255,255,255,0.2); padding: 2px 8px; border-radius: 6px;">#${order.id.slice(0, 8).toUpperCase()}</b> &nbsp;•&nbsp; ${orderTime}</p>
         </div>
 
-        <div style="background-color: #f8fafc; padding: 16px; border-radius: 12px; margin-bottom: 20px; font-size: 14px; line-height: 1.6;">
-          <p style="margin: 4px 0;">👤 <b>Khách hàng:</b> ${order.customerName}</p>
-          <p style="margin: 4px 0;">📞 <b>Số điện thoại:</b> <a href="tel:${order.customerPhone}" style="color: #2563eb; font-weight: bold; font-size: 16px;">${order.customerPhone}</a></p>
-          ${order.customerEmail ? `<p style="margin: 4px 0;">✉️ <b>Email khách:</b> ${order.customerEmail}</p>` : ''}
-          <p style="margin: 4px 0;">📍 <b>Địa chỉ nhận hàng:</b> ${order.address}</p>
-          <p style="margin: 4px 0;">💳 <b>Hình thức:</b> <b>${order.paymentMethod === 'COD' ? 'Thanh toán khi nhận hàng (COD)' : order.paymentMethod}</b></p>
-          ${order.note ? `<p style="margin: 4px 0; color: #d97706;">📝 <b>Ghi chú:</b> <i>${order.note}</i></p>` : ''}
+        <!-- Customer & Delivery Info -->
+        <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; padding: 18px 20px; border-radius: 14px; margin-bottom: 24px; font-size: 14px; line-height: 1.7;">
+          <div style="font-weight: 700; color: #0f172a; margin-bottom: 8px; font-size: 15px; border-bottom: 1px solid #e2e8f0; padding-bottom: 6px;">
+            👤 Thông tin người nhận
+          </div>
+          <p style="margin: 4px 0;"><b>Họ tên khách:</b> <span style="color: #0f172a; font-weight: 600;">${order.customerName}</span></p>
+          <p style="margin: 4px 0;">📞 <b>Số điện thoại:</b> <a href="tel:${order.customerPhone}" style="color: #2563eb; font-weight: 700; text-decoration: none; font-size: 15px;">${order.customerPhone}</a> (Bấm để gọi)</p>
+          ${order.customerEmail ? `<p style="margin: 4px 0;">✉️ <b>Email khách:</b> <a href="mailto:${order.customerEmail}" style="color: #2563eb;">${order.customerEmail}</a></p>` : ''}
+          <p style="margin: 4px 0;">📍 <b>Địa chỉ giao hàng:</b> <span style="color: #0f172a;">${order.address}</span></p>
+          <p style="margin: 4px 0;">💳 <b>Hình thức:</b> <span style="color: #059669; font-weight: 700;">${order.paymentMethod === 'COD' ? 'Thanh toán tiền mặt khi nhận hàng (COD)' : order.paymentMethod}</span></p>
+          ${order.note ? `<p style="margin: 6px 0 0 0; padding: 8px 12px; background: #fef3c7; border-radius: 8px; color: #92400e; font-size: 13px;">📝 <b>Ghi chú của khách:</b> <i>"${order.note}"</i></p>` : ''}
         </div>
 
-        <h4 style="margin: 0 0 10px 0; font-size: 14px; text-transform: uppercase; color: #64748b;">Chi tiết sản phẩm đặt mua:</h4>
+        <!-- Order Items Table -->
+        <h4 style="margin: 0 0 12px 0; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; color: #64748b; font-weight: 700;">Chi tiết sản phẩm đặt mua:</h4>
         <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 14px;">
           <thead>
-            <tr style="background: #f1f5f9; text-align: left;">
-              <th style="padding: 10px;">Sản phẩm</th>
-              <th style="padding: 10px; text-align: center;">SL</th>
-              <th style="padding: 10px; text-align: right;">Thành tiền</th>
+            <tr style="background: #f1f5f9; text-align: left; color: #475569; font-size: 13px;">
+              <th style="padding: 10px 12px; border-radius: 8px 0 0 8px;">Tên sản phẩm</th>
+              <th style="padding: 10px 8px; text-align: center;">SL</th>
+              <th style="padding: 10px 12px; text-align: right; border-radius: 0 8px 8px 0;">Thành tiền</th>
             </tr>
           </thead>
           <tbody>
@@ -172,14 +182,20 @@ export const notificationService = {
           </tbody>
         </table>
 
-        <div style="padding: 12px; background: #eff6ff; border-radius: 10px; text-align: right; font-size: 18px; font-weight: bold; color: #1e40af; margin-bottom: 20px;">
-          TỔNG DOANH THU: <span style="color: #dc2626;">${order.total.toLocaleString('vi-VN')} đ</span>
+        <!-- Revenue Total -->
+        <div style="padding: 16px 20px; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+          <span style="font-size: 15px; font-weight: 700; color: #1e40af;">TỔNG TIỀN THANH TOÁN:</span>
+          <span style="font-size: 20px; font-weight: 800; color: #dc2626; text-align: right;">${order.total.toLocaleString('vi-VN')} đ</span>
         </div>
 
-        <div style="text-align: center;">
-          <a href="https://tandatsmartphone.com/admin/orders" style="display: inline-block; padding: 12px 24px; background: #2563eb; color: #ffffff; text-decoration: none; font-weight: bold; border-radius: 10px; font-size: 14px;">
-            Mở Trang Quản Trị Đơn Hàng
+        <!-- Call to action button -->
+        <div style="text-align: center; padding-top: 8px;">
+          <a href="${clientUrl}/admin/orders" style="display: inline-block; padding: 14px 28px; background: #2563eb; color: #ffffff; text-decoration: none; font-weight: 700; border-radius: 12px; font-size: 15px; box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);">
+            ⚡ Mở Trang Quản Trị Đơn Hàng
           </a>
+          <p style="margin: 12px 0 0 0; font-size: 12px; color: #94a3b8;">
+            Hệ thống quản lý tự động Tấn Đạt Smartphone • tandatsmartphone.com
+          </p>
         </div>
       </div>
     `;

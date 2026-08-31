@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Store, Phone, MapPin, CreditCard, Save, ShieldCheck } from 'lucide-react';
+import { Store, Phone, MapPin, CreditCard, Save, ShieldCheck, Mail, Send, Loader2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 export const AdminSettingsPage: React.FC = () => {
+  const [sendingTestEmail, setSendingTestEmail] = useState(false);
   const [storeInfo, setStoreInfo] = useState({
     storeName: 'TẤN ĐẠT SMARTPHONE',
     slogan: 'MUA BÁN • SỬA CHỮA • ÉP KÍNH SMARTPHONE',
@@ -19,6 +20,23 @@ export const AdminSettingsPage: React.FC = () => {
     e.preventDefault();
     localStorage.setItem('phone_web_store_settings', JSON.stringify(storeInfo));
     toast.success('Đã lưu cấu hình thông tin cửa hàng thành công!');
+  };
+
+  const handleTestEmail = async () => {
+    setSendingTestEmail(true);
+    try {
+      const res = await fetch('/api/test-email');
+      const data = await res.json();
+      if (data.success) {
+        toast.success('Đã gửi email thử nghiệm thành công tới hòm thư Admin!');
+      } else {
+        toast.error(data.message || 'Không thể gửi email thử nghiệm');
+      }
+    } catch (err: any) {
+      toast.error('Lỗi khi gửi email thử nghiệm: ' + err.message);
+    } finally {
+      setSendingTestEmail(false);
+    }
   };
 
   return (
@@ -148,6 +166,52 @@ export const AdminSettingsPage: React.FC = () => {
                 className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold text-slate-900 outline-none focus:border-blue-500 focus:bg-white uppercase"
               />
             </div>
+          </div>
+        </div>
+
+        {/* Email Notification Information & Test */}
+        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-xs space-y-4">
+          <div className="flex items-center justify-between pb-4 border-b border-slate-100">
+            <div className="flex items-center gap-2 font-bold text-slate-800 text-lg">
+              <Mail className="w-5 h-5 text-blue-600" />
+              <span>Thông báo Email Đơn Hàng Mới (Admin)</span>
+            </div>
+            <span className="px-3 py-1 bg-emerald-50 text-emerald-700 text-xs font-bold rounded-full border border-emerald-200 flex items-center gap-1">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              Đang hoạt động
+            </span>
+          </div>
+
+          <p className="text-sm text-slate-600">
+            Hệ thống tự động gửi thông báo chi tiết đơn hàng (Tên khách, SĐT, Địa chỉ, Danh sách máy, Tổng tiền) ngay khi có khách bấm Đặt hàng.
+          </p>
+
+          <div className="p-4 bg-slate-50 border border-slate-200 rounded-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div>
+              <div className="text-xs font-bold text-slate-500 uppercase">Email nhận thông báo Admin</div>
+              <div className="text-sm font-semibold text-slate-900 mt-0.5">
+                nhut64463@gmail.com, led981388@gmail.com
+              </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={handleTestEmail}
+              disabled={sendingTestEmail}
+              className="px-4 py-2 bg-white border border-blue-200 hover:border-blue-500 text-blue-600 hover:text-blue-700 text-xs font-bold rounded-xl transition-all shadow-xs flex items-center gap-1.5 disabled:opacity-60"
+            >
+              {sendingTestEmail ? (
+                <>
+                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                  <span>Đang gửi thử...</span>
+                </>
+              ) : (
+                <>
+                  <Send className="w-3.5 h-3.5" />
+                  <span>Gửi Email Thử Nghiệm</span>
+                </>
+              )}
+            </button>
           </div>
         </div>
 
