@@ -190,7 +190,7 @@ export const AdminSettingsPage: React.FC = () => {
             <div>
               <div className="text-xs font-bold text-slate-500 uppercase">Email nhận thông báo Admin</div>
               <div className="text-sm font-semibold text-slate-900 mt-0.5">
-                nhut64463@gmail.com, led981388@gmail.com
+                led981388@gmail.com
               </div>
             </div>
 
