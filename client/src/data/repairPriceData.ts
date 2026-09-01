@@ -62,7 +62,7 @@ export const SERVICE_CATEGORIES: ServiceCategoryMeta[] = [
 ];
 
 export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
-  // ==================== 1. BẢNG GIÁ ÉP KÍNH (MÀN HÌNH TRƯỚC) ====================
+  // ==================== 1. BẢNG GIÁ ÉP KÍNH (100% ẢNH MÀN HÌNH TRƯỚC) ====================
   {
     id: 'ek-12',
     category: 'ep-kinh',
@@ -72,7 +72,7 @@ export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
     discountAmount: 100000,
     unit: 'VNĐ',
     warranty: 'Bảo hành bọt keo 12 tháng',
-    image: 'https://images.unsplash.com/photo-1605236453806-6ff36851218e?auto=format&fit=crop&w=600&q=80',
+    image: 'https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=600&q=80',
     note: 'Màn hình 6.1" OLED Super Retina XDR — Ép hút chân không giữ màn zin',
     isPopular: true,
   },
@@ -85,7 +85,7 @@ export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
     discountAmount: 100000,
     unit: 'VNĐ',
     warranty: 'Bảo hành bọt keo 12 tháng',
-    image: 'https://images.unsplash.com/photo-1605236453806-6ff36851218e?auto=format&fit=crop&w=600&q=80',
+    image: 'https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=600&q=80',
     note: 'Kính Ceramic Shield viền thép — Ép chuẩn không bụi bọt',
     isPopular: true,
   },
@@ -98,7 +98,7 @@ export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
     discountAmount: 100000,
     unit: 'VNĐ',
     warranty: 'Bảo hành bọt keo 12 tháng',
-    image: 'https://images.unsplash.com/photo-1605236453806-6ff36851218e?auto=format&fit=crop&w=600&q=80',
+    image: 'https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=600&q=80',
     note: 'Màn hình lớn 6.7" OLED — Kính cường lực chuẩn zin Apple',
     isPopular: true,
   },
@@ -111,7 +111,7 @@ export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
     discountAmount: 100000,
     unit: 'VNĐ',
     warranty: 'Bảo hành bọt keo 12 tháng',
-    image: 'https://images.unsplash.com/photo-1632661674596-df8be070a5c5?auto=format&fit=crop&w=600&q=80',
+    image: 'https://images.unsplash.com/photo-1567581935884-3349723552ca?auto=format&fit=crop&w=600&q=80',
     note: 'Tai thỏ nhỏ gọn 20% — Kính phủ Oleophobic chống bám vân tay',
     isPopular: true,
   },
@@ -124,7 +124,7 @@ export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
     discountAmount: 100000,
     unit: 'VNĐ',
     warranty: 'Bảo hành bọt keo 12 tháng',
-    image: 'https://images.unsplash.com/photo-1632661674596-df8be070a5c5?auto=format&fit=crop&w=600&q=80',
+    image: 'https://images.unsplash.com/photo-1567581935884-3349723552ca?auto=format&fit=crop&w=600&q=80',
     note: 'Màn hình ProMotion 120Hz siêu mượt — Ép bảo toàn tần số quét',
     isPopular: true,
   },
@@ -137,7 +137,7 @@ export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
     discountAmount: 100000,
     unit: 'VNĐ',
     warranty: 'Bảo hành bọt keo 12 tháng',
-    image: 'https://images.unsplash.com/photo-1632661674596-df8be070a5c5?auto=format&fit=crop&w=600&q=80',
+    image: 'https://images.unsplash.com/photo-1567581935884-3349723552ca?auto=format&fit=crop&w=600&q=80',
     note: 'Màn hình 6.7" 120Hz đỉnh cao — Ép máy chân không giữ trọn hiển thị',
     isPopular: true,
   },
@@ -150,7 +150,7 @@ export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
     discountAmount: 100000,
     unit: 'VNĐ',
     warranty: 'Bảo hành bọt keo 12 tháng',
-    image: 'https://images.unsplash.com/photo-1663499482523-1c0c1bae4ce1?auto=format&fit=crop&w=600&q=80',
+    image: 'https://images.unsplash.com/photo-1591337676887-a217a6970a8a?auto=format&fit=crop&w=600&q=80',
     note: 'Kính Ceramic Shield thế hệ mới — Độ trong suốt và cảm ứng 100%',
     isPopular: true,
   },
@@ -163,7 +163,7 @@ export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
     discountAmount: 100000,
     unit: 'VNĐ',
     warranty: 'Bảo hành bọt keo 12 tháng',
-    image: 'https://images.unsplash.com/photo-1678685888221-cda773a3dcdb?auto=format&fit=crop&w=600&q=80',
+    image: 'https://images.unsplash.com/photo-1585060544812-6b45742d762f?auto=format&fit=crop&w=600&q=80',
     note: 'Màn Dynamic Island 120Hz — Ép kính chuẩn tương thích FaceID & Island',
     isPopular: true,
   },
@@ -176,7 +176,7 @@ export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
     discountAmount: 100000,
     unit: 'VNĐ',
     warranty: 'Bảo hành bọt keo 12 tháng',
-    image: 'https://images.unsplash.com/photo-1678685888221-cda773a3dcdb?auto=format&fit=crop&w=600&q=80',
+    image: 'https://images.unsplash.com/photo-1585060544812-6b45742d762f?auto=format&fit=crop&w=600&q=80',
     note: 'Màn hình Dynamic Island 2000 nits — Chuẩn công nghệ ép bóc tách cao cấp',
     isPopular: true,
   },
@@ -189,7 +189,7 @@ export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
     discountAmount: 100000,
     unit: 'VNĐ',
     warranty: 'Bảo hành bọt keo 12 tháng',
-    image: 'https://images.unsplash.com/photo-1695048065057-0a4a58406ca7?auto=format&fit=crop&w=600&q=80',
+    image: 'https://images.unsplash.com/photo-1530319067432-f2a729c03db5?auto=format&fit=crop&w=600&q=80',
     note: 'Màn Dynamic Island sắc nét — Ép kính zin chuẩn viền siêu mỏng',
     isPopular: true,
   },
@@ -202,7 +202,7 @@ export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
     discountAmount: 100000,
     unit: 'VNĐ',
     warranty: 'Bảo hành bọt keo 12 tháng',
-    image: 'https://images.unsplash.com/photo-1695048065057-0a4a58406ca7?auto=format&fit=crop&w=600&q=80',
+    image: 'https://images.unsplash.com/photo-1530319067432-f2a729c03db5?auto=format&fit=crop&w=600&q=80',
     note: 'Màn hình 6.7" Dynamic Island — Kính trong vắt, cảm ứng mượt mà',
     isPopular: true,
   },
@@ -215,7 +215,7 @@ export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
     discountAmount: 100000,
     unit: 'VNĐ',
     warranty: 'Bảo hành bọt keo 12 tháng',
-    image: 'https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=600&q=80',
+    image: 'https://images.unsplash.com/photo-1529653762956-b0a27278529c?auto=format&fit=crop&w=600&q=80',
     note: 'Viền màn hình Titan mỏng nhất — Giữ trọn hiển thị OLED 120Hz ProMotion',
     isPopular: true,
   },
@@ -228,12 +228,12 @@ export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
     discountAmount: 100000,
     unit: 'VNĐ',
     warranty: 'Bảo hành bọt keo 12 tháng',
-    image: 'https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=600&q=80',
+    image: 'https://images.unsplash.com/photo-1529653762956-b0a27278529c?auto=format&fit=crop&w=600&q=80',
     note: 'Kính siêu phẩm Titan đỉnh cao — Ép máy hút chân không chuẩn phòng sạch',
     isPopular: true,
   },
 
-  // ==================== 2. BẢNG GIÁ THAY LƯNG CẮT MẮT (MẶT LƯNG & CAMERA) ====================
+  // ==================== 2. BẢNG GIÁ THAY LƯNG CẮT MẮT (100% ẢNH MẶT LƯNG & CAMERA) ====================
   {
     id: 'tl-8plus',
     category: 'thay-lung',
@@ -404,7 +404,7 @@ export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
     discountAmount: 100000,
     unit: 'VNĐ',
     warranty: 'Bảo hành khít keo trọn đời',
-    image: 'https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=600&q=80',
+    image: 'https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=600&q=80',
     note: 'Kính lưng bóng màu Tím Purple, Xanh Blue, Midnight, Starlight, Red',
   },
   {
@@ -416,7 +416,7 @@ export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
     discountAmount: 100000,
     unit: 'VNĐ',
     warranty: 'Bảo hành khít keo trọn đời',
-    image: 'https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=600&q=80',
+    image: 'https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=600&q=80',
     note: 'Mặt lưng kích thước 6.7 inch — Cắt mắt chuẩn khít không hở cạnh',
   },
   {
@@ -482,7 +482,7 @@ export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
     isPopular: true,
   },
 
-  // ==================== 3. BẢNG GIÁ THAY CẢM ỨNG (SÀNG IC CHUẨN ZIN) ====================
+  // ==================== 3. BẢNG GIÁ THAY CẢM ỨNG (100% ẢNH VI MẠCH & IC SÀNG) ====================
   {
     id: 'cu-x-xs-xr',
     category: 'cam-ung',
