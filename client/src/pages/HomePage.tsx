@@ -258,27 +258,27 @@ export const HomePage: React.FC = () => {
             <div className="lg:col-span-8 space-y-4">
               <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-400/20 text-amber-300 text-xs font-bold border border-amber-400/30">
                 <Wrench className="w-3.5 h-3.5" />
-                <span>DỊCH VỤ CHUYÊN NGHIỆP TẠI TP. HUẾ</span>
+                <span>DỊCH VỤ CHUYÊN NGHIỆP TẠI TP. HUẾ — ƯU ĐÃI GIẢM 100K</span>
               </div>
               <h2 className="text-2xl sm:text-4xl font-black tracking-tight">
-                Ép Kính & Sửa Chữa Smartphone Lấy Liền
+                Ép Kính, Thay Lưng & Cảm Ứng Smartphone Lấy Liền
               </h2>
               <p className="text-sm sm:text-base text-slate-300 leading-relaxed max-w-2xl">
-                Cửa hàng Tấn Đạt trang bị hệ thống máy móc ép kính chân không công nghệ cao, thay màn hình, thay pin, sửa chữa mainboard với linh kiện chính hãng và bảo hành chu đáo.
+                Cửa hàng Tấn Đạt trang bị máy ép chân không tự động, kính lưng cắt mắt camera chuẩn zin, sàng IC cảm ứng không báo lỗi. <span className="text-amber-300 font-bold">Ưu đãi giảm ngay 100.000đ</span> cho toàn bộ dòng iPhone từ iP 8 Plus đến iPhone 15 Pro Max.
               </p>
               <div className="flex flex-wrap gap-4 pt-2">
                 <Link
-                  to="/dich-vu-sua-chua"
-                  className="px-6 py-3 bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold rounded-xl text-sm transition-all"
+                  to="/dich-vu-sua-chua#bang-gia"
+                  className="px-6 py-3 bg-amber-400 hover:bg-amber-300 text-slate-950 font-extrabold rounded-xl text-sm transition-all shadow-lg shadow-amber-400/20 hover:scale-105"
                 >
-                  Xem Bảng Giá Sửa Chữa
+                  Xem Bảng Giá Giảm 100K
                 </Link>
                 <a
                   href="tel:0935677775"
                   className="px-6 py-3 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl text-sm border border-white/20 transition-all flex items-center gap-2"
                 >
                   <Phone className="w-4 h-4 text-amber-300" />
-                  Gọi 093 567 7775 (Tư Vấn Miễn Phí)
+                  Gọi 093 567 7775 (Báo Giá Nhanh)
                 </a>
               </div>
             </div>
