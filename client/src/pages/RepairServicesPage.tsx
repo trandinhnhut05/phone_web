@@ -18,6 +18,9 @@ import {
   Check,
   HelpCircle,
   Zap,
+  ChevronDown,
+  ChevronUp,
+  RotateCcw,
 } from 'lucide-react';
 import { SEO } from '../components/SEO.js';
 import { TanDatLogo } from '../components/Logo.js';
@@ -27,15 +30,38 @@ import {
   RepairServiceItem,
 } from '../data/repairPriceData.js';
 
+const SERIES_FILTERS = [
+  { id: 'all', name: 'Tất Cả Series' },
+  { id: '15', name: 'iPhone 15 Series' },
+  { id: '14', name: 'iPhone 14 Series' },
+  { id: '13', name: 'iPhone 13 Series' },
+  { id: '12', name: 'iPhone 12 Series' },
+  { id: '11', name: 'iPhone 11 Series' },
+  { id: 'x', name: 'iPhone X / XS / XR' },
+  { id: '8plus', name: 'iPhone 8 Plus' },
+];
+
 export const RepairServicesPage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<'all' | 'ep-kinh' | 'thay-lung' | 'cam-ung'>('all');
+  const [selectedSeries, setSelectedSeries] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedItemForModal, setSelectedItemForModal] = useState<RepairServiceItem | null>(null);
+  const [displayLimit, setDisplayLimit] = useState<number>(9);
+
+  const scrollToPriceTable = (catId?: 'ep-kinh' | 'thay-lung' | 'cam-ung') => {
+    if (catId) {
+      setSelectedCategory(catId);
+    }
+    const element = document.getElementById('bang-gia');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
 
   const generalServices = [
     {
       title: 'Ép Kính Smartphone Lấy Liền',
       icon: Smartphone,
+      categoryKey: 'ep-kinh' as const,
       desc: 'Công nghệ ép kính hút chân không tự động, giữ lại màn hình hiển thị và cảm ứng gốc của máy. Áp dụng cho iPhone, Samsung, Xiaomi, OPPO, Realme...',
       time: '30 - 60 Phút',
       warranty: 'Bảo hành keo bọt 12 tháng',
@@ -43,6 +69,7 @@ export const RepairServicesPage: React.FC = () => {
     {
       title: 'Thay Lưng Kính Cắt Mắt Camera',
       icon: Layers,
+      categoryKey: 'thay-lung' as const,
       desc: 'Thay nắp lưng kính chuẩn màu sắc nguyên bản, cắt mắt camera CNC tinh xảo khít đẹp không hở bụi, không cần bung máy tháo main.',
       time: '30 - 45 Phút',
       warranty: 'Bảo hành hở keo trọn đời',
@@ -50,6 +77,7 @@ export const RepairServicesPage: React.FC = () => {
     {
       title: 'Thay Cảm Ứng (Sàng IC Chuẩn Zin)',
       icon: Cpu,
+      categoryKey: 'cam-ung' as const,
       desc: 'Xử lý triệt để đơ loạn, liệt cảm ứng. Kỹ thuật viên tay nghề cao sàng IC gốc không báo lỗi linh kiện không xác định trên iOS.',
       time: '45 - 90 Phút',
       warranty: 'Bảo hành cảm ứng 3 tháng',
@@ -57,22 +85,58 @@ export const RepairServicesPage: React.FC = () => {
     {
       title: 'Thay Pin & Sửa Chữa Phần Cứng',
       icon: BatteryCharging,
+      categoryKey: null,
       desc: 'Thay pin dung lượng cao / dung lượng chuẩn chính hãng, sửa chữa mất nguồn, mất sóng, camera, chuông loa lấy liền.',
       time: '15 - 30 Phút',
       warranty: 'Bảo hành 1 đổi 1 6 - 12 tháng',
     },
   ];
 
-  // Filter items based on category and search query
+  // Filter items based on category, series and search query
   const filteredItems = useMemo(() => {
     return REPAIR_PRICE_ITEMS.filter((item) => {
       const matchCat = selectedCategory === 'all' || item.category === selectedCategory;
+
+      let matchSeries = true;
+      if (selectedSeries !== 'all') {
+        const lowerModel = item.model.toLowerCase();
+        if (selectedSeries === '15') matchSeries = lowerModel.includes('15');
+        else if (selectedSeries === '14') matchSeries = lowerModel.includes('14');
+        else if (selectedSeries === '13') matchSeries = lowerModel.includes('13');
+        else if (selectedSeries === '12') matchSeries = lowerModel.includes('12');
+        else if (selectedSeries === '11') matchSeries = lowerModel.includes('11');
+        else if (selectedSeries === 'x') matchSeries = lowerModel.includes('x') || lowerModel.includes('xs') || lowerModel.includes('xr');
+        else if (selectedSeries === '8plus') matchSeries = lowerModel.includes('8 plus') || lowerModel.includes('8plus');
+      }
+
       const matchSearch =
         item.model.toLowerCase().includes(searchQuery.toLowerCase().trim()) ||
         (item.note && item.note.toLowerCase().includes(searchQuery.toLowerCase().trim()));
-      return matchCat && matchSearch;
+
+      return matchCat && matchSeries && matchSearch;
     });
-  }, [selectedCategory, searchQuery]);
+  }, [selectedCategory, selectedSeries, searchQuery]);
+
+  // Determine items to display based on limit
+  const visibleItems = useMemo(() => {
+    // If searching or specific series selected, show all matching or respect limit
+    return filteredItems.slice(0, displayLimit);
+  }, [filteredItems, displayLimit]);
+
+  const hasMore = displayLimit < filteredItems.length;
+
+  const handleShowMore = () => {
+    setDisplayLimit((prev) => prev + 9);
+  };
+
+  const handleShowAll = () => {
+    setDisplayLimit(filteredItems.length);
+  };
+
+  const handleCollapse = () => {
+    setDisplayLimit(9);
+    scrollToPriceTable();
+  };
 
   const formatPrice = (price: number | null) => {
     if (price === null) return 'Liên hệ';
@@ -125,6 +189,13 @@ export const RepairServicesPage: React.FC = () => {
 
           {/* Action CTAs */}
           <div className="flex flex-wrap items-center justify-center gap-3.5 pt-2">
+            <button
+              onClick={() => scrollToPriceTable()}
+              className="px-6 py-3.5 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black rounded-2xl shadow-lg shadow-amber-500/30 flex items-center gap-2 transition-all hover:scale-105 active:scale-95 text-sm"
+            >
+              <Tag className="w-4 h-4" />
+              <span>Xem Bảng Giá Giảm 100K</span>
+            </button>
             <a
               href="tel:0935677775"
               className="px-6 py-3.5 bg-red-600 hover:bg-red-700 text-white font-bold rounded-2xl shadow-lg shadow-red-600/30 flex items-center gap-2 transition-all hover:scale-105 active:scale-95 text-sm"
@@ -144,20 +215,36 @@ export const RepairServicesPage: React.FC = () => {
           </div>
         </div>
 
-        {/* 4 Core Repair Highlights */}
+        {/* 4 Core Repair Highlights - Clickable to fast filter */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {generalServices.map((srv, idx) => {
             const Icon = srv.icon;
             return (
               <div
                 key={idx}
-                className="bg-white rounded-3xl p-6 border border-slate-200 shadow-xs hover:shadow-xl hover:border-blue-300 transition-all duration-300 flex flex-col justify-between space-y-4"
+                onClick={() => {
+                  if (srv.categoryKey) {
+                    scrollToPriceTable(srv.categoryKey);
+                  } else {
+                    window.location.href = 'tel:0935677775';
+                  }
+                }}
+                className="cursor-pointer bg-white rounded-3xl p-6 border border-slate-200 shadow-xs hover:shadow-xl hover:border-blue-400 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between space-y-4 group"
               >
                 <div className="space-y-3">
-                  <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center">
-                    <Icon className="w-6 h-6" />
+                  <div className="flex items-center justify-between">
+                    <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors flex items-center justify-center">
+                      <Icon className="w-6 h-6" />
+                    </div>
+                    {srv.categoryKey && (
+                      <span className="text-[11px] font-bold text-blue-600 group-hover:translate-x-1 transition-transform flex items-center gap-0.5">
+                        Xem giá <ArrowRight className="w-3 h-3" />
+                      </span>
+                    )}
                   </div>
-                  <h3 className="text-base font-bold text-slate-900">{srv.title}</h3>
+                  <h3 className="text-base font-bold text-slate-900 group-hover:text-blue-600 transition-colors">
+                    {srv.title}
+                  </h3>
                   <p className="text-xs text-slate-600 leading-relaxed">{srv.desc}</p>
                 </div>
 
@@ -176,8 +263,9 @@ export const RepairServicesPage: React.FC = () => {
           })}
         </div>
 
-        {/* Interactive Price Table Section */}
+        {/* Interactive Price Table Section with Expand & Filter */}
         <div className="bg-white rounded-3xl border border-slate-200/80 shadow-md p-6 sm:p-8 space-y-8" id="bang-gia">
+          {/* Section Header */}
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-slate-100">
             <div>
               <div className="inline-flex items-center gap-1.5 text-xs font-bold text-amber-600 bg-amber-50 px-3 py-1 rounded-full mb-2 border border-amber-200">
@@ -199,7 +287,10 @@ export const RepairServicesPage: React.FC = () => {
                 type="text"
                 placeholder="Tìm dòng máy (vd: 12, 14 pro max, xs)..."
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setDisplayLimit(filteredItems.length || 9);
+                }}
                 className="w-full pl-10 pr-4 py-2.5 rounded-2xl border border-slate-200 bg-slate-50 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition-all"
               />
               {searchQuery && (
@@ -213,56 +304,124 @@ export const RepairServicesPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Category Filter Pills */}
-          <div className="flex flex-wrap gap-2.5">
-            {SERVICE_CATEGORIES.map((cat) => {
-              const isActive = selectedCategory === cat.id;
-              return (
-                <button
-                  key={cat.id}
-                  onClick={() => setSelectedCategory(cat.id)}
-                  className={`px-4 py-2.5 rounded-2xl font-bold text-xs sm:text-sm transition-all flex items-center gap-2 ${
-                    isActive
-                      ? 'bg-slate-900 text-white shadow-md shadow-slate-900/20 scale-[1.02]'
-                      : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                  }`}
-                >
-                  {cat.id === 'ep-kinh' && <Smartphone className="w-4 h-4 text-blue-400" />}
-                  {cat.id === 'thay-lung' && <Layers className="w-4 h-4 text-purple-400" />}
-                  {cat.id === 'cam-ung' && <Cpu className="w-4 h-4 text-emerald-400" />}
-                  {cat.id === 'all' && <Filter className="w-4 h-4 text-amber-400" />}
-                  <span>{cat.shortName}</span>
-                  <span
-                    className={`text-[10px] px-2 py-0.5 rounded-full font-extrabold ${
-                      isActive ? 'bg-white/20 text-white' : 'bg-slate-200 text-slate-600'
+          {/* 1. Category Filter Pills */}
+          <div className="space-y-3">
+            <div className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+              Chọn dịch vụ cần tra cứu:
+            </div>
+            <div className="flex flex-wrap gap-2.5">
+              {SERVICE_CATEGORIES.map((cat) => {
+                const isActive = selectedCategory === cat.id;
+                return (
+                  <button
+                    key={cat.id}
+                    onClick={() => {
+                      setSelectedCategory(cat.id);
+                      setDisplayLimit(9);
+                    }}
+                    className={`px-4 py-2.5 rounded-2xl font-bold text-xs sm:text-sm transition-all flex items-center gap-2 ${
+                      isActive
+                        ? 'bg-slate-900 text-white shadow-md shadow-slate-900/20 scale-[1.02]'
+                        : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                     }`}
                   >
-                    {cat.id === 'all'
-                      ? REPAIR_PRICE_ITEMS.length
-                      : REPAIR_PRICE_ITEMS.filter((i) => i.category === cat.id).length}
-                  </span>
+                    {cat.id === 'ep-kinh' && <Smartphone className="w-4 h-4 text-blue-400" />}
+                    {cat.id === 'thay-lung' && <Layers className="w-4 h-4 text-purple-400" />}
+                    {cat.id === 'cam-ung' && <Cpu className="w-4 h-4 text-emerald-400" />}
+                    {cat.id === 'all' && <Filter className="w-4 h-4 text-amber-400" />}
+                    <span>{cat.shortName}</span>
+                    <span
+                      className={`text-[10px] px-2 py-0.5 rounded-full font-extrabold ${
+                        isActive ? 'bg-white/20 text-white' : 'bg-slate-200 text-slate-600'
+                      }`}
+                    >
+                      {cat.id === 'all'
+                        ? REPAIR_PRICE_ITEMS.length
+                        : REPAIR_PRICE_ITEMS.filter((i) => i.category === cat.id).length}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* 2. Series Quick Filter Pills */}
+          <div className="space-y-2 pt-1 border-t border-slate-100">
+            <div className="text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center justify-between">
+              <span>Lọc theo dòng iPhone:</span>
+              {(selectedSeries !== 'all' || selectedCategory !== 'all' || searchQuery) && (
+                <button
+                  onClick={() => {
+                    setSelectedSeries('all');
+                    setSelectedCategory('all');
+                    setSearchQuery('');
+                    setDisplayLimit(9);
+                  }}
+                  className="text-[11px] text-blue-600 hover:text-blue-800 font-bold flex items-center gap-1"
+                >
+                  <RotateCcw className="w-3 h-3" />
+                  Đặt lại tất cả
                 </button>
-              );
-            })}
+              )}
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {SERIES_FILTERS.map((s) => {
+                const isActive = selectedSeries === s.id;
+                return (
+                  <button
+                    key={s.id}
+                    onClick={() => {
+                      setSelectedSeries(s.id);
+                      setDisplayLimit(9);
+                    }}
+                    className={`px-3 py-1.5 rounded-xl font-bold text-xs transition-all ${
+                      isActive
+                        ? 'bg-blue-600 text-white shadow-sm'
+                        : 'bg-slate-50 text-slate-600 hover:bg-slate-100 border border-slate-200'
+                    }`}
+                  >
+                    {s.name}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Results count bar */}
+          <div className="flex items-center justify-between text-xs text-slate-500 pt-1 pb-1">
+            <span>
+              Tìm thấy <b className="text-slate-900">{filteredItems.length}</b> sản phẩm linh kiện
+              {filteredItems.length > 0 && ` (Đang hiển thị ${visibleItems.length}/${filteredItems.length})`}
+            </span>
+            {hasMore && (
+              <span className="text-blue-600 font-bold hidden sm:inline-block">
+                Còn {filteredItems.length - visibleItems.length} linh kiện chưa hiển thị
+              </span>
+            )}
           </div>
 
           {/* Table / Grid of items */}
           {filteredItems.length === 0 ? (
             <div className="text-center py-12 bg-slate-50 rounded-2xl border border-dashed border-slate-300">
-              <p className="text-slate-500 font-medium">Không tìm thấy linh kiện cho từ khóa "{searchQuery}"</p>
+              <p className="text-slate-500 font-medium">
+                Không tìm thấy linh kiện nào phù hợp với bộ lọc hiện tại.
+              </p>
               <button
                 onClick={() => {
                   setSearchQuery('');
                   setSelectedCategory('all');
+                  setSelectedSeries('all');
+                  setDisplayLimit(9);
                 }}
-                className="mt-3 text-xs text-blue-600 font-bold hover:underline"
+                className="mt-3 text-xs text-blue-600 font-bold hover:underline inline-flex items-center gap-1"
               >
-                Đặt lại bộ lọc
+                <RotateCcw className="w-3.5 h-3.5" />
+                Xem lại toàn bộ bảng giá
               </button>
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {filteredItems.map((item) => {
+              {visibleItems.map((item) => {
                 const catBadge = getCategoryBadge(item.category);
                 const isCall = item.discountedPrice === null;
 
@@ -359,6 +518,37 @@ export const RepairServicesPage: React.FC = () => {
                   </div>
                 );
               })}
+            </div>
+          )}
+
+          {/* ==================== SHOW MORE / EXPAND CONTROLS ==================== */}
+          {filteredItems.length > 9 && (
+            <div className="flex flex-wrap items-center justify-center gap-3 pt-4 border-t border-slate-100">
+              {hasMore ? (
+                <>
+                  <button
+                    onClick={handleShowMore}
+                    className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-2xl shadow-md shadow-blue-600/20 text-xs sm:text-sm flex items-center gap-2 transition-all hover:scale-105 active:scale-95"
+                  >
+                    <ChevronDown className="w-4 h-4" />
+                    <span>Xem Thêm 9 Sản Phẩm (Còn {filteredItems.length - visibleItems.length})</span>
+                  </button>
+                  <button
+                    onClick={handleShowAll}
+                    className="px-5 py-3 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold rounded-2xl text-xs sm:text-sm flex items-center gap-1.5 transition-all"
+                  >
+                    <span>Xem Tất Cả ({filteredItems.length})</span>
+                  </button>
+                </>
+              ) : (
+                <button
+                  onClick={handleCollapse}
+                  className="px-6 py-3 bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold rounded-2xl text-xs sm:text-sm flex items-center gap-2 transition-all hover:scale-105 active:scale-95"
+                >
+                  <ChevronUp className="w-4 h-4" />
+                  <span>Thu Gọn Danh Sách</span>
+                </button>
+              )}
             </div>
           )}
 
