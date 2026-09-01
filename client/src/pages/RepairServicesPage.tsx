@@ -62,6 +62,7 @@ export const RepairServicesPage: React.FC = () => {
       title: 'Ép Kính Smartphone Lấy Liền',
       icon: Smartphone,
       categoryKey: 'ep-kinh' as const,
+      image: 'https://images.unsplash.com/photo-1580910051074-3eb694886505?auto=format&fit=crop&w=600&q=80',
       desc: 'Công nghệ hút chân không tự động, giữ trọn màn hình và cảm ứng gốc. Áp dụng cho iPhone, Samsung, Xiaomi, OPPO...',
       time: '30 - 60 Phút',
       warranty: 'Keo bọt 12 tháng',
@@ -70,6 +71,7 @@ export const RepairServicesPage: React.FC = () => {
       title: 'Thay Lưng Kính Cắt Mắt',
       icon: Layers,
       categoryKey: 'thay-lung' as const,
+      image: 'https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=600&q=80',
       desc: 'Kính lưng chuẩn màu zin, cắt mắt camera CNC khít đẹp không hở bụi, không cần tháo máy bung main.',
       time: '30 - 45 Phút',
       warranty: 'Hở keo trọn đời',
@@ -78,6 +80,7 @@ export const RepairServicesPage: React.FC = () => {
       title: 'Thay Cảm Ứng (Sàng IC)',
       icon: Cpu,
       categoryKey: 'cam-ung' as const,
+      image: 'https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?auto=format&fit=crop&w=600&q=80',
       desc: 'Xử lý triệt để đơ loạn cảm ứng. Sàng IC gốc chuẩn hãng, không cảnh báo linh kiện trên iOS.',
       time: '45 - 90 Phút',
       warranty: 'Cảm ứng 3 tháng',
@@ -86,6 +89,7 @@ export const RepairServicesPage: React.FC = () => {
       title: 'Thay Pin & Phần Cứng',
       icon: BatteryCharging,
       categoryKey: null,
+      image: 'https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=600&q=80',
       desc: 'Thay pin dung lượng cao chính hãng, sửa chữa mất nguồn, sóng yếu, camera, chuông loa lấy ngay.',
       time: '15 - 30 Phút',
       warranty: '1 đổi 1 6 - 12T',
@@ -215,8 +219,8 @@ export const RepairServicesPage: React.FC = () => {
           </div>
         </div>
 
-        {/* 4 Core Repair Highlights */}
-        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
+        {/* 4 Core Repair Highlights with Rich Illustrative Images */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
           {generalServices.map((srv, idx) => {
             const Icon = srv.icon;
             return (
@@ -229,35 +233,51 @@ export const RepairServicesPage: React.FC = () => {
                     window.location.href = 'tel:0935677775';
                   }
                 }}
-                className="cursor-pointer bg-white rounded-2xl sm:rounded-3xl p-3.5 sm:p-6 border border-slate-200 shadow-xs hover:shadow-lg hover:border-blue-400 transition-all flex flex-col justify-between space-y-2.5 sm:space-y-4 group active:scale-[0.98]"
+                className="cursor-pointer bg-white rounded-2xl sm:rounded-3xl border border-slate-200 overflow-hidden shadow-xs hover:shadow-xl hover:border-blue-400 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group active:scale-[0.98]"
               >
-                <div className="space-y-2 sm:space-y-3">
-                  <div className="flex items-center justify-between">
-                    <div className="w-9 h-9 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-blue-50 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors flex items-center justify-center">
-                      <Icon className="w-5 h-5 sm:w-6 sm:h-6" />
+                {/* Illustrative Image Header */}
+                <div className="relative h-36 sm:h-40 w-full overflow-hidden bg-slate-100">
+                  <img
+                    src={srv.image}
+                    alt={srv.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/30 to-transparent"></div>
+                  
+                  {/* Floating Icon */}
+                  <div className="absolute bottom-3 left-3 flex items-center gap-2">
+                    <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-md">
+                      <Icon className="w-5 h-5" />
                     </div>
                     {srv.categoryKey && (
-                      <span className="text-[10px] sm:text-[11px] font-bold text-blue-600 group-hover:translate-x-0.5 transition-transform hidden xs:inline-flex items-center gap-0.5">
+                      <span className="text-[11px] font-bold text-amber-300 bg-black/40 backdrop-blur-xs px-2 py-0.5 rounded-md flex items-center gap-0.5">
                         Xem giá <ArrowRight className="w-2.5 h-2.5" />
                       </span>
                     )}
                   </div>
-                  <h3 className="text-xs sm:text-base font-bold text-slate-900 group-hover:text-blue-600 transition-colors line-clamp-2">
-                    {srv.title}
-                  </h3>
-                  <p className="text-[11px] sm:text-xs text-slate-500 leading-relaxed line-clamp-2 sm:line-clamp-3">
-                    {srv.desc}
-                  </p>
                 </div>
 
-                <div className="pt-2 sm:pt-3 border-t border-slate-100 flex flex-col gap-1 sm:gap-1.5 text-[10px] sm:text-[11px] font-semibold">
-                  <div className="flex items-center gap-1 text-slate-700">
-                    <Clock className="w-3 h-3 text-amber-500 shrink-0" />
-                    <span className="truncate">{srv.time}</span>
+                {/* Body Content */}
+                <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between space-y-3">
+                  <div className="space-y-1.5">
+                    <h3 className="text-sm sm:text-base font-bold text-slate-900 group-hover:text-blue-600 transition-colors line-clamp-1">
+                      {srv.title}
+                    </h3>
+                    <p className="text-[11px] sm:text-xs text-slate-500 leading-relaxed line-clamp-2">
+                      {srv.desc}
+                    </p>
                   </div>
-                  <div className="flex items-center gap-1 text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md">
-                    <ShieldCheck className="w-3 h-3 shrink-0" />
-                    <span className="truncate">{srv.warranty}</span>
+
+                  <div className="pt-2.5 border-t border-slate-100 flex items-center justify-between gap-1 text-[10px] sm:text-[11px] font-semibold">
+                    <div className="flex items-center gap-1 text-slate-700">
+                      <Clock className="w-3 h-3 text-amber-500 shrink-0" />
+                      <span className="truncate">{srv.time}</span>
+                    </div>
+                    <div className="flex items-center gap-1 text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md">
+                      <ShieldCheck className="w-3 h-3 shrink-0" />
+                      <span className="truncate">{srv.warranty}</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -265,7 +285,7 @@ export const RepairServicesPage: React.FC = () => {
           })}
         </div>
 
-        {/* Interactive Price Table Section */}
+        {/* Interactive Price Table Section with Illustrative Images */}
         <div className="bg-white rounded-2xl sm:rounded-3xl border border-slate-200/80 shadow-md p-4 sm:p-6 md:p-8 space-y-5 sm:space-y-8" id="bang-gia">
           {/* Section Header & Search */}
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 sm:gap-4 pb-4 sm:pb-6 border-b border-slate-100">
@@ -306,7 +326,7 @@ export const RepairServicesPage: React.FC = () => {
             </div>
           </div>
 
-          {/* 1. Category Filter Tabs - Horizontal Scroll on Mobile */}
+          {/* 1. Category Filter Tabs */}
           <div className="space-y-2">
             <div className="text-[11px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider">
               Chọn dịch vụ:
@@ -347,7 +367,7 @@ export const RepairServicesPage: React.FC = () => {
             </div>
           </div>
 
-          {/* 2. Series Quick Filter Chips - Horizontal Scroll on Mobile */}
+          {/* 2. Series Quick Filter Chips */}
           <div className="space-y-2 pt-1 border-t border-slate-100">
             <div className="text-[11px] sm:text-xs font-bold text-slate-500 uppercase tracking-wider flex items-center justify-between">
               <span>Lọc theo dòng máy:</span>
@@ -392,7 +412,7 @@ export const RepairServicesPage: React.FC = () => {
           {/* Results count bar */}
           <div className="flex items-center justify-between text-[11px] sm:text-xs text-slate-500 pt-1 pb-1">
             <span>
-              Tìm thấy <b className="text-slate-900">{filteredItems.length}</b> sản phẩm
+              Tìm thấy <b className="text-slate-900">{filteredItems.length}</b> linh kiện & dịch vụ
               {filteredItems.length > 0 && ` (Hiển thị ${visibleItems.length}/${filteredItems.length})`}
             </span>
             {hasMore && (
@@ -402,11 +422,11 @@ export const RepairServicesPage: React.FC = () => {
             )}
           </div>
 
-          {/* Grid of items */}
+          {/* Grid of items with illustrative images */}
           {filteredItems.length === 0 ? (
             <div className="text-center py-10 sm:py-12 bg-slate-50 rounded-2xl border border-dashed border-slate-300 px-4">
               <p className="text-xs sm:text-sm text-slate-500 font-medium">
-                Không tìm thấy linh kiện nào phù hợp.
+                Không tìm thấy linh kiện nào phù hợp với từ khóa.
               </p>
               <button
                 onClick={() => {
@@ -422,7 +442,7 @@ export const RepairServicesPage: React.FC = () => {
               </button>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4">
               {visibleItems.map((item) => {
                 const catBadge = getCategoryBadge(item.category);
                 const isCall = item.discountedPrice === null;
@@ -430,91 +450,106 @@ export const RepairServicesPage: React.FC = () => {
                 return (
                   <div
                     key={item.id}
-                    className="relative bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 shadow-xs hover:shadow-lg hover:border-blue-300 transition-all flex flex-col justify-between group"
+                    className="relative bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-xs hover:shadow-lg hover:border-blue-300 transition-all flex flex-col justify-between group"
                   >
-                    <div className="space-y-2.5 sm:space-y-3">
-                      {/* Badge Top */}
-                      <div className="flex items-center justify-between gap-2">
-                        <span className={`text-[10px] sm:text-[11px] font-bold px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md sm:rounded-lg border ${catBadge.bg}`}>
+                    {/* Top image illustration & badge banner */}
+                    <div className="relative h-28 sm:h-32 w-full overflow-hidden bg-slate-100">
+                      <img
+                        src={item.image}
+                        alt={item.model}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        loading="lazy"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-slate-950/20 to-transparent"></div>
+
+                      {/* Top Badges */}
+                      <div className="absolute top-2.5 left-2.5 right-2.5 flex items-center justify-between gap-1.5">
+                        <span className={`text-[10px] sm:text-[11px] font-bold px-2 py-0.5 rounded-md border shadow-xs bg-white/90 backdrop-blur-xs ${catBadge.bg}`}>
                           {catBadge.label}
                         </span>
 
                         {!isCall && (
-                          <span className="text-[10px] sm:text-[11px] font-extrabold px-1.5 py-0.5 sm:px-2 rounded-md bg-red-100 text-red-700 border border-red-200 flex items-center gap-1">
-                            <Tag className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
+                          <span className="text-[10px] sm:text-[11px] font-black px-2 py-0.5 rounded-md bg-red-600 text-white shadow-xs flex items-center gap-1 animate-pulse">
+                            <Tag className="w-2.5 h-2.5" />
                             -100K
                           </span>
                         )}
                       </div>
 
-                      {/* Model Name */}
-                      <div>
-                        <h4 className="text-sm sm:text-base font-extrabold text-slate-900 group-hover:text-blue-600 transition-colors">
+                      {/* Floating model name over image bottom */}
+                      <div className="absolute bottom-2 left-2.5 right-2.5">
+                        <h4 className="text-sm sm:text-base font-extrabold text-white truncate drop-shadow-sm">
                           {item.model}
                         </h4>
+                      </div>
+                    </div>
+
+                    {/* Body content */}
+                    <div className="p-3.5 sm:p-4 flex-1 flex flex-col justify-between space-y-2.5 sm:space-y-3">
+                      <div>
                         {item.note && (
-                          <p className="text-[11px] sm:text-xs text-slate-500 mt-1 line-clamp-2 leading-relaxed">
+                          <p className="text-[11px] sm:text-xs text-slate-500 line-clamp-2 leading-relaxed">
                             {item.note}
                           </p>
                         )}
                       </div>
-                    </div>
 
-                    {/* Price Block & Action */}
-                    <div className="pt-3 sm:pt-4 mt-2 sm:mt-3 border-t border-slate-100 space-y-2.5 sm:space-y-3">
-                      <div className="flex items-end justify-between">
-                        <div>
-                          <div className="text-[10px] sm:text-[11px] text-slate-400 font-medium">Giá ưu đãi:</div>
-                          {isCall ? (
-                            <div className="text-base sm:text-lg font-black text-amber-600 flex items-center gap-1">
-                              <span>Liên hệ báo giá</span>
-                            </div>
-                          ) : (
-                            <div className="flex items-baseline gap-1.5 sm:gap-2">
-                              <span className="text-lg sm:text-xl font-black text-red-600">
-                                {formatPrice(item.discountedPrice)}
-                              </span>
-                              {item.originalPrice && (
-                                <span className="text-[11px] sm:text-xs text-slate-400 line-through">
-                                  {formatPrice(item.originalPrice)}
+                      {/* Price Block & Action */}
+                      <div className="pt-2 border-t border-slate-100 space-y-2">
+                        <div className="flex items-end justify-between">
+                          <div>
+                            <div className="text-[10px] sm:text-[11px] text-slate-400 font-medium">Giá ưu đãi:</div>
+                            {isCall ? (
+                              <div className="text-base sm:text-lg font-black text-amber-600 flex items-center gap-1">
+                                <span>Liên hệ báo giá</span>
+                              </div>
+                            ) : (
+                              <div className="flex items-baseline gap-1.5 sm:gap-2">
+                                <span className="text-lg sm:text-xl font-black text-red-600">
+                                  {formatPrice(item.discountedPrice)}
                                 </span>
-                              )}
-                            </div>
-                          )}
-                        </div>
+                                {item.originalPrice && (
+                                  <span className="text-[11px] sm:text-xs text-slate-400 line-through">
+                                    {formatPrice(item.originalPrice)}
+                                  </span>
+                                )}
+                              </div>
+                            )}
+                          </div>
 
-                        <div className="text-right">
-                          <div className="text-[10px] text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded font-bold inline-flex items-center gap-0.5 sm:gap-1">
-                            <ShieldCheck className="w-3 h-3" />
-                            <span>Bảo hành</span>
+                          <div className="text-right">
+                            <div className="text-[10px] text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded font-bold inline-flex items-center gap-0.5 sm:gap-1">
+                              <ShieldCheck className="w-3 h-3" />
+                              <span>Bảo hành</span>
+                            </div>
                           </div>
                         </div>
-                      </div>
 
-                      <div className="text-[10px] sm:text-[11px] text-slate-600 flex items-center gap-1.5 bg-slate-50 p-1.5 sm:p-2 rounded-xl border border-slate-100">
-                        <Check className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-emerald-600 shrink-0" />
-                        <span className="truncate">{item.warranty}</span>
-                      </div>
+                        <div className="text-[10px] sm:text-[11px] text-slate-600 flex items-center gap-1.5 bg-slate-50 p-1.5 rounded-lg border border-slate-100">
+                          <Check className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-emerald-600 shrink-0" />
+                          <span className="truncate">{item.warranty}</span>
+                        </div>
 
-                      <div className="grid grid-cols-2 gap-2 pt-1">
-                        <a
-                          href={`tel:0935677775`}
-                          className="py-2.5 bg-slate-900 hover:bg-blue-600 text-white rounded-xl text-xs font-bold text-center transition-colors flex items-center justify-center gap-1 active:scale-95"
-                        >
-                          <Phone className="w-3.5 h-3.5" />
-                          <span>Gọi Ngay</span>
-                        </a>
-                        <a
-                          href={`https://zalo.me/0935677775?text=${encodeURIComponent(
-                            `Chào shop, tôi muốn hỏi giá dịch vụ ${item.model} (${catBadge.label})`
-                          )}`}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="py-2.5 bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 rounded-xl text-xs font-bold text-center transition-colors flex items-center justify-center gap-1 active:scale-95"
-                        >
-                          <MessageCircle className="w-3.5 h-3.5" />
-                          <span>Zalo Tư Vấn</span>
-                        </a>
+                        <div className="grid grid-cols-2 gap-2 pt-1">
+                          <a
+                            href={`tel:0935677775`}
+                            className="py-2 bg-slate-900 hover:bg-blue-600 text-white rounded-xl text-xs font-bold text-center transition-colors flex items-center justify-center gap-1 active:scale-95"
+                          >
+                            <Phone className="w-3.5 h-3.5" />
+                            <span>Gọi Ngay</span>
+                          </a>
+                          <a
+                            href={`https://zalo.me/0935677775?text=${encodeURIComponent(
+                              `Chào shop, tôi muốn hỏi giá dịch vụ ${item.model} (${catBadge.label})`
+                            )}`}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="py-2 bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 rounded-xl text-xs font-bold text-center transition-colors flex items-center justify-center gap-1 active:scale-95"
+                          >
+                            <MessageCircle className="w-3.5 h-3.5" />
+                            <span>Zalo Tư Vấn</span>
+                          </a>
+                        </div>
                       </div>
                     </div>
                   </div>

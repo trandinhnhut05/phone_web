@@ -7,6 +7,7 @@ export interface RepairServiceItem {
   discountAmount: number; // 100000 VND
   unit: string;
   warranty: string;
+  image: string;
   note?: string;
   isPopular?: boolean;
 }
@@ -17,7 +18,7 @@ export interface ServiceCategoryMeta {
   shortName: string;
   description: string;
   badge: string;
-  iconName: string;
+  image: string;
   warrantyDefault: string;
 }
 
@@ -28,7 +29,7 @@ export const SERVICE_CATEGORIES: ServiceCategoryMeta[] = [
     shortName: 'Tất cả',
     description: 'Bảng giá dịch vụ ép kính, thay nắp lưng cắt mắt và thay cảm ứng iPhone tại Tấn Đạt Smartphone.',
     badge: 'Ưu đãi -100K',
-    iconName: 'Sparkles',
+    image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80',
     warrantyDefault: 'Bảo hành chu đáo',
   },
   {
@@ -37,7 +38,7 @@ export const SERVICE_CATEGORIES: ServiceCategoryMeta[] = [
     shortName: 'Ép Kính iPhone',
     description: 'Công nghệ hút chân không chuẩn nhà máy, giữ trọn màn hình zin gốc & cảm ứng nguyên bản.',
     badge: 'Giảm ngay 100.000đ',
-    iconName: 'Smartphone',
+    image: 'https://images.unsplash.com/photo-1580910051074-3eb694886505?auto=format&fit=crop&w=600&q=80',
     warrantyDefault: 'Bảo hành keo bọt 12 tháng',
   },
   {
@@ -46,7 +47,7 @@ export const SERVICE_CATEGORIES: ServiceCategoryMeta[] = [
     shortName: 'Thay Lưng Cắt Mắt',
     description: 'Kính lưng cao cấp, cắt mắt camera sắc nét chuẩn zin, khít đẹp không tì vết, lấy ngay.',
     badge: 'Giảm ngay 100.000đ',
-    iconName: 'Layers',
+    image: 'https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=600&q=80',
     warrantyDefault: 'Bảo hành hở keo trọn đời',
   },
   {
@@ -55,7 +56,7 @@ export const SERVICE_CATEGORIES: ServiceCategoryMeta[] = [
     shortName: 'Thay Cảm Ứng (Sàng IC)',
     description: 'Bảo hành 3 tháng uy tín, đã bao gồm công sàng IC cảm ứng chính hãng không báo lỗi.',
     badge: 'Giảm ngay 100.000đ',
-    iconName: 'Cpu',
+    image: 'https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?auto=format&fit=crop&w=600&q=80',
     warrantyDefault: 'Bảo hành 3 tháng (Sàng IC)',
   },
 ];
@@ -71,6 +72,7 @@ export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
     discountAmount: 100000,
     unit: 'VNĐ',
     warranty: 'Bảo hành bọt keo 12 tháng',
+    image: 'https://images.unsplash.com/photo-1605236453806-6ff36851218e?auto=format&fit=crop&w=500&q=80',
     note: 'Ép kính hút chân không, giữ màn zin',
     isPopular: true,
   },
@@ -83,6 +85,7 @@ export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
     discountAmount: 100000,
     unit: 'VNĐ',
     warranty: 'Bảo hành bọt keo 12 tháng',
+    image: 'https://images.unsplash.com/photo-1605236453806-6ff36851218e?auto=format&fit=crop&w=500&q=80',
     note: 'Ép kính hút chân không, giữ màn zin',
     isPopular: true,
   },
@@ -95,6 +98,7 @@ export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
     discountAmount: 100000,
     unit: 'VNĐ',
     warranty: 'Bảo hành bọt keo 12 tháng',
+    image: 'https://images.unsplash.com/photo-1605236453806-6ff36851218e?auto=format&fit=crop&w=500&q=80',
     note: 'Ép kính công nghệ mới nhất',
     isPopular: true,
   },
@@ -107,6 +111,7 @@ export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
     discountAmount: 100000,
     unit: 'VNĐ',
     warranty: 'Bảo hành bọt keo 12 tháng',
+    image: 'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=500&q=80',
     note: 'Kính chuẩn cường lực chống trầy',
     isPopular: true,
   },
@@ -119,6 +124,7 @@ export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
     discountAmount: 100000,
     unit: 'VNĐ',
     warranty: 'Bảo hành bọt keo 12 tháng',
+    image: 'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=500&q=80',
     note: 'Giữ tần số quét 120Hz mượt mà',
     isPopular: true,
   },
@@ -131,6 +137,7 @@ export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
     discountAmount: 100000,
     unit: 'VNĐ',
     warranty: 'Bảo hành bọt keo 12 tháng',
+    image: 'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=500&q=80',
     note: 'Màn hình 120Hz hiển thị nguyên bản',
     isPopular: true,
   },
@@ -143,6 +150,7 @@ export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
     discountAmount: 100000,
     unit: 'VNĐ',
     warranty: 'Bảo hành bọt keo 12 tháng',
+    image: 'https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=500&q=80',
     note: 'Kính zin cao cấp, độ trong suốt 100%',
     isPopular: true,
   },
@@ -155,6 +163,7 @@ export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
     discountAmount: 100000,
     unit: 'VNĐ',
     warranty: 'Bảo hành bọt keo 12 tháng',
+    image: 'https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=500&q=80',
     note: 'Tương thích Dynamic Island hoàn hảo',
     isPopular: true,
   },
@@ -167,6 +176,7 @@ export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
     discountAmount: 100000,
     unit: 'VNĐ',
     warranty: 'Bảo hành bọt keo 12 tháng',
+    image: 'https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=500&q=80',
     note: 'Kính Ceramic Shield công nghệ cao',
     isPopular: true,
   },
@@ -179,6 +189,7 @@ export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
     discountAmount: 100000,
     unit: 'VNĐ',
     warranty: 'Bảo hành bọt keo 12 tháng',
+    image: 'https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=500&q=80',
     note: 'Dynamic Island mượt mà sắc nét',
     isPopular: true,
   },
@@ -191,6 +202,7 @@ export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
     discountAmount: 100000,
     unit: 'VNĐ',
     warranty: 'Bảo hành bọt keo 12 tháng',
+    image: 'https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=500&q=80',
     note: 'Màn hình lớn, ép chuẩn không bụi keo',
     isPopular: true,
   },
@@ -203,6 +215,7 @@ export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
     discountAmount: 100000,
     unit: 'VNĐ',
     warranty: 'Bảo hành bọt keo 12 tháng',
+    image: 'https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=500&q=80',
     note: 'Viền siêu mỏng, giữ 120Hz ProMotion',
     isPopular: true,
   },
@@ -215,6 +228,7 @@ export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
     discountAmount: 100000,
     unit: 'VNĐ',
     warranty: 'Bảo hành bọt keo 12 tháng',
+    image: 'https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=500&q=80',
     note: 'Kính cao cấp nhất, chuẩn Apple Precision',
     isPopular: true,
   },
@@ -229,6 +243,7 @@ export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
     discountAmount: 100000,
     unit: 'VNĐ',
     warranty: 'Bảo hành khít keo trọn đời',
+    image: 'https://images.unsplash.com/photo-1565849904461-04a58ad377e0?auto=format&fit=crop&w=500&q=80',
     note: 'Lưng kính bóng chuẩn màu, thay lấy liền',
   },
   {
@@ -240,6 +255,7 @@ export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
     discountAmount: 100000,
     unit: 'VNĐ',
     warranty: 'Bảo hành khít keo trọn đời',
+    image: 'https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=500&q=80',
     note: 'Kính lưng chuẩn logo táo khuyết',
   },
   {
@@ -251,6 +267,7 @@ export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
     discountAmount: 100000,
     unit: 'VNĐ',
     warranty: 'Bảo hành khít keo trọn đời',
+    image: 'https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=500&q=80',
     note: 'Màu Gold/Trắng/Đen chuẩn zin',
   },
   {
@@ -262,6 +279,7 @@ export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
     discountAmount: 100000,
     unit: 'VNĐ',
     warranty: 'Bảo hành khít keo trọn đời',
+    image: 'https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=500&q=80',
     note: 'Cắt mắt camera không cần tháo máy',
     isPopular: true,
   },
@@ -274,6 +292,7 @@ export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
     discountAmount: 100000,
     unit: 'VNĐ',
     warranty: 'Bảo hành khít keo trọn đời',
+    image: 'https://images.unsplash.com/photo-1574944985070-8f3ebc6b79d2?auto=format&fit=crop&w=500&q=80',
     note: 'Đủ các màu sắc (Tím, Xanh, Đỏ, Vàng, Đen, Trắng)',
     isPopular: true,
   },
@@ -286,6 +305,7 @@ export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
     discountAmount: 100000,
     unit: 'VNĐ',
     warranty: 'Bảo hành khít keo trọn đời',
+    image: 'https://images.unsplash.com/photo-1574944985070-8f3ebc6b79d2?auto=format&fit=crop&w=500&q=80',
     note: 'Kính lưng nhám mờ cao cấp, chống bám vân tay',
   },
   {
@@ -297,6 +317,7 @@ export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
     discountAmount: 100000,
     unit: 'VNĐ',
     warranty: 'Bảo hành khít keo trọn đời',
+    image: 'https://images.unsplash.com/photo-1574944985070-8f3ebc6b79d2?auto=format&fit=crop&w=500&q=80',
     note: 'Màu Xanh Midnight/Gold nhám zin',
     isPopular: true,
   },
@@ -309,6 +330,7 @@ export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
     discountAmount: 100000,
     unit: 'VNĐ',
     warranty: 'Bảo hành khít keo trọn đời',
+    image: 'https://images.unsplash.com/photo-1605236453806-6ff36851218e?auto=format&fit=crop&w=500&q=80',
     note: 'Cắt mắt camera chuẩn xác, viền phẳng khít',
   },
   {
@@ -320,6 +342,7 @@ export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
     discountAmount: 100000,
     unit: 'VNĐ',
     warranty: 'Bảo hành khít keo trọn đời',
+    image: 'https://images.unsplash.com/photo-1605236453806-6ff36851218e?auto=format&fit=crop&w=500&q=80',
     note: 'Kính nhám lưng mờ sang trọng',
   },
   {
@@ -331,6 +354,7 @@ export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
     discountAmount: 100000,
     unit: 'VNĐ',
     warranty: 'Bảo hành khít keo trọn đời',
+    image: 'https://images.unsplash.com/photo-1605236453806-6ff36851218e?auto=format&fit=crop&w=500&q=80',
     note: 'Kính nhám cao cấp, hỗ trợ sạc MagSafe tốt',
     isPopular: true,
   },
@@ -343,6 +367,7 @@ export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
     discountAmount: 100000,
     unit: 'VNĐ',
     warranty: 'Bảo hành khít keo trọn đời',
+    image: 'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=500&q=80',
     note: 'Cụm camera chéo khít đẹp chuẩn nét',
   },
   {
@@ -354,6 +379,7 @@ export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
     discountAmount: 100000,
     unit: 'VNĐ',
     warranty: 'Bảo hành khít keo trọn đời',
+    image: 'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=500&q=80',
     note: 'Kính nhám Sierra Blue/Graphite/Gold zin',
   },
   {
@@ -365,6 +391,7 @@ export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
     discountAmount: 100000,
     unit: 'VNĐ',
     warranty: 'Bảo hành khít keo trọn đời',
+    image: 'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?auto=format&fit=crop&w=500&q=80',
     note: 'Kính lưng nhám mờ, chống xước cực tốt',
     isPopular: true,
   },
@@ -377,6 +404,7 @@ export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
     discountAmount: 100000,
     unit: 'VNĐ',
     warranty: 'Bảo hành khít keo trọn đời',
+    image: 'https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=500&q=80',
     note: 'Màu sắc tươi sáng chuẩn nguyên bản',
   },
   {
@@ -388,6 +416,7 @@ export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
     discountAmount: 100000,
     unit: 'VNĐ',
     warranty: 'Bảo hành khít keo trọn đời',
+    image: 'https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=500&q=80',
     note: 'Lưng kính diện tích lớn, lắp khít hoàn hảo',
   },
   {
@@ -399,6 +428,7 @@ export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
     discountAmount: 100000,
     unit: 'VNĐ',
     warranty: 'Bảo hành khít keo trọn đời',
+    image: 'https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=500&q=80',
     note: 'Tím Deep Purple / Đen Space Black chuẩn zin',
   },
   {
@@ -410,6 +440,7 @@ export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
     discountAmount: 100000,
     unit: 'VNĐ',
     warranty: 'Bảo hành khít keo trọn đời',
+    image: 'https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?auto=format&fit=crop&w=500&q=80',
     note: 'Cắt mắt chuẩn viền camera lớn, không kênh hở',
     isPopular: true,
   },
@@ -422,6 +453,7 @@ export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
     discountAmount: 100000,
     unit: 'VNĐ',
     warranty: 'Bảo hành khít keo trọn đời',
+    image: 'https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=500&q=80',
     note: 'Mặt lưng kính pha màu mờ mịn — Liên hệ báo giá tốt nhất',
   },
   {
@@ -433,6 +465,7 @@ export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
     discountAmount: 100000,
     unit: 'VNĐ',
     warranty: 'Bảo hành khít keo trọn đời',
+    image: 'https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=500&q=80',
     note: 'Mặt lưng kính pha màu nguyên bản — Liên hệ báo giá',
   },
   {
@@ -444,6 +477,7 @@ export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
     discountAmount: 100000,
     unit: 'VNĐ',
     warranty: 'Bảo hành khít keo trọn đời',
+    image: 'https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=500&q=80',
     note: 'Kính lưng nhám Titan cao cấp — Liên hệ hotline/Zalo',
     isPopular: true,
   },
@@ -458,6 +492,7 @@ export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
     discountAmount: 100000,
     unit: 'VNĐ',
     warranty: 'Bảo hành 3 tháng (Bao gồm sàng IC)',
+    image: 'https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?auto=format&fit=crop&w=500&q=80',
     note: 'Khắc phục liệt, loạn, đơ cảm ứng — Sàng IC không báo lỗi màn hình',
     isPopular: true,
   },
@@ -470,6 +505,7 @@ export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
     discountAmount: 100000,
     unit: 'VNĐ',
     warranty: 'Bảo hành 3 tháng (Bao gồm sàng IC)',
+    image: 'https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?auto=format&fit=crop&w=500&q=80',
     note: 'Cảm ứng siêu mượt, sàng IC gốc chuẩn chỉ',
     isPopular: true,
   },
@@ -482,6 +518,7 @@ export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
     discountAmount: 100000,
     unit: 'VNĐ',
     warranty: 'Bảo hành 3 tháng (Bao gồm sàng IC)',
+    image: 'https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?auto=format&fit=crop&w=500&q=80',
     note: 'Bao công sàng IC cảm ứng, bảo hành chu đáo 3 tháng',
     isPopular: true,
   },
@@ -494,6 +531,7 @@ export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
     discountAmount: 100000,
     unit: 'VNĐ',
     warranty: 'Bảo hành 3 tháng (Bao gồm sàng IC)',
+    image: 'https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?auto=format&fit=crop&w=500&q=80',
     note: 'Màn OLED, sàng IC cảm ứng zin mượt như máy mới',
   },
   {
@@ -505,6 +543,7 @@ export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
     discountAmount: 100000,
     unit: 'VNĐ',
     warranty: 'Bảo hành 3 tháng (Bao gồm sàng IC)',
+    image: 'https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?auto=format&fit=crop&w=500&q=80',
     note: 'Sàng IC gốc chuyên nghiệp, bao test 3 tháng',
     isPopular: true,
   },
@@ -517,6 +556,7 @@ export const REPAIR_PRICE_ITEMS: RepairServiceItem[] = [
     discountAmount: 100000,
     unit: 'VNĐ',
     warranty: 'Bảo hành 3 tháng (Bao gồm sàng IC)',
+    image: 'https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?auto=format&fit=crop&w=500&q=80',
     note: 'Cảm ứng zin nhạy tuyệt đối, bao sàng IC không phát sinh thêm chi phí',
     isPopular: true,
   },
