@@ -262,18 +262,41 @@ export const ProductsPage: React.FC = () => {
                 )}
               </>
             ) : (
-              <div className="bg-white rounded-2xl p-12 text-center border border-slate-200 space-y-4">
-                <Search className="w-12 h-12 text-slate-300 mx-auto" />
-                <h3 className="text-lg font-bold text-slate-800">Không tìm thấy sản phẩm nào</h3>
-                <p className="text-sm text-slate-500 max-w-sm mx-auto">
-                  Hãy thử thay đổi từ khóa tìm kiếm hoặc điều chỉnh lại các bộ lọc bên trái.
+              <div className="bg-white rounded-3xl p-8 sm:p-12 text-center border border-slate-200 shadow-xs space-y-4 max-w-lg mx-auto">
+                <div className="w-16 h-16 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mx-auto">
+                  <Smartphone className="w-8 h-8 text-blue-600" />
+                </div>
+                <h3 className="text-lg sm:text-xl font-black text-slate-900">
+                  Kho Hàng Đang Cập Nhật
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-500 max-w-md mx-auto leading-relaxed">
+                  Hiện tại cửa hàng đang cập nhật danh sách máy mới về. Quý khách vui lòng liên hệ trực tiếp hotline hoặc Zalo để được nhân viên tư vấn các dòng máy đang có sẵn tại shop!
                 </p>
-                <button
-                  onClick={resetFilters}
-                  className="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold rounded-xl transition-colors"
-                >
-                  Xóa toàn bộ bộ lọc
-                </button>
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+                  <a
+                    href="tel:0935677775"
+                    className="w-full sm:w-auto px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white text-xs sm:text-sm font-bold rounded-xl transition-all shadow-md shadow-red-600/20 flex items-center justify-center gap-2"
+                  >
+                    <Phone className="w-4 h-4" />
+                    <span>Gọi 093 567 7775</span>
+                  </a>
+                  <a
+                    href="https://zalo.me/0935677775"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="w-full sm:w-auto px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-bold rounded-xl transition-all shadow-md shadow-blue-600/20 flex items-center justify-center gap-2"
+                  >
+                    <span>Nhắn Zalo Tư Vấn</span>
+                  </a>
+                </div>
+                <div className="pt-2">
+                  <Link
+                    to="/dich-vu-sua-chua#bang-gia"
+                    className="text-xs text-blue-600 hover:text-blue-700 font-bold underline"
+                  >
+                    Hoặc xem Bảng Giá Ép Kính & Sửa Chữa (-100K) →
+                  </Link>
+                </div>
               </div>
             )}
           </main>
