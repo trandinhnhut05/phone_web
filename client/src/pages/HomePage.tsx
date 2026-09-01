@@ -250,35 +250,35 @@ export const HomePage: React.FC = () => {
       </section>
 
       {/* Repair & Glass Replacement Highlight Banner */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-        <div className="bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 rounded-3xl p-8 sm:p-12 text-white relative overflow-hidden shadow-xl">
+      <section className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 pb-12 sm:pb-16">
+        <div className="bg-gradient-to-r from-blue-900 via-indigo-900 to-slate-900 rounded-2xl sm:rounded-3xl p-5 sm:p-8 md:p-12 text-white relative overflow-hidden shadow-xl">
           <div className="absolute right-0 top-0 bottom-0 w-1/2 opacity-10 bg-[radial-gradient(circle_at_center,white,transparent)]"></div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
-            <div className="lg:col-span-8 space-y-4">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-400/20 text-amber-300 text-xs font-bold border border-amber-400/30">
-                <Wrench className="w-3.5 h-3.5" />
-                <span>DỊCH VỤ CHUYÊN NGHIỆP TẠI TP. HUẾ — ƯU ĐÃI GIẢM 100K</span>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center relative z-10">
+            <div className="lg:col-span-8 space-y-3 sm:space-y-4">
+              <div className="inline-flex items-center gap-1.5 sm:gap-2 px-3 py-1 sm:px-3.5 sm:py-1 rounded-full bg-amber-400/20 text-amber-300 text-[11px] sm:text-xs font-bold border border-amber-400/30">
+                <Wrench className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+                <span>DỊCH VỤ TẠI TP. HUẾ — ƯU ĐÃI GIẢM 100K</span>
               </div>
-              <h2 className="text-2xl sm:text-4xl font-black tracking-tight">
+              <h2 className="text-xl sm:text-3xl md:text-4xl font-black tracking-tight leading-tight">
                 Ép Kính, Thay Lưng & Cảm Ứng Smartphone Lấy Liền
               </h2>
-              <p className="text-sm sm:text-base text-slate-300 leading-relaxed max-w-2xl">
+              <p className="text-xs sm:text-sm md:text-base text-slate-300 leading-relaxed max-w-2xl">
                 Cửa hàng Tấn Đạt trang bị máy ép chân không tự động, kính lưng cắt mắt camera chuẩn zin, sàng IC cảm ứng không báo lỗi. <span className="text-amber-300 font-bold">Ưu đãi giảm ngay 100.000đ</span> cho toàn bộ dòng iPhone từ iP 8 Plus đến iPhone 15 Pro Max.
               </p>
-              <div className="flex flex-wrap gap-4 pt-2">
+              <div className="flex flex-col sm:flex-row gap-2.5 sm:gap-4 pt-1 sm:pt-2">
                 <Link
                   to="/dich-vu-sua-chua#bang-gia"
-                  className="px-6 py-3 bg-amber-400 hover:bg-amber-300 text-slate-950 font-extrabold rounded-xl text-sm transition-all shadow-lg shadow-amber-400/20 hover:scale-105"
+                  className="px-5 py-3 sm:px-6 sm:py-3 bg-amber-400 hover:bg-amber-300 text-slate-950 font-extrabold rounded-xl sm:rounded-2xl text-xs sm:text-sm transition-all shadow-md shadow-amber-400/20 hover:scale-105 text-center"
                 >
                   Xem Bảng Giá Giảm 100K
                 </Link>
                 <a
                   href="tel:0935677775"
-                  className="px-6 py-3 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl text-sm border border-white/20 transition-all flex items-center gap-2"
+                  className="px-5 py-3 sm:px-6 sm:py-3 bg-white/10 hover:bg-white/20 text-white font-bold rounded-xl sm:rounded-2xl text-xs sm:text-sm border border-white/20 transition-all flex items-center justify-center gap-2"
                 >
                   <Phone className="w-4 h-4 text-amber-300" />
-                  Gọi 093 567 7775 (Báo Giá Nhanh)
+                  <span>Gọi 093 567 7775 (Báo Giá Nhanh)</span>
                 </a>
               </div>
             </div>
