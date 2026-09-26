@@ -11,4 +11,4 @@ Disallow: /tai-khoan
 Disallow: /login
 
 # Sitemaps declaration
-Sitemap: https://tandatsmartphone.vn/sitemap.xml
+Sitemap: https://tandatsmartphone.com/sitemap.xml

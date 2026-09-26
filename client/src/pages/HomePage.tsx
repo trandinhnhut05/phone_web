@@ -119,10 +119,10 @@ export const HomePage: React.FC = () => {
       '@context': 'https://schema.org',
       '@type': 'WebSite',
       name: 'Tấn Đạt Smartphone',
-      url: 'https://tandatsmartphone.vn',
+      url: 'https://tandatsmartphone.com',
       potentialAction: {
         '@type': 'SearchAction',
-        target: 'https://tandatsmartphone.vn/dien-thoai?search={search_term_string}',
+        target: 'https://tandatsmartphone.com/dien-thoai?search={search_term_string}',
         'query-input': 'required name=search_term_string',
       },
     },
