@@ -11,7 +11,7 @@ export const CartPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-slate-50 py-10">
-      <SEO title="Giỏ Hàng Của Bạn — PhoneStore" description="Xem và quản lý các sản phẩm điện thoại đã thêm vào giỏ hàng." />
+      <SEO title="Giỏ Hàng — Tấn Đạt Smartphone" description="Xem và quản lý các sản phẩm điện thoại đã thêm vào giỏ hàng tại Tấn Đạt Smartphone." noindex={true} />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight mb-8">

@@ -1,0 +1,14 @@
+# Robots.txt for Tấn Đạt Smartphone
+User-agent: *
+Allow: /
+
+# Private & User-specific pages to exclude from search engine index
+Disallow: /admin/
+Disallow: /admin
+Disallow: /gio-hang
+Disallow: /thanh-toan
+Disallow: /tai-khoan
+Disallow: /login
+
+# Sitemaps declaration
+Sitemap: https://tandatsmartphone.vn/sitemap.xml

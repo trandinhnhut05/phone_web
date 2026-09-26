@@ -36,8 +36,9 @@ export const BlogListPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-slate-50 py-10">
       <SEO
-        title="Tin Tức & Đánh Giá Điện Thoại Mới Nhất 2026 — PhoneStore"
-        description="Tổng hợp tin tức công nghệ, đánh giá smartphone, mẹo thủ thuật và cẩm nang chọn mua điện thoại chất lượng."
+        title="Tin Tức & Cẩm Nang Công Nghệ Mới Nhất 2026 — Tấn Đạt Smartphone"
+        description="Tổng hợp tin tức công nghệ, cẩm nang sửa chữa ép kính, đánh giá smartphone và kinh nghiệm chọn mua điện thoại tại Tấn Đạt Smartphone Huế."
+        keywords="tin tức công nghệ, kinh nghiệm ép kính, mẹo sửa iphone huế, tấn đạt smartphone blog"
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

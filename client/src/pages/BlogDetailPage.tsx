@@ -57,12 +57,61 @@ export const BlogDetailPage: React.FC = () => {
     );
   }
 
+  const blogSchema = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'BlogPosting',
+      headline: post.title,
+      description: post.summary || post.title,
+      image: post.image,
+      author: {
+        '@type': 'Person',
+        name: post.author || 'Tấn Đạt Smartphone',
+      },
+      publisher: {
+        '@type': 'Organization',
+        name: 'Tấn Đạt Smartphone',
+        logo: {
+          '@type': 'ImageObject',
+          url: 'https://tandatsmartphone.vn/logo.png',
+        },
+      },
+      datePublished: post.createdAt,
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Trang chủ',
+          item: 'https://tandatsmartphone.vn/',
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'Tin tức',
+          item: 'https://tandatsmartphone.vn/blog',
+        },
+        {
+          '@type': 'ListItem',
+          position: 3,
+          name: post.title,
+          item: typeof window !== 'undefined' ? window.location.href : `https://tandatsmartphone.vn/blog/${post.slug || post.id}`,
+        },
+      ],
+    },
+  ];
+
   return (
     <div className="min-h-screen bg-slate-50 py-10">
       <SEO
-        title={`${post.title} — PhoneStore Blog`}
+        title={`${post.title} — Tấn Đạt Smartphone`}
         description={post.summary || post.title}
         image={post.image}
+        type="article"
+        schema={blogSchema}
       />
 
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">

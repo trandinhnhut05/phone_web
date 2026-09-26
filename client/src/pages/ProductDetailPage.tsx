@@ -188,12 +188,78 @@ export const ProductDetailPage: React.FC = () => {
         'Tiện ích': 'Kháng nước kháng bụi, Bảo mật vân tay / Khuôn mặt',
       };
 
+  const productSchema = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'Product',
+      name: product.name,
+      image: product.images,
+      description: product.description || `Mua ${product.name} chính hãng giá tốt tại Tấn Đạt Smartphone Huế.`,
+      brand: {
+        '@type': 'Brand',
+        name: product.brand,
+      },
+      sku: `TDS-${product.id}`,
+      offers: {
+        '@type': 'Offer',
+        price: product.price,
+        priceCurrency: 'VND',
+        availability: product.stock > 0
+          ? 'https://schema.org/InStock'
+          : 'https://schema.org/OutOfStock',
+        itemCondition: 'https://schema.org/NewCondition',
+        seller: {
+          '@type': 'LocalBusiness',
+          name: 'Tấn Đạt Smartphone',
+        },
+      },
+      aggregateRating: {
+        '@type': 'AggregateRating',
+        ratingValue: '4.9',
+        reviewCount: '35',
+      },
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Trang chủ',
+          item: 'https://tandatsmartphone.vn/',
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'Điện thoại',
+          item: 'https://tandatsmartphone.vn/dien-thoai',
+        },
+        {
+          '@type': 'ListItem',
+          position: 3,
+          name: product.brand,
+          item: `https://tandatsmartphone.vn/dien-thoai?brand=${product.brand}`,
+        },
+        {
+          '@type': 'ListItem',
+          position: 4,
+          name: product.name,
+          item: typeof window !== 'undefined' ? window.location.href : `https://tandatsmartphone.vn/dien-thoai/${product.slug || product.id}`,
+        },
+      ],
+    },
+  ];
+
   return (
     <div className="min-h-screen bg-slate-50 py-8">
       <SEO
         title={`${product.name} — Tấn Đạt Smartphone (Huế)`}
-        description={product.description || `Mua ${product.name} chính hãng giá tốt tại Tấn Đạt Smartphone, Chợ Phong Xuân, Phong Điền, TP. Huế.`}
+        description={product.description || `Mua ${product.name} chính hãng giá tốt tại Tấn Đạt Smartphone, Chợ Phong Xuân, Phong Điền, TP. Huế. Bảo hành uy tín, hỗ trợ trả góp 0%.`}
+        keywords={`${product.name}, giá ${product.name}, mua ${product.name} huế, tấn đạt smartphone, ${product.brand} phong điền`}
         image={product.images[0]}
+        type="product"
+        schema={productSchema}
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

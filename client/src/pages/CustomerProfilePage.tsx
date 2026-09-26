@@ -147,7 +147,7 @@ export const CustomerProfilePage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-slate-50 py-8 sm:py-12">
-      <SEO title={`Tài Khoản ${user.name} — Tấn Đạt Smartphone`} />
+      <SEO title={`Tài Khoản ${user.name} — Tấn Đạt Smartphone`} noindex={true} />
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         {/* Breadcrumb / Top Info */}

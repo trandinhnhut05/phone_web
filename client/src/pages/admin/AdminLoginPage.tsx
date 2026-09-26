@@ -65,7 +65,7 @@ export const AdminLoginPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col justify-between relative overflow-hidden">
-      <SEO title="Admin Portal — Tấn Đạt Smartphone" />
+      <SEO title="Admin Portal — Tấn Đạt Smartphone" noindex={true} />
 
       {/* Decorative Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">

@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext.js';
 import { TanDatLogo } from '../../components/Logo.js';
+import { SEO } from '../../components/SEO.js';
 
 export const AdminLayout: React.FC = () => {
   const { user, isAdmin, logout, loading } = useAuth();
@@ -72,6 +73,7 @@ export const AdminLayout: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-slate-100 flex flex-col md:flex-row">
+      <SEO title="Hệ Thống Quản Trị — Tấn Đạt Smartphone" noindex={true} />
       {/* Admin Sidebar */}
       <aside className="w-full md:w-64 bg-slate-900 text-slate-300 flex flex-col shrink-0 border-r border-slate-800">
         {/* Logo */}

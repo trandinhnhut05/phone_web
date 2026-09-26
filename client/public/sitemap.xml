@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
+  <!-- Trang chủ - Độ ưu tiên cao nhất -->
+  <url>
+    <loc>https://tandatsmartphone.vn/</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- Dịch vụ sửa chữa & Ép kính - Dịch vụ mũi nhọn địa phương Huế -->
+  <url>
+    <loc>https://tandatsmartphone.vn/dich-vu-sua-chua</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Mua bán điện thoại chính hãng -->
+  <url>
+    <loc>https://tandatsmartphone.vn/dien-thoai</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Tin tức & Cẩm nang công nghệ -->
+  <url>
+    <loc>https://tandatsmartphone.vn/blog</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- So sánh điện thoại -->
+  <url>
+    <loc>https://tandatsmartphone.vn/so-sanh</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- Chính sách bảo hành -->
+  <url>
+    <loc>https://tandatsmartphone.vn/chinh-sach-bao-hanh</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- Chính sách đổi trả -->
+  <url>
+    <loc>https://tandatsmartphone.vn/chinh-sach-doi-tra</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- Hình thức thanh toán -->
+  <url>
+    <loc>https://tandatsmartphone.vn/hinh-thuc-thanh-toan</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <!-- Chính sách bảo mật -->
+  <url>
+    <loc>https://tandatsmartphone.vn/chinh-sach-bao-mat</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+  <!-- Tra cứu đơn hàng -->
+  <url>
+    <loc>https://tandatsmartphone.vn/tra-cuu-don-hang</loc>
+    <lastmod>2026-09-26</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+
+</urlset>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { Filter, SlidersHorizontal, ArrowUpDown, Search, RefreshCcw } from 'lucide-react';
+import { Link, useSearchParams } from 'react-router-dom';
+import { Filter, SlidersHorizontal, ArrowUpDown, Search, RefreshCcw, Smartphone, Phone } from 'lucide-react';
 import { api } from '../services/api.js';
 import { ProductCard, ProductType } from '../components/ProductCard.js';
 import { SEO } from '../components/SEO.js';
@@ -104,7 +104,7 @@ export const ProductsPage: React.FC = () => {
     <div className="min-h-screen bg-slate-50 py-8">
       <SEO
         title={pageTitle}
-        description={`Xem danh sách điện thoại ${currentBrand !== 'all' ? currentBrand : ''} giá tốt nhất tại PhoneStore. Khuyến mãi sốc, bảo hành 12 tháng.`}
+        description={`Xem danh sách điện thoại ${currentBrand !== 'all' ? currentBrand : ''} chính hãng giá tốt nhất tại Tấn Đạt Smartphone (Chợ Phong Xuân, Phong Điền, Huế). Khuyến mãi sốc, bảo hành uy tín.`}
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

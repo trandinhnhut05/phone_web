@@ -70,7 +70,7 @@ export const LoginPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50/60 via-slate-50 to-slate-100 py-12 flex items-center justify-center px-4 sm:px-6">
-      <SEO title={isRegister ? 'Tạo Tài Khoản Mua Hàng — Tấn Đạt Smartphone' : 'Đăng Nhập Khách Hàng — Tấn Đạt Smartphone'} />
+      <SEO title={isRegister ? 'Tạo Tài Khoản Mua Hàng — Tấn Đạt Smartphone' : 'Đăng Nhập Khách Hàng — Tấn Đạt Smartphone'} noindex={true} />
 
       <div className="max-w-md w-full">
         {/* Brand Header */}

@@ -158,11 +158,76 @@ export const RepairServicesPage: React.FC = () => {
     }
   };
 
+  const repairSchema = [
+    {
+      '@context': 'https://schema.org',
+      '@type': 'Service',
+      serviceType: 'Dịch vụ Ép Kính & Sửa Chữa Điện Thoại',
+      provider: {
+        '@type': 'LocalBusiness',
+        name: 'Tấn Đạt Smartphone',
+        telephone: '+84935677775',
+        address: {
+          '@type': 'PostalAddress',
+          streetAddress: 'Chợ Phong Xuân',
+          addressLocality: 'Phong Điền',
+          addressRegion: 'Thừa Thiên Huế',
+          addressCountry: 'VN',
+        },
+      },
+      areaServed: {
+        '@type': 'AdministrativeArea',
+        name: 'Thừa Thiên Huế',
+      },
+      description: 'Chuyên ép kính, thay màn hình, thay pin, thay lưng cắt mắt, thay cảm ứng sàng IC lấy liền cho mọi dòng iPhone và smartphone.',
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: [
+        {
+          '@type': 'Question',
+          name: 'Ép kính iPhone tại Tấn Đạt Smartphone mất bao lâu?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Thời gian ép kính màn hình tại Tấn Đạt Smartphone thường từ 30 đến 60 phút. Quý khách có thể ngồi xem trực tiếp thợ làm và lấy máy ngay.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'Ép kính xong có ảnh hưởng đến cảm ứng, Face ID hoặc True Tone không?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Không. Máy móc hiện đại cùng công nghệ sàng IC tiên tiến tại Tấn Đạt Smartphone đảm bảo giữ nguyên 100% cảm ứng mượt mà, Face ID và True Tone nguyên bản.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'Chế độ bảo hành dịch vụ ép kính như thế nào?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Tấn Đạt Smartphone bảo hành keo, bọt, bụi vĩnh viễn và hỗ trợ bảo hành linh kiện dài hạn, an tâm tuyệt đối.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'Cửa hàng sửa điện thoại Tấn Đạt ở đâu tại Huế?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Cửa hàng tọa lạc tại Chợ Phong Xuân, Phong Điền, Thừa Thiên Huế. Hotline hỗ trợ 24/7: 093 567 7775.',
+          },
+        },
+      ],
+    },
+  ];
+
   return (
     <div className="min-h-screen bg-slate-50 py-6 sm:py-10 md:py-14">
       <SEO
         title="Bảng Giá Ép Kính, Thay Lưng & Cảm Ứng iPhone — Tấn Đạt Smartphone Huế"
         description="Bảng giá ép kính màn hình, thay lưng cắt mắt, thay cảm ứng sàng IC iPhone ưu đãi giảm ngay 100k mỗi sản phẩm tại Tấn Đạt Smartphone Chợ Phong Xuân, Phong Điền, TP. Huế."
+        keywords="ép kính huế, ép kính iphone huế, thay lưng iphone huế, ép kính phong điền, sửa điện thoại huế, thay cảm ứng sàng ic, bảng giá ép kính huế"
+        schema={repairSchema}
       />
 
       <div className="max-w-7xl mx-auto px-3.5 sm:px-6 lg:px-8 space-y-6 sm:space-y-10 md:space-y-12">

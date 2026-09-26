@@ -80,28 +80,61 @@ export const HomePage: React.FC = () => {
     }
   };
 
-  const structuredData = {
-    '@context': 'https://schema.org',
-    '@type': 'LocalBusiness',
-    name: 'Tấn Đạt Smartphone',
-    image: '/logo.svg',
-    telephone: '0935677775',
-    priceRange: '150000VND - 50000000VND',
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: 'Chợ Phong Xuân',
-      addressLocality: 'Huyện Phong Điền',
-      addressRegion: 'Thừa Thiên Huế',
-      addressCountry: 'VN',
+  const structuredData = [
+    {
+      '@context': 'https://schema.org',
+      '@type': ['ElectronicsStore', 'LocalBusiness'],
+      name: 'Tấn Đạt Smartphone',
+      image: '/logo.png',
+      telephone: '+84935677775',
+      priceRange: '150.000đ - 50.000.000đ',
+      currenciesAccepted: 'VND',
+      paymentAccepted: 'Tiền mặt, Chuyển khoản ngân hàng, Quét mã QR',
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: 'Chợ Phong Xuân',
+        addressLocality: 'Huyện Phong Điền',
+        addressRegion: 'Thừa Thiên Huế',
+        postalCode: '530000',
+        addressCountry: 'VN',
+      },
+      geo: {
+        '@type': 'GeoCoordinates',
+        latitude: 16.5833,
+        longitude: 107.3833,
+      },
+      openingHoursSpecification: [
+        {
+          '@type': 'OpeningHoursSpecification',
+          dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+          opens: '07:30',
+          closes: '21:30',
+        },
+      ],
+      sameAs: [
+        'https://zalo.me/0935677775',
+      ],
     },
-  };
+    {
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      name: 'Tấn Đạt Smartphone',
+      url: 'https://tandatsmartphone.vn',
+      potentialAction: {
+        '@type': 'SearchAction',
+        target: 'https://tandatsmartphone.vn/dien-thoai?search={search_term_string}',
+        'query-input': 'required name=search_term_string',
+      },
+    },
+  ];
 
   return (
     <div className="min-h-screen bg-slate-50">
       <SEO
         title="Tấn Đạt Smartphone — Mua Bán, Sửa Chữa & Ép Kính Chuyên Nghiệp (TP. Huế)"
         description="Tấn Đạt Smartphone: Dịch vụ sửa chữa, thay màn hình, ép kính lấy liền, thay lưng cắt mắt, thay cảm ứng sàng IC tại Chợ Phong Xuân, Phong Điền, TP. Huế. Hotline: 093 567 7775."
-        image="/logo.svg"
+        keywords="tấn đạt smartphone, sửa điện thoại huế, ép kính huế, ép kính phong điền, ép kính chợ phong xuân, mua iphone phong điền huế, thay màn hình huế, thay cảm ứng sàng ic"
+        image="/logo.png"
         schema={structuredData}
       />
 

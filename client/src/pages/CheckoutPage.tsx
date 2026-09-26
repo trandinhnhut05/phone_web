@@ -155,7 +155,7 @@ export const CheckoutPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-slate-50 py-10">
-      <SEO title="Thanh Toán Đơn Hàng — Tấn Đạt Smartphone" description="Đặt mua điện thoại chính hãng tại Tấn Đạt Smartphone, bảo hành 12 tháng 1 đổi 1, giao tận nơi miễn phí toàn quốc." />
+      <SEO title="Thanh Toán Đơn Hàng — Tấn Đạt Smartphone" description="Đặt mua điện thoại chính hãng tại Tấn Đạt Smartphone, bảo hành 12 tháng 1 đổi 1, giao tận nơi miễn phí toàn quốc." noindex={true} />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <Link to="/gio-hang" className="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-blue-600 mb-6">
